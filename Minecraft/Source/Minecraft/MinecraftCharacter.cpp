@@ -14,7 +14,7 @@
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 
-#include "Block_CPP.h"
+#include "BaseBlock_CPP.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -111,65 +111,60 @@ void AMinecraftCharacter::BeginPlay()
 
 void AMinecraftCharacter::Tick(float DeltaTime)
 {
-	if (Hitting)
+	FVector Loc = FirstPersonCameraComponent->GetComponentLocation();
+	FHitResult Hit;
+
+	float distance = 500;
+
+	FVector Start = Loc;
+	FVector End = Loc + FirstPersonCameraComponent->GetComponentRotation().Vector() * distance;
+
+	FCollisionQueryParams TraceParams;
+
+	bool hited = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+
+	/*DrawDebugLine(
+		GetWorld(),
+		Start,
+		End,
+		FColor(255, 0, 0),
+		false, .1f, 0,
+		1
+	);*/
+
+	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);
+
+	if (Block != NULL)
 	{
-		FVector Loc = FirstPersonCameraComponent->GetComponentLocation();
-		FHitResult Hit;
-
-		float distance = 1000;
-
-		FVector Start = Loc;
-		FVector End = Loc + FirstPersonCameraComponent->GetComponentRotation().Vector() * distance;
-
-		FCollisionQueryParams TraceParams;
-
-		bool hited = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
-
-		DrawDebugLine(
-			GetWorld(),
-			Start,
-			End,
-			FColor(255, 0, 0),
-			false, .1f, 0,
-			1
-		);
-
-		auto Block = Cast<ABlock_CPP>(Hit.Actor);
-
-		if (Block != NULL)
+		if (Block != PointingBlock && PointingBlock != NULL)
 		{
-			if (BlockHitting != NULL)
-			{
-				if (Block != BlockHitting)
-				{
-					BlockHitting->Unhitted();
-					BlockHitting = Block;
-					BlockHitting->Hitted(DeltaTime);
-				}
-				else
-				{
-					BlockHitting->Hitted(DeltaTime);
-				}
-			}
-			else
-			{
-				BlockHitting = Block;
-				BlockHitting->Hitted(DeltaTime);
-			}
-
-			if (!BlockHitting->isAlive)
-			{
-				//Hit.Actor->Destroy();
-				BlockHitting = nullptr;
-				GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Black, "Ded");
-			}
+			PointingBlock->Unpointed();
+			PointingBlock->Unhitted();
+			PointingBlock = Block;
+			PointingBlock->Pointed();
 		}
-		else
+		if (PointingBlock == NULL)
 		{
-			if (BlockHitting != nullptr)
-			{
-				BlockHitting->Unhitted();
-			}
+			PointingBlock = Block;
+			PointingBlock->Pointed();
+		}
+	}
+	else
+	{
+		if (PointingBlock != NULL)
+		{
+			PointingBlock->Unpointed();
+			PointingBlock->Unhitted();
+			PointingBlock = NULL;
+		}
+	}
+
+	if (Hitting && PointingBlock != NULL)
+	{
+		PointingBlock->Hitted(DeltaTime);
+		if (!PointingBlock->isAlive)
+		{
+			BlockHitting = NULL;
 		}
 	}
 }

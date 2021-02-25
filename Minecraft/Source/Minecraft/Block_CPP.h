@@ -9,8 +9,8 @@
 UENUM()
 enum eBLOCK_TYPE
 {
-	SOLID UMETA(DisplayName = "SOLID"),
-	LIQUID   UMETA(DisplayName = "LIQUID")
+	SOLIDS UMETA(DisplayName = "SOLID"),
+	LIQUIDS   UMETA(DisplayName = "LIQUID")
 };
 
 UCLASS()
@@ -40,7 +40,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
-		TEnumAsByte<eBLOCK_TYPE> eBlockType = SOLID;
+		TEnumAsByte<eBLOCK_TYPE> eBlockType = SOLIDS;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
 		bool HasGravity = false;
 

@@ -121,14 +121,14 @@ void ABlock_CPP::Interacted()
 
 void ABlock_CPP::Breaked()
 {
-	CubeMesh->SetVisibility(false);
+	//CubeMesh->SetVisibility(false);
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, "Destroyed");
 
 	isAlive = false;
 
-	SetActorLocation({1000, 1000, 1000});
-	//GetWorld()->DestroyActor(this);
-	//Destroy();
+	//SetActorLocation({1000, 1000, 1000});
+	GetWorld()->DestroyActor(this);
+	Destroy();
 }
 
 // Called every frame

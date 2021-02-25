@@ -89,7 +89,8 @@ public:
 
 	bool Hitting = false;
 
-	class ABlock_CPP* BlockHitting;
+	class ABaseBlock_CPP* PointingBlock;
+	class ABaseBlock_CPP* BlockHitting;
 
 protected:
 	
