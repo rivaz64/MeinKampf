@@ -7,10 +7,14 @@
 #include<vector>
 #include<string>
 #include<map>
+#include<queue>
+#include "HAL/Thread.h"
 #include "mundo.generated.h"
+
 using std::vector;
 using std::string;
 using std::map;
+using std::queue;
 UCLASS()
 class MINECRAFT_API Amundo : public AActor
 {
@@ -23,8 +27,11 @@ public:
 		bool v;
 	UPROPERTY(EditAnywhere)
 		bool rn;
+	
 	UPROPERTY(EditAnywhere)
 		float sizedivs;
+	UPROPERTY(EditAnywhere)
+		int sizediv;
 	UPROPERTY(EditAnywhere)
 		float sizex;
 	UPROPERTY(EditAnywhere)
@@ -65,6 +72,9 @@ public:
 		int probtree;
 	UPROPERTY(EditAnywhere)
 		int awalvl;
+	int rand2d(int x, int y);
+	vector<vector<float>> gausean;
+	float randcord(int x, int y);
 	vector<vector<vector<int>>> vectors;
 	int getvectorat(int x, int y, int z);
 	void makevektors(int x);
@@ -72,6 +82,7 @@ public:
 		//TArray<float> terrain;
 	vector<float> terrain;
 	float ant;
+	FThread treat;
 	void perilnoise(vector<float>& nums, int d);
 	void perilnoise2d(int d);
 	vector<vector<float>> terreno;
@@ -94,6 +105,13 @@ public:
 	vector<string> coords;
 	vector<string> tempcoords;
 	int subseed;
+	int rands[169];
+	float in = 0,num=0;
+	string s;
+	bool bild;
+	queue<vector<float>> posis;
+	queue<vector<int>> chunksforcreate;
+	int capsum;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

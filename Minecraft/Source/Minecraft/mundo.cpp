@@ -14,6 +14,47 @@ Amundo::Amundo()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+int Amundo::rand2d(int x, int y)
+{
+	return rands[(x*7+y*11)%169]%int(sizez);
+}
+
+float Amundo::randcord(int x, int y)
+{
+	volatile int ix = x/ sizediv;
+	volatile int iy = y/ sizediv;
+	volatile float ans[4] = { 0,0,0,0 };
+	for (int i = -2; i < 3; i++) {
+		for (int o = -2; o < 3; o++) {
+			ans[0] += rand2d(ix + i, iy + o) * gausean[i + 2][o + 2];
+		}
+	}
+	
+	for (int i = -2; i < 3; i++) {
+		for (int o = -2; o < 3; o++) {
+			ans[1] += rand2d(ix + i+1, iy + o) * gausean[i + 2][o + 2];
+		}
+	}
+	for (int i = -2; i < 3; i++) {
+		for (int o = -2; o < 3; o++) {
+			ans[2] += rand2d(ix + i, iy+1 + o) * gausean[i + 2][o + 2];
+		}
+	}
+	for (int i = -2; i < 3; i++) {
+		for (int o = -2; o < 3; o++) {
+			ans[3] += rand2d(ix + i+1, iy + o+1) * gausean[i + 2][o + 2];
+		}
+	}
+	volatile float xres = float(x% sizediv)/ float(sizediv) +1.f/(float(sizediv)*2.f);
+	volatile float yres = float(y% sizediv)/ float(sizediv) + 1.f / (float(sizediv) * 2.f);
+	volatile float p1 = interpolation(ans[0]*2.f, ans[1]*2.f, xres);
+	volatile float p2 = interpolation(ans[2]*2.f, ans[3]*2.f, xres);
+	volatile float p = interpolation(p1, p2, yres);
+
+	return p;
+	//return ans+rand2d(x, y)*.32f+ rand2d(x+1, y)*.12f + rand2d(x, y+1) * .12f + rand2d(x - 1, y) * .12f + rand2d(x , y-1) * .12f+rand2d(x + 1, y+1) * .045f + rand2d(x-1, y + 1) * .045f + rand2d(x - 1, y-1) * .045f + rand2d(x+1, y - 1) * .045f;
+}
+
 int Amundo::getvectorat(int x, int y, int z)
 {
 	srand(seed);
@@ -22,16 +63,16 @@ int Amundo::getvectorat(int x, int y, int z)
 	return rand() % 4;
 }
 
-void Amundo::makevektors(int s)
+void Amundo::makevektors(int ss)
 {
 	
-	vectors.push_back(vector<vector<int>>());
+	/*vectors.push_back(vector<vector<int>>());
 	vectors[vectors.size()-1].resize(s);
 	for (int x = 0; x < s; x++) {
 		for (int y = 0; y < s; y++) {
 			vectors[vectors.size()-1][x].push_back(rand() % 4);
 		}
-	}
+	}*/
 		
 }
 
@@ -156,12 +197,26 @@ float Amundo::peril(float x, float y)
 
 void Amundo::createchuncks(int x, int y)
 {
-	createchunck(x, y);
+	chunksforcreate.push({ x,y });
+	chunksforcreate.push({ x-1,y });
+	chunksforcreate.push({ x,y-1 });
+	chunksforcreate.push({ x+1,y });
+	chunksforcreate.push({ x,y+1 });
+	chunksforcreate.push({ x+1,y+1 });
+	chunksforcreate.push({ x+1,y-1 });
+	chunksforcreate.push({ x-1,y+1 });
+	chunksforcreate.push({ x-1,y-1 });
+	bild = true;
+	/*createchunck(x, y);
 	createchunck(x - 1, y);
 	createchunck(x, y-1);
 	createchunck(x+1, y);
 	createchunck(x, y+1);
-	vector<string>ss;
+	createchunck(x - 1, y-1);
+	createchunck(x+1, y - 1);
+	createchunck(x + 1, y+1);
+	createchunck(x-1, y + 1);*/
+	/*vector<string>ss;
 	for (std::pair< string, vector<void*>> a : cubesinchunk) {
 		if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
 			for (void* e : a.second) {
@@ -175,12 +230,12 @@ void Amundo::createchuncks(int x, int y)
 	for (string s : ss) {
 		cubesinchunk.erase(s);
 	}
-	tempcoords.clear();
+	tempcoords.clear();*/
 }
 
 void Amundo::createchunck(int px, int py)
 {
-	string s = std::to_string(px) + std::to_string(py);
+	/*s = std::to_string(px) + std::to_string(py);
 	tempcoords.push_back(s);
 	if (std::find(coords.begin(), coords.end(),s) != coords.end()) {
 		return;
@@ -189,7 +244,7 @@ void Amundo::createchunck(int px, int py)
 	FVector posi;
 	FTransform trans;
 	int n = 0;
-	int z;
+	//int z;
 	cubesinchunk.insert({ s, {} });
 	/*vectors.clear();
 	for (int a : noises) {
@@ -197,32 +252,37 @@ void Amundo::createchunck(int px, int py)
 	}*/
 	//perilnoise2d(depth);
 	//AActor *a;
+	float altu;
 	volatile int ran=0;
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
-			n = 0;
-			for (z = 0; z < round((getnoises(x+px*sizex, y+py*sizey )/*+ peril(x, y)* afinidad*/) * sizez) + reacomodar; z++) {
+			//n = 0;
+			altu = randcord(x + px * sizex, y + py * sizey) + 2;
+			num = capsum - altu;
+			posis.push({ (x - .5f * (sizex - 1) + sizex * px) * separacion, (y - .5f * (sizey - 1) + sizey * py) * separacion, altu  });
+			/*for (z = 0; z <randcord(x + px * sizex, y + py * sizey)+1 /*round((getnoises(x+px*sizex, y+py*sizey )/*+ peril(x, y)* afinidad/) * sizez) + reacomodar*//*; z++) {
 				if (z == tcapas[n]) {
 					n++;
 					if (n == tcapas.Num()) {
 						break;
 					}
 				}
-				posi = FVector((x - .5f * (sizex - 1)+ sizex*px) * separacion, (y - .5f * (sizey - 1)+sizey * py) * separacion, z * separacion);
-				trans = FTransform(posi);
-				cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[n], trans));
-			}
-			srand(seed + px * 7 + py * 11 + x * 13 + y * 17);
+				
+				//posi = FVector((x - .5f * (sizex - 1)+ sizex*px) * separacion, (y - .5f * (sizey - 1)+sizey * py) * separacion, z * separacion);
+				//trans = FTransform(posi);
+				//cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[n], trans));
+			}*/
+			/*srand(seed + px * 7 + py * 11 + x * 13 + y * 17);
 			if (rand() % probtree == 0) {
 				posi = FVector((x - .5f * (sizex - 1)+sizex * px) * separacion , (y - .5f * (sizey - 1) + sizey * py) * separacion , z * separacion);
 				trans = FTransform(posi);
 				cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(tree, trans));
-			}
-			for (z; z < awalvl; z++) {
+			}*/
+			/*for (z; z < awalvl; z++) {
 				posi = FVector((x - .5f * (sizex - 1) + sizex * px) * separacion , (y - .5f * (sizey - 1) + sizey * py) * separacion + sizey * py, z * separacion);
 				trans = FTransform(posi);
 				cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(awa, trans));
-			}
+			}*/
 		}
 	}
 }
@@ -230,14 +290,91 @@ void Amundo::createchunck(int px, int py)
 // Called when the game starts or when spawned
 void Amundo::BeginPlay()
 {
+	srand(seed);
+	capsum = 0;
+	for (int i : tcapas) {
+		capsum += i;
+	}
+	gausean = { {0.002589 , 0.0107788 , 0.0241466 , 0.0107788 , 0.002589},
+	{0.0107788 , 0.0448755 , 0.10053 , 0.0448755 , 0.0107788},
+	{0.0241466 , 0.10053 , 0.225206 , 0.10053 , 0.0241466},
+	{0.0107788 , 0.0448755 , 0.10053 , 0.0448755 , 0.0107788},
+	{0.002589 , 0.0107788 , 0.0241466 , 0.0107788 , 0.002589}, };
 	Super::BeginPlay();
+	for (int i = 0; i < 169; i++) {
+		rands[i] = rand();
+	}
+	//FThread tret = FThread("qwerty", &Amundo::createchuncks);
 	createchuncks(0, 0);
 }
 
 // Called every frame
 void Amundo::Tick(float DeltaTime)
 {
+	FTransform trans;
 	Super::Tick(DeltaTime);
+	FVector posi;
+	
+	if(posis.size()>0) {
+		if (in < posis.front()[2]) {
+			trans = FTransform(FVector(posis.front()[0], posis.front()[1], in*separacion));
+			if (in < posis.front()[2] - tcapas[1]) {
+				cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[0], trans)));
+			}
+			else
+			cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[1], trans)));
+			in++;
+			/*if (num == tcapas[num]) {
+				num++;
+				if (num == tcapas.Num()) 
+				{
+					in = posis.front()[2];
+				}			
+			}*/
+		}
+		else {
+			if (rand()%probtree == 0) {
+				trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
+				GetWorld()->SpawnActor<AActor>(tree, trans);
+			}
+
+			in = 0;
+			posis.pop();
+		}
+		//cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[0], trans));
+	}
+	else if (chunksforcreate.size() > 0) {
+		s = std::to_string(chunksforcreate.front()[0]) + std::to_string(chunksforcreate.front()[1]);
+		tempcoords.push_back(s);
+		if (std::find(coords.begin(), coords.end(), s) != coords.end()) {
+			chunksforcreate.pop();
+			return;
+		}
+		coords.push_back(s);
+		cubesinchunk.insert({ s, {} });
+		createchunck(chunksforcreate.front()[0], chunksforcreate.front()[1]);
+		chunksforcreate.pop();
+	}
+	else {
+		if (chunksforcreate.size() == 0 && bild) {
+			vector<string>ss;
+			for (std::pair< string, vector<void*>> a : cubesinchunk) {
+				if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
+					for (void* e : a.second) {
+						((AActor*)e)->Destroy();
+					}
+					coords.erase(std::find(coords.begin(), coords.end(), a.first));
+					a.second.clear();
+					ss.push_back(a.first);
+				}
+			}
+			for (string st : ss) {
+				cubesinchunk.erase(st);
+			}
+			tempcoords.clear();
+			bild = false;
+		}
+	}
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
 	//ACharacter* p= UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
@@ -247,4 +384,3 @@ void Amundo::Tick(float DeltaTime)
 		createchuncks(isinchunckx, isinchuncky);
 	}
 }
-

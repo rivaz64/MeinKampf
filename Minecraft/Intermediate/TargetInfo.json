@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Minecraft",
+			"Path": "C:\\Users\\roriv\\Documents\\GitHub\\MeinKampf\\Minecraft\\Source\\Minecraft.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "MinecraftEditor",
+			"Path": "C:\\Users\\roriv\\Documents\\GitHub\\MeinKampf\\Minecraft\\Source\\MinecraftEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
