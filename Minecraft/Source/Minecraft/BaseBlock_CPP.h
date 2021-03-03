@@ -41,11 +41,12 @@ public:
 
 	void UpdateAdjacents();
 
+
 	virtual void Pointed();
 	virtual void Unpointed();
 	virtual void Hitted(float DeltaTime);
 	virtual void Unhitted();
-	virtual void Interacted();
+	virtual bool Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector NormalFace);
 	virtual void Breaked();
 
 	virtual void SetFaceVisibility(unsigned char face, bool visibility);
@@ -55,6 +56,8 @@ public:
 		TEnumAsByte<eBLOCK_TYPES> eBlockType = SOLID;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
 		bool HasGravity = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
+		TSubclassOf<class ABaseItemBlock_CPP> DropItemBlock;
 
 	UPROPERTY()
 		class UBoxComponent* BoxCollider;
@@ -85,6 +88,8 @@ public:
 		class UMaterialInterface* FrontMaterial;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		class UMaterialInterface* BackMaterial;
+
+
 
 	bool isAlive = true;
 

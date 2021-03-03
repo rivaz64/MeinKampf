@@ -45,7 +45,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	virtual void Colected();
+
+	virtual void UseItem(class ABaseBlock_CPP*, FVector NormalFace, UWorld* world);
 
 public:
 

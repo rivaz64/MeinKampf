@@ -13,8 +13,17 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
+#include <string>
+#include "HUD_W_CPP.h"
+
+#include "B_Grass_CPP.h"
+#include "BaseItem_CPP.h"
+
+
+//#include "NiagaraFunctionLibrary.h"
 
 #include "BaseBlock_CPP.h"
+#include "BaseItem_CPP.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -107,6 +116,13 @@ void AMinecraftCharacter::BeginPlay()
 		//VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	HUD = new TArray<TSubclassOf<class ABaseItem_CPP>>();
+	for (int i = 0; i < 9; i++)
+	{
+		HUD->Add(nullptr);
+	}
+	(*HUD)[0] = HandedItem;
 }
 
 void AMinecraftCharacter::Tick(float DeltaTime)
@@ -136,6 +152,7 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 
 	if (Block != NULL)
 	{
+		PointingNormal = Hit.ImpactNormal;
 		if (Block != PointingBlock && PointingBlock != NULL)
 		{
 			PointingBlock->Unpointed();
@@ -164,9 +181,19 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		PointingBlock->Hitted(DeltaTime);
 		if (!PointingBlock->isAlive)
 		{
-			BlockHitting = NULL;
+			PointingBlock = NULL;
 		}
 	}
+
+	if (hited)
+	{
+		PointingNormal = Hit.ImpactNormal;
+	}
+}
+
+void AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item)
+{
+	(*HUD)[0] = item->StaticClass();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -185,6 +212,8 @@ void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMinecraftCharacter::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AMinecraftCharacter::StopFire);
 
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMinecraftCharacter::Interact);
+
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
 
@@ -193,6 +222,9 @@ void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMinecraftCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMinecraftCharacter::MoveRight);
+
+	PlayerInputComponent->BindAxis("ItemBarMove", this, &AMinecraftCharacter::ItemBarMove);
+	PlayerInputComponent->BindAxis("ItemBarMoveNumeric", this, &AMinecraftCharacter::ItemBarMoveNumeric);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -205,59 +237,31 @@ void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AMinecraftCharacter::OnFire()
 {
-	// try and fire a projectile
-	/*if (ProjectileClass != nullptr)
-	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
-		{
-			if (bUsingMotionControllers)
-			{
-				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
-				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
-				World->SpawnActor<AMinecraftProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
-			}
-			else
-			{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
-
-				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-				// spawn the projectile at the muzzle
-				World->SpawnActor<AMinecraftProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			}
-		}
-	}
-
-	// try and play the sound if specified
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-	}
-
-	// try and play a firing animation if specified
-	if (FireAnimation != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}*/
-
 	Hitting = true; 
 }
 
 void AMinecraftCharacter::StopFire()
 {
 	Hitting = false;
-	if (BlockHitting != nullptr)
-		BlockHitting->Unhitted();
+	if (PointingBlock != nullptr)
+		PointingBlock->Unhitted();
+}
+
+void AMinecraftCharacter::Interact()
+{
+	TSubclassOf<class ABaseItem_CPP> Item = (*HUD)[HUDSlotActive];
+	
+	static bool CanUseItem = true;
+	if (PointingBlock != NULL)
+	{
+		CanUseItem = PointingBlock->Interacted(Item, PointingNormal);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, ("PointngAtBlock: " + std::to_string(PointingNormal.X) + ", " + std::to_string(PointingNormal.Y) + ", " + std::to_string(PointingNormal.Z)).c_str());
+	}
+	if (CanUseItem && Item != NULL)
+	{
+		Item->GetDefaultObject<ABaseItem_CPP>()->UseItem(PointingBlock, PointingNormal, GetWorld());
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "CanUseItemInBlock");
+	}
 }
 
 void AMinecraftCharacter::OnResetVR()
@@ -343,6 +347,25 @@ void AMinecraftCharacter::MoveRight(float Value)
 	{
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
+	}
+}
+
+void AMinecraftCharacter::ItemBarMove(float Val)
+{
+	if (Val != 0)
+	{
+		HUDSlotActive += Val + 9;
+		HUDSlotActive %= 9;
+		HUDWidget->SetSelected(HUDSlotActive);
+	}
+}
+
+void AMinecraftCharacter::ItemBarMoveNumeric(float Val)
+{
+	if (Val != 0)
+	{
+		HUDSlotActive = Val - 1;
+		HUDWidget->SetSelected(HUDSlotActive);
 	}
 }
 

@@ -3,58 +3,39 @@
 
 #include "BaseItemBlock_CPP.h"
 #include "BaseBlock_CPP.h"
+#include "Engine/World.h"
 
 ABaseItemBlock_CPP::ABaseItemBlock_CPP()
 {
-	UpCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("UpCubeMesh");
-	UpCubeMesh->SetupAttachment(RootComponent);
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/GrassItem_SM.GrassItem_SM"));
 
-	UpCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	if (BlockAsset.Succeeded())
+	{
+		ItemMesh->SetStaticMesh(BlockAsset.Object);
+	}
 
-
-
-	DownCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("DownCubeMesh");
-	DownCubeMesh->SetupAttachment(RootComponent);
-
-	DownCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
-
-
-	LeftCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("LeftCubeMesh");
-	LeftCubeMesh->SetupAttachment(RootComponent);
-
-	LeftCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
-
-
-	RightCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("RightCubeMesh");
-	RightCubeMesh->SetupAttachment(RootComponent);
-
-	RightCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
-
-
-	FrontCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("FrontCubeMesh");
-	FrontCubeMesh->SetupAttachment(RootComponent);
-
-	FrontCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
-	
-
-
-	BackCubeMesh = CreateDefaultSubobject<UStaticMeshComponent>("BackCubeMesh");
-	BackCubeMesh->SetupAttachment(RootComponent);
-
-	BackCubeMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
+	eItemType = BLOCK;
 }
 
 void ABaseItemBlock_CPP::BeginPlay()
 {
-	UpCubeMesh->SetStaticMesh(BlockMesh->UpCubeMesh->GetStaticMesh());
-	DownCubeMesh->SetStaticMesh(BlockMesh->DownCubeMesh->GetStaticMesh());
-	LeftCubeMesh->SetStaticMesh(BlockMesh->LeftCubeMesh->GetStaticMesh());
-	RightCubeMesh->SetStaticMesh(BlockMesh->RightCubeMesh->GetStaticMesh());
-	FrontCubeMesh->SetStaticMesh(BlockMesh->FrontCubeMesh->GetStaticMesh());
-	BackCubeMesh->SetStaticMesh(BlockMesh->BackCubeMesh->GetStaticMesh());
+	Super::BeginPlay();
+
+}
+
+void ABaseItemBlock_CPP::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+void ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world)
+{
+	FVector a = blockPointing->GetActorLocation() + NormalFace * 100;
+	PlaceBlock(&a, world);
+}
+
+void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
+{
+	FRotator rot = { 0,0,0 };
+	world->SpawnActor(BlockClass, pos, &rot);
 }

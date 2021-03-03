@@ -22,20 +22,16 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void UseItem(class ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world);
+
+	virtual void PlaceBlock(FVector* pos, UWorld* world);
+
+public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
-		class ABaseBlock_CPP* BlockMesh;
+		TSubclassOf<class ABaseBlock_CPP> BlockClass;
 
-	UPROPERTY()
-		class UStaticMeshComponent* UpCubeMesh;
-	UPROPERTY()
-		class UStaticMeshComponent* DownCubeMesh;
-	UPROPERTY()
-		class UStaticMeshComponent* LeftCubeMesh;
-	UPROPERTY()
-		class UStaticMeshComponent* RightCubeMesh;
-	UPROPERTY()
-		class UStaticMeshComponent* FrontCubeMesh;
-	UPROPERTY()
-		class UStaticMeshComponent* BackCubeMesh;
 };

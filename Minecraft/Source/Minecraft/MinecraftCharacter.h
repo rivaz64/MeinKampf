@@ -58,6 +58,9 @@ protected:
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+		void AddItem(TSubclassOf<class ABaseItem_CPP> item);
+
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -90,13 +93,22 @@ public:
 	bool Hitting = false;
 
 	class ABaseBlock_CPP* PointingBlock;
-	class ABaseBlock_CPP* BlockHitting;
+	FVector PointingNormal;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class ABaseItem_CPP> HandedItem;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UHUD_W_CPP* HUDWidget;
+	char HUDSlotActive = 0;
+	class TArray<TSubclassOf<class ABaseItem_CPP>>* HUD;
 
 protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
 	void StopFire();
+
+	void Interact();
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
@@ -106,6 +118,10 @@ protected:
 
 	/** Handles stafing movement, left and right */
 	void MoveRight(float Val);
+
+
+	void ItemBarMove(float Val);
+	void ItemBarMoveNumeric(float Val);
 
 	/**
 	 * Called via input to turn at a given rate.

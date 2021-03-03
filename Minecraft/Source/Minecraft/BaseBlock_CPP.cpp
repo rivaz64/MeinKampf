@@ -10,6 +10,8 @@
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 
+#include "BaseItemBlock_CPP.h"
+
 #include <string>
 
 // Sets default values
@@ -241,9 +243,9 @@ void ABaseBlock_CPP::Unhitted()
 	Life = MaxLife;
 }
 
-void ABaseBlock_CPP::Interacted()
+bool ABaseBlock_CPP::Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector NormalFace)
 {
-
+	return true;
 }
 
 void ABaseBlock_CPP::Breaked()
@@ -259,6 +261,9 @@ void ABaseBlock_CPP::Breaked()
 		}
 	}
 	
+	FVector a = GetActorLocation();
+	GetWorld()->SpawnActor(DropItemBlock, &a, new FRotator{0,0,0});
+
 	isAlive = false;
 	Destroy();
 }
