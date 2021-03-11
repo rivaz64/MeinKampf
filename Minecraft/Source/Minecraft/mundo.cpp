@@ -36,7 +36,7 @@ float Amundo::randcord(int x, int y)
 	for (int i = -2; i < 3; i++) {
 		for (int o = -2; o < 3; o++) {
 			ans[0] += rand2d(ix + i, iy + o) * gausean[i + 2][o + 2];
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT(" %d"), rand2d(ix + i, iy + o)));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT(" %d"), rand2d(ix + i, iy + o)));
 		}
 	}
 	
@@ -275,9 +275,9 @@ void Amundo::createchunck(int px, int py)
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
 			//n = 0;
-			altu = randcord(x + px * sizex, y + py * sizey) +reacomodar;
+			altu = randcord(int(x - .5f * (sizex - 1) + sizex * px), int(y - .5f * (sizey - 1) + sizey * py)) +reacomodar;
 			num = capsum - altu;
-			posis.push({ (x - .5f * (sizex - 1) + sizex * px) * separacion, (y - .5f * (sizey - 1) + sizey * py) * separacion, altu  });
+			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu  });
 			/*for (z = 0; z <randcord(x + px * sizex, y + py * sizey)+1 /*round((getnoises(x+px*sizex, y+py*sizey )/*+ peril(x, y)* afinidad/) * sizez) + reacomodar*//*; z++) {
 				if (z == tcapas[n]) {
 					n++;
@@ -357,7 +357,7 @@ void Amundo::Tick(float DeltaTime)
 				
 			}
 			else {
-				if (rand()%probtree == 0) {
+				if (false/*rand()%probtree == 0*/) {
 					trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
 					GetWorld()->SpawnActor<AActor>(tree, trans);
 				}
