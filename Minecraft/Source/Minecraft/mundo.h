@@ -116,7 +116,7 @@ public:
 	queue<vector<float>> posis;
 	queue<vector<int>> chunksforcreate;
 	int capsum,tcapsum;
-	
+	float relu(float x);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

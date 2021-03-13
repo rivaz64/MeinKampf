@@ -40,6 +40,8 @@ public:
 		bool uyendo = false;
 	UPROPERTY(EditAnywhere)
 		bool atakado = false;
+	UPROPERTY(EditAnywhere)
+		float dondedetecta = 0;
 	float noise;
 	bool eating = true;
 	bool caminando;

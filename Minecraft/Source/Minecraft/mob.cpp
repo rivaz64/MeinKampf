@@ -67,7 +67,7 @@ void Amob::Tick(float DeltaTime)
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Amundo::StaticClass(), FoundActors);
 	Amundo* wor=Cast<Amundo>(FoundActors[0]);
-	float alt = std::max(std::max( (int(wor->randcord(round(GetActorLocation().X / 100.f), round(GetActorLocation().Y / 100.f))) + wor->reacomodar + altu), (int(wor->randcord(round(GetActorLocation().X / 100.f - 1), round(GetActorLocation().Y / 100.f))) + wor->reacomodar + altu)),std::max( (int(wor->randcord(round(GetActorLocation().X / 100.f), round(GetActorLocation().Y / 100.f - 1))) + wor->reacomodar + altu), (int(wor->randcord(round(GetActorLocation().X / 100.f - 1), round(GetActorLocation().Y / 100.f - 1))) + wor->reacomodar + altu))) * 100.f;
+	float alt = std::max(std::max( (int(wor->randcord(round(GetActorLocation().X / 100.f+dondedetecta), round(GetActorLocation().Y / 100.f+dondedetecta))) + wor->reacomodar + altu), (int(wor->randcord(round(GetActorLocation().X / 100.f - 1 + dondedetecta), round(GetActorLocation().Y / 100.f + dondedetecta))) + wor->reacomodar + altu)),std::max( (int(wor->randcord(round(GetActorLocation().X / 100.f + dondedetecta), round(GetActorLocation().Y / 100.f - 1 + dondedetecta))) + wor->reacomodar + altu), (int(wor->randcord(round(GetActorLocation().X / 100.f - 1 + dondedetecta), round(GetActorLocation().Y / 100.f - 1 + dondedetecta))) + wor->reacomodar + altu))) * 100.f;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT(" %d"), int(wor->randcord(int(GetActorLocation().X / 100.f), int(GetActorLocation().Y / 100.f)))));
 	SetActorLocation(FVector(GetActorLocation().X + vel* DeltaTime*cos(angle), GetActorLocation().Y + vel * DeltaTime*sin(angle), alt));
 }

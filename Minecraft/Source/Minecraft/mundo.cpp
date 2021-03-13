@@ -270,39 +270,31 @@ void Amundo::createchunck(int px, int py)
 	//perilnoise2d(depth);
 	//AActor *a;
 	numc = 0;
-	float altu;
+	float altu,realaltu;
 	volatile int ran=0;
+	int vx = 0;
+	int vy = 0;
+
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
 			//n = 0;
-			altu = randcord(int(x - .5f * (sizex - 1) + sizex * px), int(y - .5f * (sizey - 1) + sizey * py)) +reacomodar;
+			vx = int(x - .5f * (sizex - 1) + sizex * px);
+			vy = int(y - .5f * (sizey - 1) + sizey * py);
+			realaltu = randcord(vx, vy);
+			altu = realaltu +reacomodar;
 			num = capsum - altu;
-			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu  });
-			/*for (z = 0; z <randcord(x + px * sizex, y + py * sizey)+1 /*round((getnoises(x+px*sizex, y+py*sizey )/*+ peril(x, y)* afinidad/) * sizez) + reacomodar*//*; z++) {
-				if (z == tcapas[n]) {
-					n++;
-					if (n == tcapas.Num()) {
-						break;
-					}
-				}
-				
-				//posi = FVector((x - .5f * (sizex - 1)+ sizex*px) * separacion, (y - .5f * (sizey - 1)+sizey * py) * separacion, z * separacion);
-				//trans = FTransform(posi);
-				//cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[n], trans));
-			}*/
-			/*srand(seed + px * 7 + py * 11 + x * 13 + y * 17);
-			if (rand() % probtree == 0) {
-				posi = FVector((x - .5f * (sizex - 1)+sizex * px) * separacion , (y - .5f * (sizey - 1) + sizey * py) * separacion , z * separacion);
-				trans = FTransform(posi);
-				cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(tree, trans));
-			}*/
-			/*for (z; z < awalvl; z++) {
-				posi = FVector((x - .5f * (sizex - 1) + sizex * px) * separacion , (y - .5f * (sizey - 1) + sizey * py) * separacion + sizey * py, z * separacion);
-				trans = FTransform(posi);
-				cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(awa, trans));
-			}*/
+			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu- randcord(vx+1, vy),realaltu - randcord(vx - 1, vy)),std::max(realaltu - randcord(vx , vy+1),realaltu - randcord(vx , vy - 1))))  });
+			
 		}
 	}
+}
+
+float Amundo::relu(float x)
+{
+	if (x < 0) {
+		return 0;
+	}
+	return x;
 }
 
 // Called when the game starts or when spawned
@@ -338,20 +330,21 @@ void Amundo::Tick(float DeltaTime)
 	volatile int checkando;
 	for (int i = 0; i < spf; i++) {
 		if (posis.size() > 0) {
+			/*trans = FTransform(FVector(posis.front()[0], posis.front()[1], int(posis.front()[2]) * 100));
+			cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[2], trans)));
+			posis.pop();*/
 			if (in < posis.front()[2]) {
 				checkando = int(posis.front()[2] - capsum + tcapas[numc]);
-				if (in > checkando) {
+				while (in > checkando) {
 					capsum -= tcapas[numc];
 					numc++;
+					checkando = int(posis.front()[2] - capsum + tcapas[numc]);
 					/*if (num == tcapas.Num())
 					{
 						in = posis.front()[2];
 					}*/
 				}
 				trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
-				/*if (in < posis.front()[2] -capsum+tcapas[num]) {
-					cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[num], trans)));
-				}*/
 				cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[numc], trans)));
 				in++;
 				
@@ -363,8 +356,14 @@ void Amundo::Tick(float DeltaTime)
 				}
 				capsum = tcapsum;
 				numc = 0;
-				in = 0;
 				posis.pop();
+				if (posis.size() > 0) {
+					in = int(posis.front()[2] - posis.front()[3]);
+					if (in >= posis.front()[2]) {
+						volatile int op = 0;
+					}
+				}
+				
 			}
 			//cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[0], trans));
 		}
@@ -379,6 +378,8 @@ void Amundo::Tick(float DeltaTime)
 			cubesinchunk.insert({ s, {} });
 			createchunck(chunksforcreate.front()[0], chunksforcreate.front()[1]);
 			chunksforcreate.pop();
+			if (posis.size() > 0)
+			in = int(posis.front()[2] - posis.front()[3]-1);
 		}
 		else {
 			if (chunksforcreate.size() == 0 && bild) {
