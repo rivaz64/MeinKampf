@@ -42,12 +42,16 @@ public:
 		bool atakado = false;
 	UPROPERTY(EditAnywhere)
 		float dondedetecta = 0;
+	UPROPERTY(EditAnywhere)
+		float plusangl = 0;
 	float noise;
 	bool eating = true;
 	bool caminando;
 	float timer = 0;
 	float fintime = 0;
 	float vel;
+	virtual void choiserotation();
+	virtual void choiseaction();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

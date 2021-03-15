@@ -1,0 +1,7 @@
+C:\Users\roriv\Documents\GitHub\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Definitions.Minecraft.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Source\Minecraft\BaseItemBlock_CPP.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Source\Minecraft\BaseItem_CPP.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Intermediate\Build\Win64\UE4Editor\Inc\Minecraft\BaseItem_CPP.generated.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Intermediate\Build\Win64\UE4Editor\Inc\Minecraft\BaseItemBlock_CPP.generated.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Source\Minecraft\BaseBlock_CPP.h
+C:\Users\roriv\Documents\GitHub\Minecraft\Intermediate\Build\Win64\UE4Editor\Inc\Minecraft\BaseBlock_CPP.generated.h

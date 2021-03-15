@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <vector>
 #include "GameFramework/Actor.h"
 #include "tree.generated.h"
-
+using std::vector;
 UCLASS()
 class MINECRAFT_API Atree : public AActor
 {
@@ -24,6 +25,8 @@ public:
 	TSubclassOf<AActor> tronco;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> hojas;
+	vector<void*> cubes;
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void Destroy();
+	~Atree();
 };

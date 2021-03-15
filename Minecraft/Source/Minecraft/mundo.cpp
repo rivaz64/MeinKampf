@@ -6,7 +6,8 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/SpectatorPawn.h"
 #include "Components/SceneComponent.h"
-#include<algorithm>
+#include "tree.h"
+#include <algorithm>
 #include <math.h> 
 // Sets default values
 Amundo::Amundo()
@@ -16,7 +17,10 @@ Amundo::Amundo()
 
 int Amundo::rand2d(int x, int y)
 {
-	return rands[((x*7+y*11)%169+169)%169]%int(niosines);
+	x = (x % 125 + 125) % 125;
+	y = (y % 125 + 125) % 125;
+	int n = (power(2, x, 125) + power(3, y, 125)) % 125;
+	return rands[n];
 }
 
 float Amundo::randcord(int x, int y)
@@ -35,24 +39,24 @@ float Amundo::randcord(int x, int y)
 	volatile float ans[4] = { 0,0,0,0 };
 	for (int i = -2; i < 3; i++) {
 		for (int o = -2; o < 3; o++) {
-			ans[0] += rand2d(ix + i, iy + o) * gausean[i + 2][o + 2];
+			ans[0] += rand2d(ix + i, iy + o) % int(niosines) * gausean[i + 2][o + 2];
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT(" %d"), rand2d(ix + i, iy + o)));
 		}
 	}
 	
 	for (int i = -2; i < 3; i++) {
 		for (int o = -2; o < 3; o++) {
-			ans[1] += rand2d(ix + i+1, iy + o) * gausean[i + 2][o + 2];
+			ans[1] += rand2d(ix + i+1, iy + o) % int(niosines) * gausean[i + 2][o + 2];
 		}
 	}
 	for (int i = -2; i < 3; i++) {
 		for (int o = -2; o < 3; o++) {
-			ans[2] += rand2d(ix + i, iy+1 + o) * gausean[i + 2][o + 2];
+			ans[2] += rand2d(ix + i, iy+1 + o) % int(niosines) * gausean[i + 2][o + 2];
 		}
 	}
 	for (int i = -2; i < 3; i++) {
 		for (int o = -2; o < 3; o++) {
-			ans[3] += rand2d(ix + i+1, iy + o+1) * gausean[i + 2][o + 2];
+			ans[3] += rand2d(ix + i+1, iy + o+1) % int(niosines) * gausean[i + 2][o + 2];
 		}
 	}
 	volatile float xres = float(((x% sizediv)+ sizediv)%sizediv)/ float(sizediv) +1.f/(float(sizediv)*2.f);
@@ -297,6 +301,20 @@ float Amundo::relu(float x)
 	return x;
 }
 
+void Amundo::destroyblockat(int x, int y)
+{
+
+}
+
+int Amundo::power(int b, int e, int m)
+{
+	int ans = 1;
+	for (int i = 0; i < e; i++) {
+		ans *= b;
+		ans %= m;
+	}
+	return ans;
+}
 // Called when the game starts or when spawned
 void Amundo::BeginPlay()
 {
@@ -311,11 +329,11 @@ void Amundo::BeginPlay()
 	{0.0241466 , 0.10053 , 0.225206 , 0.10053 , 0.0241466},
 	{0.0107788 , 0.0448755 , 0.10053 , 0.0448755 , 0.0107788},
 	{0.002589 , 0.0107788 , 0.0241466 , 0.0107788 , 0.002589}, };
-	
 	srand(seed);
-	for (int i = 0; i < 169; i++) {
+    //randsize = 125;
+    for (int i = 0; i < 125; i++) {
 		rands[i] = rand();
-	}
+    }
 	
 	//FThread tret = FThread("qwerty", &Amundo::createchuncks);
 	createchuncks(0, 0);
@@ -347,12 +365,13 @@ void Amundo::Tick(float DeltaTime)
 				trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
 				cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[numc], trans)));
 				in++;
-				
+
 			}
 			else {
-				if (false/*rand()%probtree == 0*/) {
+				if (rand2d(int(posis.front()[0]/100), int(posis.front()[1] / 100))% probtree==0) {
 					trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
-					GetWorld()->SpawnActor<AActor>(tree, trans);
+					treesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(tree, trans)));
+					
 				}
 				capsum = tcapsum;
 				numc = 0;
@@ -363,7 +382,7 @@ void Amundo::Tick(float DeltaTime)
 						volatile int op = 0;
 					}
 				}
-				
+
 			}
 			//cubesinchunk[s].push_back((void*)GetWorld()->SpawnActor<AActor>(capas[0], trans));
 		}
@@ -376,10 +395,11 @@ void Amundo::Tick(float DeltaTime)
 			}
 			coords.push_back(s);
 			cubesinchunk.insert({ s, {} });
+			treesinchunk.insert({ s, {} });
 			createchunck(chunksforcreate.front()[0], chunksforcreate.front()[1]);
 			chunksforcreate.pop();
 			if (posis.size() > 0)
-			in = int(posis.front()[2] - posis.front()[3]-1);
+				in = int(posis.front()[2] - posis.front()[3] - 1);
 		}
 		else {
 			if (chunksforcreate.size() == 0 && bild) {
@@ -388,6 +408,9 @@ void Amundo::Tick(float DeltaTime)
 					if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
 						for (void* e : a.second) {
 							((AActor*)e)->Destroy();
+						}
+						for (void* e : treesinchunk[a.first]) {
+							((Atree*)e)->Destroy();
 						}
 						coords.erase(std::find(coords.begin(), coords.end(), a.first));
 						a.second.clear();
@@ -402,10 +425,11 @@ void Amundo::Tick(float DeltaTime)
 			}
 		}
 	}
-	
+
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
 	//ACharacter* p= UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (FoundActors.Num()) 
 	if (round(FoundActors[0]->GetActorLocation().X / (sizex * separacion))!= isinchunckx || round(FoundActors[0]->GetActorLocation().Y / (sizey * separacion))!= isinchuncky) {
 		isinchunckx = round(FoundActors[0]->GetActorLocation().X / (sizex * separacion));
 		isinchuncky = round(FoundActors[0]->GetActorLocation().Y / (sizey * separacion));
