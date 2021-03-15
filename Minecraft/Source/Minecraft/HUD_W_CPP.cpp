@@ -20,3 +20,23 @@ void UHUD_W_CPP::SetSelected(int itemSelected)
 {
 	ItemBar->SetSelected(itemSelected);
 }
+
+TSubclassOf<class ABaseItem_CPP> UHUD_W_CPP::GetItem(uint8 slot_num)
+{
+	return ItemBar->GetItem(slot_num);
+}
+
+uint8 UHUD_W_CPP::GetCount(uint8 slot_num)
+{
+	return ItemBar->GetCount(slot_num);
+}
+
+bool UHUD_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> item)
+{
+	return ItemBar->AddItem(item);
+}
+
+void UHUD_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
+{
+	ItemBar->SubstractItem(sub, slot_num);
+}

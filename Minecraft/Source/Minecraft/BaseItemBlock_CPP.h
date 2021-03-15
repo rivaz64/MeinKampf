@@ -29,6 +29,8 @@ public:
 
 	virtual void PlaceBlock(FVector* pos, UWorld* world);
 
+	virtual void Colected(class AMinecraftCharacter* Player);
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)

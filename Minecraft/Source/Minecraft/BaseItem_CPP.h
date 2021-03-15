@@ -48,7 +48,7 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	virtual void Colected();
+	virtual void Colected(class AMinecraftCharacter* Player);
 
 	virtual void UseItem(class ABaseBlock_CPP*, FVector NormalFace, UWorld* world);
 
@@ -61,7 +61,17 @@ public:
 		class USphereComponent* ItemCollider;
 	UPROPERTY()
 		class UStaticMeshComponent* ItemMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		class UTexture2D* Image;	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int Durablity;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int MaxDurablity;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		uint8 MaxStack;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool Singled;
 
-	/*TODO: Add image for the Inventory*/
+	/*TODO: The Values does not work*/
 
 };
