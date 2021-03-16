@@ -178,7 +178,7 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 
 	if (Hitting && PointingBlock != NULL)
 	{
-		PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
+		PointingBlock->Hitted(DeltaTime);
 		if (!PointingBlock->isAlive)
 		{
 			PointingBlock = NULL;
@@ -191,9 +191,9 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	}
 }
 
-bool AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item)
+void AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item)
 {
-	return HUDWidget->AddItem(item);
+	(*HUD)[0] = item->StaticClass();
 }
 
 //////////////////////////////////////////////////////////////////////////

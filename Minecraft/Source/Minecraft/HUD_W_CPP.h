@@ -24,19 +24,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void UpdateHunger(int saturation);
-
 	UFUNCTION(BlueprintCallable)
 		void UpdateLife(int life, int maxLife);
-
 	UFUNCTION(BlueprintCallable)
 		void SetSelected(int itemSelected);
-	UFUNCTION(BlueprintCallable)
-		TSubclassOf<class ABaseItem_CPP> GetItem(uint8 slot_num);
-	UFUNCTION(BlueprintCallable)
-		uint8 GetCount(uint8 slot_num);
-	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> item);
-	UFUNCTION(BlueprintCallable)
-		void SubstractItem(uint8 sub, uint8 slot_num);
 	
 };

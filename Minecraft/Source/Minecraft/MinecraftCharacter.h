@@ -58,6 +58,9 @@ protected:
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+		void AddItem(TSubclassOf<class ABaseItem_CPP> item);
+
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -159,10 +162,6 @@ protected:
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
 
 public:
-
-	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> item);
-
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/

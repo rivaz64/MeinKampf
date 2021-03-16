@@ -19,26 +19,7 @@ public:
 		class UImage* Frame;
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 		class UImage* FrameSelected;
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-		class UImage* Imagen;
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* Count_number;
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-		class UProgressBar* DurablityBar;
-
-	UPROPERTY(BlueprintReadOnly)
-		TSubclassOf<class ABaseItem_CPP> Item;
-	UPROPERTY(BlueprintReadOnly)
-		uint8 Count = 0;
 
 	UFUNCTION(BlueprintCallable)
 		void SetSelected(bool selected);
-	UFUNCTION(BlueprintCallable)
-		TSubclassOf<class ABaseItem_CPP> GetItem();
-	UFUNCTION(BlueprintCallable)
-		uint8 GetCount();
-	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> _item);
-	UFUNCTION(BlueprintCallable)
-		void SubstractItem(uint8 sub);
 };

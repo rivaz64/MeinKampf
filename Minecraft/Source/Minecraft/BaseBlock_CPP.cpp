@@ -11,10 +11,6 @@
 #include "DrawDebugHelpers.h"
 
 #include "BaseItemBlock_CPP.h"
-#include "BaseItemTool_CPP.h"
-
-//#include "Niagara/Public/NiagaraComponent.h"
-//#include "Niagara/Public/NiagaraFunctionLibrary.h"
 
 #include <string>
 
@@ -235,17 +231,9 @@ void ABaseBlock_CPP::Unpointed()
 	FrameCubeMesh->SetVisibility(false);
 }
 
-void ABaseBlock_CPP::Hitted(float DeltaTime, TSubclassOf<class ABaseItem_CPP> handedItem)
+void ABaseBlock_CPP::Hitted(float DeltaTime)
 {
-	if (handedItem != NULL && handedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL)
-	{
-		Life -= DeltaTime * handedItem->GetDefaultObject<ABaseItemTool_CPP>()->MiningSpeed;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, ("With speed: " + std::to_string(handedItem->GetDefaultObject<ABaseItemTool_CPP>()->MiningSpeed)).c_str());
-	}
-	else
-	{
-		Life -= DeltaTime;
-	}
+	Life -= DeltaTime;
 	if (Life <= 0)
 		Breaked();
 }
@@ -277,7 +265,7 @@ void ABaseBlock_CPP::Breaked()
 	GetWorld()->SpawnActor(DropItemBlock, &a, new FRotator{0,0,0});
 
 	isAlive = false;
-	//Destroy();
+	Destroy();
 }
 
 void ABaseBlock_CPP::SetFaceVisibility(unsigned char face, bool visibility)

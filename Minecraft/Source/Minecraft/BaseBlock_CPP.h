@@ -44,11 +44,10 @@ public:
 
 	virtual void Pointed();
 	virtual void Unpointed();
-	virtual void Hitted(float DeltaTime, TSubclassOf<class ABaseItem_CPP> handedItem);
+	virtual void Hitted(float DeltaTime);
 	virtual void Unhitted();
 	virtual bool Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector NormalFace);
-	//UFUNCTION(BlueprintCallable)
-		virtual void Breaked();
+	virtual void Breaked();
 
 	virtual void SetFaceVisibility(unsigned char face, bool visibility);
 
@@ -92,8 +91,7 @@ public:
 
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
-		bool isAlive = true;
+	bool isAlive = true;
 
 protected:
 	float MaxLife = 1;

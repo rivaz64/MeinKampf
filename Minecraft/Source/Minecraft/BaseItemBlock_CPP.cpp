@@ -4,7 +4,6 @@
 #include "BaseItemBlock_CPP.h"
 #include "BaseBlock_CPP.h"
 #include "Engine/World.h"
-#include "MinecraftCharacter.h"
 
 ABaseItemBlock_CPP::ABaseItemBlock_CPP()
 {
@@ -16,14 +15,6 @@ ABaseItemBlock_CPP::ABaseItemBlock_CPP()
 	}
 
 	eItemType = BLOCK;
-
-	ItemCollider;
-	ItemMesh;
-	Image;
-	Durablity;
-	MaxDurablity;
-	MaxStack;
-	Singled;
 }
 
 void ABaseItemBlock_CPP::BeginPlay()
@@ -47,10 +38,4 @@ void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
 {
 	FRotator rot = { 0,0,0 };
 	world->SpawnActor(BlockClass, pos, &rot);
-}
-
-void ABaseItemBlock_CPP::Colected(AMinecraftCharacter* Player)
-{
-	if (Player->AddItem(this->StaticClass()))
-		Destroy();
 }
