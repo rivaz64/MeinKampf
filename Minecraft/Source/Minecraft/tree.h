@@ -3,15 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <vector>
 #include "GameFramework/Actor.h"
 #include "tree.generated.h"
-
+using std::vector;
 UCLASS()
 class MINECRAFT_API Atree : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	Atree();
 
@@ -19,11 +20,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> tronco;
+		TSubclassOf<AActor> tronco;
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> hojas;
+		TSubclassOf<AActor> hojas;
+	vector<void*> cubes;
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void Destroy();
+	~Atree();
 };

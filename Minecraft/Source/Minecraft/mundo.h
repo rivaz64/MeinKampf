@@ -29,7 +29,7 @@ public:
 		bool v;
 	UPROPERTY(EditAnywhere)
 		bool rn;
-	
+
 	UPROPERTY(EditAnywhere)
 		float sizedivs;
 	UPROPERTY(EditAnywhere)
@@ -82,7 +82,7 @@ public:
 	void makevektors(int x);
 	//UPROPERTY()
 		//TArray<float> terrain;
-	int numc=0;
+	int numc = 0;
 	vector<float> terrain;
 	float ant;
 	FThread treat;
@@ -92,36 +92,39 @@ public:
 	vector<vector<float>> transpuesta;
 	vector<vector<float>> tfinal;
 	map<string, vector<void*>> cubesinchunk;
+	map<string, vector<void*>> treesinchunk;
 	float dotp(float x, float y, int e, int d);
-	float interpolation(float ini, float end,float aki);
+	float interpolation(float ini, float end, float aki);
 	float getnoises(float x, float y);
-	float noise(volatile float x, volatile float y,int a);
+	float noise(volatile float x, volatile float y, int a);
 	float peril(float x, float y);
 	UPROPERTY(EditAnywhere)
 		int isinchunckx = 0;
 	UPROPERTY(EditAnywhere)
 		int isinchuncky = 0;
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> ClassToFind;
+		TSubclassOf<AActor> ClassToFind;
 	void createchuncks(int x, int y);
 	void createchunck(int x, int y);
 	vector<string> coords;
 	vector<string> tempcoords;
 	int subseed;
-	int rands[169];
+	int rands[125];
 	volatile float in = 0;
 	volatile float num = 0;
 	string s;
 	bool bild;
 	queue<vector<float>> posis;
 	queue<vector<int>> chunksforcreate;
-	int capsum,tcapsum;
-	
+	int capsum, tcapsum;
+	float relu(float x);
+	void destroyblockat(int x, int y);
+	int power(int b, int e, int m);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
