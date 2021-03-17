@@ -91,8 +91,7 @@ public:
 	vector<vector<float>> terreno;
 	vector<vector<float>> transpuesta;
 	vector<vector<float>> tfinal;
-	map<string,vector<void*>> cubesinchunk;
-	map<string, vector<void*>> treesinchunk;
+	map<string, vector<void*>> cubesinchunk;
 	float dotp(float x, float y, int e, int d);
 	float interpolation(float ini, float end,float aki);
 	float getnoises(float x, float y);
@@ -109,7 +108,7 @@ public:
 	vector<string> coords;
 	vector<string> tempcoords;
 	int subseed;
-	int rands[125];
+	int rands[169];
 	volatile float in = 0;
 	volatile float num = 0;
 	string s;
@@ -117,9 +116,7 @@ public:
 	queue<vector<float>> posis;
 	queue<vector<int>> chunksforcreate;
 	int capsum,tcapsum;
-	float relu(float x);
-	void destroyblockat(int x, int y);
-	int power(int b, int e, int m);
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

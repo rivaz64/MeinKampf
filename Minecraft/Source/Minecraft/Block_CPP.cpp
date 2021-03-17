@@ -25,7 +25,7 @@ ABlock_CPP::ABlock_CPP()
 }
 
 // Called when the game starts or when spawned
-/*void ABlock_CPP::BeginPlay()
+void ABlock_CPP::BeginPlay()
 {
 	TArray<ABlock_CPP*> arrays;
 	LanzarRayo(arrays);
@@ -47,7 +47,7 @@ ABlock_CPP::ABlock_CPP()
 	{
 		arrays[i]->UpdateAdjacents();
 	}
-}*/
+}
 
 void ABlock_CPP::LanzarRayo(TArray<ABlock_CPP*>& arrays)
 {
