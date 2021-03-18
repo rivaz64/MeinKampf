@@ -31,12 +31,17 @@ uint8 UHUD_W_CPP::GetCount(uint8 slot_num)
 	return ItemBar->GetCount(slot_num);
 }
 
-bool UHUD_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> item)
+bool UHUD_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 _count)
 {
-	return ItemBar->AddItem(item);
+	return ItemBar->AddItem(item, _count);
 }
 
 void UHUD_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
 {
 	ItemBar->SubstractItem(sub, slot_num);
+}
+
+bool UHUD_W_CPP::UpdateItems(uint8 slot_num, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
+{
+	return ItemBar->UpdateItems(slot_num, _itemType, _count);
 }

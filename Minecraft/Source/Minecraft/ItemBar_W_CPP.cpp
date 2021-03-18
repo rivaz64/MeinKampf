@@ -36,13 +36,13 @@ uint8 UItemBar_W_CPP::GetCount(uint8 slot_num)
 	return 0;
 }
 
-bool UItemBar_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item)
+bool UItemBar_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count)
 {
 	auto slots = Bar->GetSlots();
 	for (int i = 0; i < slots.Num(); i++)
 	{
 		auto frame = Cast<UItemFrame_W_CPP>(slots[i]->Content);
-		if (frame != NULL && frame->AddItem(_item))
+		if (frame != NULL && frame->AddItem(_item, _count))
 		{
 			return true;
 		}
@@ -56,5 +56,14 @@ void UItemBar_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
 	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
 	if (frame != NULL)
 		frame->SubstractItem(sub);
+}
+
+bool UItemBar_W_CPP::UpdateItems(uint8 slot_num, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
+{
+	auto slots = Bar->GetSlots();
+	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
+	if (frame != NULL)
+		return frame->UpdateItems(_itemType, _count);
+	return false;
 }
 

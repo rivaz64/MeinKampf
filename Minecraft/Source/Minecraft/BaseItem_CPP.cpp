@@ -56,7 +56,7 @@ void ABaseItem_CPP::Tick(float DeltaTime)
 
 void ABaseItem_CPP::Colected(AMinecraftCharacter* Player)
 {
-	if (Player->AddItem(this->StaticClass()))
+	if (Player->AddItem(this->StaticClass(), 1))
 		Destroy();
 }
 

@@ -14,7 +14,9 @@
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 #include <string>
+
 #include "HUD_W_CPP.h"
+#include "Inventory_W_CPP.h"
 
 #include "B_Grass_CPP.h"
 #include "BaseItem_CPP.h"
@@ -178,7 +180,8 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 
 	if (Hitting && PointingBlock != NULL)
 	{
-		PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
+		//PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
+		PointingBlock->Hitted(DeltaTime, HUDWidget->GetItem(HUDSlotActive));
 		if (!PointingBlock->isAlive)
 		{
 			PointingBlock = NULL;
@@ -191,9 +194,9 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	}
 }
 
-bool AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item)
+bool AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 count)
 {
-	return HUDWidget->AddItem(item);
+	return InventoryWidget->AddItem(item, count);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -249,8 +252,9 @@ void AMinecraftCharacter::StopFire()
 
 void AMinecraftCharacter::Interact()
 {
-	TSubclassOf<class ABaseItem_CPP> Item = (*HUD)[HUDSlotActive];
-	
+	//TSubclassOf<class ABaseItem_CPP> Item = (*HUD)[HUDSlotActive];
+	TSubclassOf<class ABaseItem_CPP> Item = HUDWidget->GetItem(HUDSlotActive);
+
 	static bool CanUseItem = true;
 	if (PointingBlock != NULL)
 	{
@@ -260,6 +264,7 @@ void AMinecraftCharacter::Interact()
 	if (CanUseItem && Item != NULL)
 	{
 		Item->GetDefaultObject<ABaseItem_CPP>()->UseItem(PointingBlock, PointingNormal, GetWorld());
+		InventoryWidget->SubstractItem(1, HUDSlotActive);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "CanUseItemInBlock");
 	}
 }

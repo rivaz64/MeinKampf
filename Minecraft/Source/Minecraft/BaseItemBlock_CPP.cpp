@@ -51,6 +51,4 @@ void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
 
 void ABaseItemBlock_CPP::Colected(AMinecraftCharacter* Player)
 {
-	if (Player->AddItem(this->StaticClass()))
-		Destroy();
 }

@@ -96,9 +96,14 @@ public:
 		TSubclassOf<class ABaseItem_CPP> HandedItem;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UHUD_W_CPP* HUDWidget;
-	char HUDSlotActive = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UInventory_W_CPP* InventoryWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 HUDSlotActive = 0;
 	class TArray<TSubclassOf<class ABaseItem_CPP>>* HUD;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool UsedItem = false;
 protected:
 	
 	/** Fires a projectile. */
@@ -161,7 +166,7 @@ protected:
 public:
 
 	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> item);
+		bool AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 count);
 
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }

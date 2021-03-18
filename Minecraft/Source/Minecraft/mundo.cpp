@@ -407,10 +407,12 @@ void Amundo::Tick(float DeltaTime)
 				for (std::pair< string, vector<void*>> a : cubesinchunk) {
 					if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
 						for (void* e : a.second) {
-							((AActor*)e)->Destroy();
+							if (nullptr != e)
+								((AActor*)e)->Destroy();
 						}
 						for (void* e : treesinchunk[a.first]) {
-							((Atree*)e)->Destroy();
+							if (nullptr != e)
+								((Atree*)e)->Destroy();
 						}
 						coords.erase(std::find(coords.begin(), coords.end(), a.first));
 						a.second.clear();
