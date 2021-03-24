@@ -44,14 +44,19 @@ public:
 		float dondedetecta = 0;
 	UPROPERTY(EditAnywhere)
 		float plusangl = 0;
+	UPROPERTY(EditAnywhere)
+		float distfromtree = 0;
 	float noise;
 	bool eating = true;
 	bool caminando;
 	float timer = 0;
 	float fintime = 0;
 	float vel;
+	float delta;
+	float alt;
 	virtual void choiserotation();
 	virtual void choiseaction();
+	virtual void choka();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

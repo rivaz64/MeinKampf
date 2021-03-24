@@ -1,0 +1,5 @@
+C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Definitions.Minecraft.h
+C:\Users\roriv\Documents\GitHub\respaldo\Source\Minecraft\BaseItemTool_CPP.h
+C:\Users\roriv\Documents\GitHub\respaldo\Source\Minecraft\BaseItem_CPP.h
+C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Inc\Minecraft\BaseItem_CPP.generated.h
+C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Inc\Minecraft\BaseItemTool_CPP.generated.h

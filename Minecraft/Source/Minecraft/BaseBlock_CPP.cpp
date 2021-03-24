@@ -9,7 +9,7 @@
 #include "Engine/World.h"
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
-
+#include"mundo.h"
 #include "BaseItemBlock_CPP.h"
 #include "BaseItemTool_CPP.h"
 
@@ -155,7 +155,7 @@ void ABaseBlock_CPP::BeginPlay()
 	}
 
 	TArray<ABaseBlock_CPP*> arrays;
-	LanzarRayo(arrays);
+	/*LanzarRayo(arrays);
 
 	for (int i = 0; i < arrays.Num(); i++)
 	{
@@ -165,7 +165,7 @@ void ABaseBlock_CPP::BeginPlay()
 		{
 			arrays[i]->SetFaceVisibility(i % 2 == 0 ? i + 1 : i - 1, false);
 		}
-	}
+	}*/
 }
 
 void ABaseBlock_CPP::LanzarRayo(TArray<ABaseBlock_CPP*>& arrays)
@@ -263,19 +263,21 @@ bool ABaseBlock_CPP::Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector N
 void ABaseBlock_CPP::Breaked()
 {
 	TArray<ABaseBlock_CPP*> arrays;
-	LanzarRayo(arrays);
+	//LanzarRayo(arrays);
 
-	for (int i = 0; i < arrays.Num(); i++)
+	/*for (int i = 0; i < arrays.Num(); i++)
 	{
 		if (arrays[i] != nullptr)
 		{
 			arrays[i]->SetFaceVisibility(i % 2 == 0 ? i + 1 : i - 1, true);
 		}
-	}
+	}*/
 	
 	FVector a = GetActorLocation();
 	GetWorld()->SpawnActor(DropItemBlock, &a, new FRotator{0,0,0});
-
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Amundo::StaticClass(), FoundActors);
+	((Amundo*)FoundActors[0])->destroyblockat(GetActorLocation().X / 100, GetActorLocation().Y / 100);
 	isAlive = false;
 	//Destroy();
 }

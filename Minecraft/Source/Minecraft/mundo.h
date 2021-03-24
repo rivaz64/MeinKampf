@@ -10,7 +10,7 @@
 #include<queue>
 #include "HAL/Thread.h"
 #include "mundo.generated.h"
-
+class Atree;
 using std::vector;
 using std::string;
 using std::map;
@@ -22,9 +22,17 @@ class MINECRAFT_API Amundo : public AActor
 
 public:
 	// Sets default values for this actor's properties
+
+	Amundo();
+	~Amundo();
+	UPROPERTY(EditAnywhere)
+		bool crtrees;
+	UPROPERTY(EditAnywhere)
+		int treesep;
+	UPROPERTY(EditAnywhere)
+		int treeloc;
 	UPROPERTY(EditAnywhere)
 		int spf;
-	Amundo();
 	UPROPERTY(EditAnywhere)
 		bool v;
 	UPROPERTY(EditAnywhere)
@@ -91,8 +99,8 @@ public:
 	vector<vector<float>> terreno;
 	vector<vector<float>> transpuesta;
 	vector<vector<float>> tfinal;
-	map<string, vector<void*>> cubesinchunk;
-	map<string, vector<void*>> treesinchunk;
+	map<string, vector<AActor*>> cubesinchunk;
+	map<string, vector<Atree*>> treesinchunk;
 	float dotp(float x, float y, int e, int d);
 	float interpolation(float ini, float end, float aki);
 	float getnoises(float x, float y);
@@ -118,8 +126,11 @@ public:
 	queue<vector<int>> chunksforcreate;
 	int capsum, tcapsum;
 	float relu(float x);
+	string getchunk(float x, float y);
 	void destroyblockat(int x, int y);
 	int power(int b, int e, int m);
+	bool istree(int x, int y);
+	virtual void Destroy();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

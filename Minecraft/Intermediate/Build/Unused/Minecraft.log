@@ -1,0 +1,12 @@
+﻿  Invalidating makefile for MinecraftEditor (mob.cpp modified)
+  Building MinecraftEditor...
+  Using Visual Studio 2019 14.28.29334 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Building 4 actions with 8 processes...
+    [1/4] mob.cpp
+    [2/4] UE4Editor-Minecraft.lib
+       Creating library C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\UE4Editor-Minecraft.lib and object C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\UE4Editor-Minecraft.exp
+    [3/4] UE4Editor-Minecraft.dll
+       Creating library C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\UE4Editor-Minecraft.suppressed.lib and object C:\Users\roriv\Documents\GitHub\respaldo\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\UE4Editor-Minecraft.suppressed.exp
+    [4/4] MinecraftEditor.target
+  Total time in Parallel executor: 11.01 seconds
+  Total execution time: 23.33 seconds

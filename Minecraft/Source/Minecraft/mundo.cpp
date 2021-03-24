@@ -8,18 +8,25 @@
 #include "Components/SceneComponent.h"
 #include "tree.h"
 #include <algorithm>
+#include <type_traits>
 #include <math.h> 
+#include"BaseBlock_CPP.h"
 // Sets default values
 Amundo::Amundo()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-int Amundo::rand2d(int x, int y)
+Amundo::~Amundo()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("destruktor"));
+}
+
+int Amundo::rand2d(volatile int x, volatile  int y)
 {
 	x = (x % 125 + 125) % 125;
 	y = (y % 125 + 125) % 125;
-	int n = (power(2, x, 125) + power(3, y, 125)) % 125;
+	volatile int n = (power(2, x, 125) + power(3, y, 125)) % 125;
 	return rands[n];
 }
 
@@ -278,12 +285,20 @@ void Amundo::createchunck(int px, int py)
 	volatile int ran = 0;
 	int vx = 0;
 	int vy = 0;
-
+	static vector<vector<int>> pss;
+	bool ya = false;
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
 			//n = 0;
 			vx = int(x - .5f * (sizex - 1) + sizex * px);
 			vy = int(y - .5f * (sizey - 1) + sizey * py);
+			/*for (vector<int> i : pss) {
+				if (i[0] == vx && i[0] == vy) {
+					ya = true;
+					break;
+				}
+			}
+			pss.push_back({ vx,vy });*/
 			realaltu = randcord(vx, vy);
 			altu = realaltu + reacomodar;
 			num = capsum - altu;
@@ -301,8 +316,17 @@ float Amundo::relu(float x)
 	return x;
 }
 
+string Amundo::getchunk(float x, float y)
+{
+	return std::to_string(round(x/sizex)) + std::to_string(round(y / sizey));
+}
+
 void Amundo::destroyblockat(int x, int y)
 {
+	FTransform trans = FTransform(FVector(x*100, y*100, int(randcord(x, y)+reacomodar-1) * separacion));
+	
+	//cubesinchunk[getchunk(x,y)].push_back(GetWorld()->SpawnActor<AActor>(capas[0], trans));
+	//((ABaseBlock_CPP*)(cubesinchunk[s][cubesinchunk.size() - 1]))->wor = this;
 
 }
 
@@ -315,13 +339,46 @@ int Amundo::power(int b, int e, int m)
 	}
 	return ans;
 }
+bool Amundo::istree(volatile int x, volatile int y)
+{
+	
+	int vx = (x % treesep + treesep) % treesep;
+	int vy = (y % treesep + treesep) % treesep;
+	if (vx >= treeloc && vx < treeloc + probtree && vy >= treeloc && vy < treeloc + probtree){
+		x -= vx - treeloc;
+		y -= vy - treeloc;
+		
+		volatile int place = rand2d(x, y) % (probtree*probtree);
+		if (vx == treeloc + place / probtree && vy == treeloc + place % probtree)
+			return true;
+	}
+	return false;
+	/*if ((vx == treeloc && vy == treeloc)||( vx-1 == treeloc && vy == treeloc)||( vx == treeloc && vy-1 == treeloc)||( vx-1 == treeloc && vy-1 == treeloc)) {
+		if (vx - 1 == treeloc) {
+			x -= 1;
+		}
+		if (vy - 1 == treeloc) {
+			y -= 1;
+		}
+		volatile int place = rand2d(x, y) % 4;
+		if (vx  == treeloc + place / 2 && vy  == treeloc + place % 2)
+			return true;
+	}
+	return false;*/
+	
+	
+}
+void Amundo::Destroy()
+{
+	Super::Destroy();
+}
 // Called when the game starts or when spawned
 void Amundo::BeginPlay()
 {
 	Super::BeginPlay();
 	capsum = 0;
 	for (int i : tcapas) {
-		capsum += i;
+		capsum += i; 
 	}
 	tcapsum = capsum;
 	gausean = { {0.002589 , 0.0107788 , 0.0241466 , 0.0107788 , 0.002589},
@@ -342,10 +399,17 @@ void Amundo::BeginPlay()
 // Called every frame
 void Amundo::Tick(float DeltaTime)
 {
-	FTransform trans;
 	Super::Tick(DeltaTime);
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+	if (FoundActors.Num()>0) {
+		SetActorLocation(FoundActors[0]->GetActorLocation());
+	}
+	FTransform trans;
+	
 	FVector posi;
 	volatile int checkando;
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("tick del mundi"));
 	for (int i = 0; i < spf; i++) {
 		if (posis.size() > 0) {
 			/*trans = FTransform(FVector(posis.front()[0], posis.front()[1], int(posis.front()[2]) * 100));
@@ -363,14 +427,17 @@ void Amundo::Tick(float DeltaTime)
 					}*/
 				}
 				trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
-				cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[numc], trans)));
+//akista el problemaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?!?!??!?!?!???????????!!!!!!!!!!!!!!!!!!!!
+				cubesinchunk[s].push_back(GetWorld()->SpawnActor<AActor>(capas[numc], trans));
+				//((ABaseBlock_CPP*)cubesinchunk[s][cubesinchunk[s].size() - 1])->wor = this;
+				//((ABaseBlock_CPP*)(cubesinchunk[s][cubesinchunk.size() - 1]))->wor=this;
 				in++;
 
 			}
 			else {
-				if (rand2d(int(posis.front()[0] / 100), int(posis.front()[1] / 100)) % probtree == 0) {
+				if (crtrees &&istree(int(posis.front()[0]/100 ), int(posis.front()[1]/100 ))/*rand2d(int(posis.front()[0] / 100), int(posis.front()[1] / 100)) % probtree == 0//*/) {
 					trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
-					treesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(tree, trans)));
+					treesinchunk[s].push_back((Atree*)GetWorld()->SpawnActor<AActor>(tree, trans));
 
 				}
 				capsum = tcapsum;
@@ -391,29 +458,31 @@ void Amundo::Tick(float DeltaTime)
 			tempcoords.push_back(s);
 			if (std::find(coords.begin(), coords.end(), s) != coords.end()) {
 				chunksforcreate.pop();
-				return;
 			}
-			coords.push_back(s);
-			cubesinchunk.insert({ s, {} });
-			treesinchunk.insert({ s, {} });
-			createchunck(chunksforcreate.front()[0], chunksforcreate.front()[1]);
-			chunksforcreate.pop();
-			if (posis.size() > 0)
-				in = int(posis.front()[2] - posis.front()[3] - 1);
+			else {
+				coords.push_back(s);
+				cubesinchunk.insert({ s, {} });
+				treesinchunk.insert({ s, {} });
+				createchunck(chunksforcreate.front()[0], chunksforcreate.front()[1]);
+				chunksforcreate.pop();
+				if (posis.size() > 0)
+					in = int(posis.front()[2] - posis.front()[3] - 1);
+			}
+			
 		}
 		else {
 			if (chunksforcreate.size() == 0 && bild) {
 				vector<string>ss;
-				for (std::pair< string, vector<void*>> a : cubesinchunk) {
+				for (std::pair< string, vector<AActor*>> a : cubesinchunk) {
 					if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
-						for (void* e : a.second) {
-							if (nullptr != e)
-								((AActor*)e)->Destroy();
+						for (AActor* e : a.second) {
+							e->Destroy();
 						}
-						for (void* e : treesinchunk[a.first]) {
-							if (nullptr != e)
-								((Atree*)e)->Destroy();
+						for (Atree* e : treesinchunk[a.first]) {
+							
+							e->Destroy();
 						}
+						if(std::find(coords.begin(), coords.end(), a.first)!= coords.end())
 						coords.erase(std::find(coords.begin(), coords.end(), a.first));
 						a.second.clear();
 						ss.push_back(a.first);
@@ -428,13 +497,21 @@ void Amundo::Tick(float DeltaTime)
 		}
 	}
 
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+	
 	//ACharacter* p= UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	if (FoundActors.Num())
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pasa poraki"));
+	if (FoundActors.Num()) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%d %d   %d %d"), round(FoundActors[0]->GetActorLocation().X / (sizex * separacion)) , isinchunckx , round(FoundActors[0]->GetActorLocation().Y / (sizey * separacion)) , isinchuncky));
 		if (round(FoundActors[0]->GetActorLocation().X / (sizex * separacion)) != isinchunckx || round(FoundActors[0]->GetActorLocation().Y / (sizey * separacion)) != isinchuncky) {
+
 			isinchunckx = round(FoundActors[0]->GetActorLocation().X / (sizex * separacion));
 			isinchuncky = round(FoundActors[0]->GetActorLocation().Y / (sizey * separacion));
+			
 			createchuncks(isinchunckx, isinchuncky);
 		}
+	}
+	else {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("no encontro alak tor"));
+	}
+		
 }

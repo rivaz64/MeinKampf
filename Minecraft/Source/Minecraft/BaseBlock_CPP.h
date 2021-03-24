@@ -19,7 +19,7 @@ enum eBLOCK_TYPES
 	SOLID UMETA(DisplayName = "SOLID"),
 	LIQUID   UMETA(DisplayName = "LIQUID")
 };
-
+class Amundo;
 UCLASS()
 class MINECRAFT_API ABaseBlock_CPP : public AActor
 {
@@ -53,6 +53,7 @@ public:
 	virtual void SetFaceVisibility(unsigned char face, bool visibility);
 
 public:
+	Amundo* wor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
 		TEnumAsByte<eBLOCK_TYPES> eBlockType = SOLID;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)

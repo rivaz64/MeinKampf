@@ -20,5 +20,6 @@ class MINECRAFT_API Afollower : public Amob
 	UPROPERTY(EditAnywhere)
 		bool tevio = false;
 	virtual void choiserotation();
+	virtual void choka();
 	//virtual void choiseaction();
 };
