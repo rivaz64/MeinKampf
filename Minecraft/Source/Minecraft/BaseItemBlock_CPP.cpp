@@ -12,13 +12,10 @@ ABaseItemBlock_CPP::ABaseItemBlock_CPP()
 
 	if (BlockAsset.Succeeded())
 	{
-		ItemMesh->SetStaticMesh(BlockAsset.Object);
+		ItemMesh = BlockAsset.Object;
 	}
 
 	eItemType = BLOCK;
-
-	ItemCollider;
-	ItemMesh;
 	Image;
 	Durablity;
 	MaxDurablity;
@@ -37,18 +34,19 @@ void ABaseItemBlock_CPP::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world)
+bool ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world)
 {
-	FVector a = blockPointing->GetActorLocation() + NormalFace * 100;
-	PlaceBlock(&a, world);
+	if (blockPointing != NULL)
+	{
+		FVector a = blockPointing->GetActorLocation() + NormalFace * 100;
+		PlaceBlock(&a, world);
+		return true;
+	}
+	return false;
 }
 
 void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
 {
 	FRotator rot = { 0,0,0 };
 	world->SpawnActor(BlockClass, pos, &rot);
-}
-
-void ABaseItemBlock_CPP::Colected(AMinecraftCharacter* Player)
-{
 }

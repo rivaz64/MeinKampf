@@ -9,35 +9,11 @@
 #include "MinecraftCharacter.h"
 
 
-void ABaseItem_CPP::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	/*auto Player = Cast<AMinecraftCharacter>(OtherActor);
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, "Collision");
-
-	if (Player != nullptr)
-	{
-		Colected(Player);
-	}*/
-}
 // Sets default values
 ABaseItem_CPP::ABaseItem_CPP()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	ItemCollider = CreateDefaultSubobject<USphereComponent>("ItemCollider");
-	ItemCollider->SetupAttachment(RootComponent);
-	RootComponent = ItemCollider;
-
-	ItemCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-
-	ItemCollider->OnComponentBeginOverlap.AddDynamic(this, &ABaseItem_CPP::OnOverlapBegin);
-
-
-	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>("ItemMesh");
-	ItemMesh->SetupAttachment(RootComponent);
-
-	ItemMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 }
 
 // Called when the game starts or when spawned
@@ -54,13 +30,8 @@ void ABaseItem_CPP::Tick(float DeltaTime)
 
 }
 
-void ABaseItem_CPP::Colected(AMinecraftCharacter* Player)
+bool ABaseItem_CPP::UseItem(ABaseBlock_CPP* block, FVector NormalFace, UWorld* world)
 {
-	if (Player->AddItem(this->StaticClass(), 1))
-		Destroy();
-}
-
-void ABaseItem_CPP::UseItem(ABaseBlock_CPP* block, FVector NormalFace, UWorld* world)
-{
+	return false;
 }
 
