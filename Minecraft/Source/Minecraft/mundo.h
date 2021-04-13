@@ -100,6 +100,7 @@ public:
 	vector<vector<float>> transpuesta;
 	vector<vector<float>> tfinal;
 	map<string, vector<AActor*>> cubesinchunk;
+	map<string, vector<vector<int>>> destroyed;
 	map<string, vector<Atree*>> treesinchunk;
 	float dotp(float x, float y, int e, int d);
 	float interpolation(float ini, float end, float aki);
@@ -127,6 +128,7 @@ public:
 	int capsum, tcapsum;
 	float relu(float x);
 	string getchunk(float x, float y);
+	int getnewalt(int x, int y);
 	void destroyblockat(int x, int y);
 	int power(int b, int e, int m);
 	bool istree(int x, int y);

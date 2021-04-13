@@ -71,7 +71,6 @@ float Amundo::randcord(int x, int y)
 	volatile float p1 = interpolation(ans[0] * sizez, ans[1] * sizez, xres);
 	volatile float p2 = interpolation(ans[2] * sizez, ans[3] * sizez, xres);
 	volatile float p = interpolation(p1, p2, yres);
-
 	return p;
 	//return ans+rand2d(x, y)*.32f+ rand2d(x+1, y)*.12f + rand2d(x, y+1) * .12f + rand2d(x - 1, y) * .12f + rand2d(x , y-1) * .12f+rand2d(x + 1, y+1) * .045f + rand2d(x-1, y + 1) * .045f + rand2d(x - 1, y-1) * .045f + rand2d(x+1, y - 1) * .045f;
 }
@@ -168,7 +167,7 @@ float Amundo::interpolation(float ini, float end, float aki)
 	volatile int qw = 0;
 	if (aki > 1) {
 		qw = 1;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 
 	}
 	return ini + (6 * pow(aki, 5) - 15 * pow(aki, 4) + 10 * pow(aki, 3)) * (end - ini);
@@ -224,26 +223,31 @@ float Amundo::peril(float x, float y)
 
 void Amundo::createchuncks(int x, int y)
 {
-
-	chunksforcreate.push({ x,y });
-	chunksforcreate.push({ x - 1,y });
-	chunksforcreate.push({ x,y - 1 });
-	chunksforcreate.push({ x + 1,y });
-	chunksforcreate.push({ x,y + 1 });
-	chunksforcreate.push({ x + 1,y + 1 });
-	chunksforcreate.push({ x + 1,y - 1 });
-	chunksforcreate.push({ x - 1,y + 1 });
-	chunksforcreate.push({ x - 1,y - 1 });
+	std::string scord;
+	bool vf = true;
+	for (int i = 0; i < 3; i++) {
+		for (int o = 0; o < 3; o++) {
+			scord = std::to_string(x + (i + 1) % 3 - 1) + std::to_string(y + (o + 1) % 3 - 1);
+			chunksforcreate.push({ x + (i + 1) % 3 - 1,y + (o + 1) % 3 - 1 });
+			vf = true;
+			for (std::pair<string, vector<vector<int>>> u : destroyed) {
+				if (u.first == scord) {
+					vf = false;
+					break;
+				}
+			}
+			if (vf) {
+				//chunksforcreate.push({ x + (i + 1) % 3 - 1,y + (o + 1) % 3 - 1 });
+				destroyed.insert({ scord,vector<vector<int>>() });
+				destroyed[scord].resize(sizex);
+				for (int u = 0; u < sizex; u++) {
+					destroyed[scord][u].resize(sizey);
+				}
+			}
+			
+		}
+	}
 	bild = true;
-	/*createchunck(x, y);
-	createchunck(x - 1, y);
-	createchunck(x, y-1);
-	createchunck(x+1, y);
-	createchunck(x, y+1);
-	createchunck(x - 1, y-1);
-	createchunck(x+1, y - 1);
-	createchunck(x + 1, y+1);
-	createchunck(x-1, y + 1);*/
 	/*vector<string>ss;
 	for (std::pair< string, vector<void*>> a : cubesinchunk) {
 		if (std::find(tempcoords.begin(), tempcoords.end(), a.first) == tempcoords.end()) {
@@ -289,21 +293,14 @@ void Amundo::createchunck(int px, int py)
 	bool ya = false;
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
-			//n = 0;
+			
 			vx = int(x - .5f * (sizex - 1) + sizex * px);
 			vy = int(y - .5f * (sizey - 1) + sizey * py);
-			/*for (vector<int> i : pss) {
-				if (i[0] == vx && i[0] == vy) {
-					ya = true;
-					break;
-				}
-			}
-			pss.push_back({ vx,vy });*/
-			realaltu = randcord(vx, vy);
+			realaltu = randcord(vx, vy) + getnewalt(vx, vy);
 			altu = realaltu + reacomodar;
 			num = capsum - altu;
-			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu - randcord(vx + 1, vy),realaltu - randcord(vx - 1, vy)),std::max(realaltu - randcord(vx , vy + 1),realaltu - randcord(vx , vy - 1)))) });
-
+			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu - randcord(vx + 1, vy)-getnewalt(vx+1, vy),realaltu - randcord(vx - 1, vy)-getnewalt(vx-1, vy)),std::max(realaltu - randcord(vx , vy + 1) - getnewalt(vx, vy+1),realaltu - randcord(vx , vy - 1)-getnewalt(vx, vy-1)))) });
+			
 		}
 	}
 }
@@ -318,16 +315,50 @@ float Amundo::relu(float x)
 
 string Amundo::getchunk(float x, float y)
 {
-	return std::to_string(round(x/sizex)) + std::to_string(round(y / sizey));
+	return std::to_string(int(round(x/sizex))) + std::to_string(int(round(y / sizey)));
+}
+
+int Amundo::getnewalt(volatile int x, volatile int y)
+{
+	volatile string estr = getchunk(x, y);
+	if(destroyed[getchunk(x, y)].size()>0)
+	return destroyed[getchunk(x, y)][((x % int(sizex)) + int(sizex)) % int(sizex)][((y % int(sizey)) + int(sizey)) % int(sizey)];
+	return 0;
 }
 
 void Amundo::destroyblockat(int x, int y)
 {
-	FTransform trans = FTransform(FVector(x*100, y*100, int(randcord(x, y)+reacomodar-1) * separacion));
+	string este = getchunk(x, y);
+	volatile float pox = ((x % int(sizex)) + int(sizex)) % int(sizex);
+	volatile float poy = ((y % int(sizey)) + int(sizey)) % int(sizey);
+	FTransform trans = FTransform(FVector(x * 100, y * 100, int(randcord(x, y) + reacomodar - 1 + destroyed[getchunk(x, y)][((x % int(sizex)) + int(sizex)) % int(sizex)][((y % int(sizey)) + int(sizey)) % int(sizey)]) * separacion));
+	//para chekar si ya hay uno abajo
+	int realaltu=randcord(x, y)+ getnewalt(x, y);
+	int otros = relu(std::max(std::max(realaltu - (randcord(x + 1, y)+ getnewalt(x + 1, y)), realaltu - (randcord(x - 1, y)+ getnewalt(x - 1, y))), std::max(realaltu - (randcord(x, y + 1)+ getnewalt(x, y-1)), realaltu - (randcord(x, y - 1) + getnewalt(x, y - 1)))));
 	
-	//cubesinchunk[getchunk(x,y)].push_back(GetWorld()->SpawnActor<AActor>(capas[0], trans));
-	//((ABaseBlock_CPP*)(cubesinchunk[s][cubesinchunk.size() - 1]))->wor = this;
-
+	if (!(otros > 0)) {
+		cubesinchunk[getchunk(x, y)].push_back(GetWorld()->SpawnActor<AActor>(capas[2], trans));
+	}
+	//cubesinchunk[getchunk(x, y)].push_back(GetWorld()->SpawnActor<AActor>(capas[2], trans));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%d %f"), realaltu - (randcord(x + 1, y) + getnewalt(x + 1, y))));
+	int tx = x, ty = y;
+	for (int i = 0; i < 3; i++) {
+		for (int o = 0; o < 3; o++) {
+			if (i!=o&&i+o!=2) {
+				x = tx - 1 + i;
+				y = ty - 1 + o;
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%d %d"), i,o));
+				if (int(randcord(tx, ty) + reacomodar - 1 + destroyed[getchunk(tx, ty)][((tx % int(sizex)) + int(sizex)) % int(sizex)][((ty % int(sizey)) + int(sizey)) % int(sizey)])+1 < randcord(x, y) + reacomodar - 1 + destroyed[getchunk(x, y)][((x % int(sizex)) + int(sizex)) % int(sizex)][((y % int(sizey)) + int(sizey)) % int(sizey)]) {
+					trans = FTransform(FVector(x * 100, y * 100, int(randcord(tx, ty) + reacomodar - 1 + destroyed[getchunk(tx, ty)][((tx % int(sizex)) + int(sizex)) % int(sizex)][((ty % int(sizey)) + int(sizey)) % int(sizey)]+1) * separacion));
+					cubesinchunk[getchunk(x, y)].push_back(GetWorld()->SpawnActor<AActor>(capas[2], trans));
+				}
+				
+			}
+		}
+	}
+	x = tx;
+	y = ty;
+	destroyed[getchunk(x, y)][((x % int(sizex)) + int(sizex)) % int(sizex)][((y % int(sizey)) + int(sizey)) % int(sizey)] -= 1;
 }
 
 int Amundo::power(int b, int e, int m)
@@ -412,25 +443,16 @@ void Amundo::Tick(float DeltaTime)
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("tick del mundi"));
 	for (int i = 0; i < spf; i++) {
 		if (posis.size() > 0) {
-			/*trans = FTransform(FVector(posis.front()[0], posis.front()[1], int(posis.front()[2]) * 100));
-			cubesinchunk[s].push_back((void*)(GetWorld()->SpawnActor<AActor>(capas[2], trans)));
-			posis.pop();*/
 			if (in < posis.front()[2]) {
 				checkando = int(posis.front()[2] - capsum + tcapas[numc]);
 				while (in > checkando) {
 					capsum -= tcapas[numc];
 					numc++;
 					checkando = int(posis.front()[2] - capsum + tcapas[numc]);
-					/*if (num == tcapas.Num())
-					{
-						in = posis.front()[2];
-					}*/
+					
 				}
 				trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
-//akista el problemaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?!?!??!?!?!???????????!!!!!!!!!!!!!!!!!!!!
 				cubesinchunk[s].push_back(GetWorld()->SpawnActor<AActor>(capas[numc], trans));
-				//((ABaseBlock_CPP*)cubesinchunk[s][cubesinchunk[s].size() - 1])->wor = this;
-				//((ABaseBlock_CPP*)(cubesinchunk[s][cubesinchunk.size() - 1]))->wor=this;
 				in++;
 
 			}
@@ -456,6 +478,7 @@ void Amundo::Tick(float DeltaTime)
 		else if (chunksforcreate.size() > 0) {
 			s = std::to_string(chunksforcreate.front()[0]) + std::to_string(chunksforcreate.front()[1]);
 			tempcoords.push_back(s);
+			///////////////////////////////////////////////////////////////////////////////////////////////aka esta metiendo los temps
 			if (std::find(coords.begin(), coords.end(), s) != coords.end()) {
 				chunksforcreate.pop();
 			}
