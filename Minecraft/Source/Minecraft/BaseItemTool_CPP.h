@@ -18,7 +18,7 @@ class MINECRAFT_API ABaseItemTool_CPP : public ABaseItem_CPP
 public:
 	ABaseItemTool_CPP();
 
-	virtual void UseItem(class ABaseBlock_CPP* block, FVector NormalFace, UWorld* world){}
+	virtual bool UseItem(class ABaseBlock_CPP* block, FVector NormalFace, UWorld* world){ return false; }
 
 public:
 	float MiningSpeed = 1.5f	;

@@ -45,22 +45,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	virtual void Colected(class AMinecraftCharacter* Player);
-
-	virtual void UseItem(class ABaseBlock_CPP*, FVector NormalFace, UWorld* world);
+	virtual bool UseItem(class ABaseBlock_CPP*, FVector NormalFace, UWorld* world);
 
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
 		TEnumAsByte<eITEM_TYPE> eItemType = NULL_ITEM_TYPE;
 
-	UPROPERTY()
-		class USphereComponent* ItemCollider;
-	UPROPERTY()
-		class UStaticMeshComponent* ItemMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		class UStaticMesh* ItemMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		class UTexture2D* Image;	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -71,7 +64,5 @@ public:
 		uint8 MaxStack;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool Singled;
-
-	/*TODO: The Values does not work*/
 
 };

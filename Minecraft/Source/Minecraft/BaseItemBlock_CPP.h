@@ -25,11 +25,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void UseItem(class ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world);
+	virtual bool UseItem(class ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world);
 
 	virtual void PlaceBlock(FVector* pos, UWorld* world);
-
-	virtual void Colected(class AMinecraftCharacter* Player);
 
 public:
 

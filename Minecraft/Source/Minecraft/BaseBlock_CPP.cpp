@@ -274,7 +274,8 @@ void ABaseBlock_CPP::Breaked()
 	}*/
 	
 	FVector a = GetActorLocation();
-	GetWorld()->SpawnActor(DropItemBlock, &a, new FRotator{0,0,0});
+	FRotator b = GetActorRotation();
+	//GetWorld()->SpawnActor(DropItemBlock, a, b);
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Amundo::StaticClass(), FoundActors);
 	((Amundo*)FoundActors[0])->destroyblockat(GetActorLocation().X / 100, GetActorLocation().Y / 100);

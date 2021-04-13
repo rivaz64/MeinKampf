@@ -19,7 +19,6 @@
 #include "Inventory_W_CPP.h"
 
 #include "B_Grass_CPP.h"
-#include "BaseItem_CPP.h"
 
 
 //#include "NiagaraFunctionLibrary.h"
@@ -141,6 +140,12 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 
 	bool hited = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
 
+	//float distance = 100;
+
+	//End = Loc + FVector(0, 0, -1) * distance;
+
+	//hited = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+
 	/*DrawDebugLine(
 		GetWorld(),
 		Start,
@@ -194,7 +199,7 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	}
 }
 
-bool AMinecraftCharacter::AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 count)
+bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> item, uint8 count)
 {
 	return InventoryWidget->AddItem(item, count);
 }
@@ -263,8 +268,8 @@ void AMinecraftCharacter::Interact()
 	}
 	if (CanUseItem && Item != NULL)
 	{
-		Item->GetDefaultObject<ABaseItem_CPP>()->UseItem(PointingBlock, PointingNormal, GetWorld());
-		InventoryWidget->SubstractItem(1, HUDSlotActive);
+		if (Item->GetDefaultObject<ABaseItem_CPP>()->UseItem(PointingBlock, PointingNormal, GetWorld()))
+			InventoryWidget->SubstractItem(1, HUDSlotActive);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "CanUseItemInBlock");
 	}
 }
