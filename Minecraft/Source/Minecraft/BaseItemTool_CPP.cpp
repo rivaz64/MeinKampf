@@ -6,4 +6,8 @@
 ABaseItemTool_CPP::ABaseItemTool_CPP()
 {
 	eItemType = TOOL;
+	Durablity = 59;
+	MaxDurablity = 59;
+	MaxStack = 1;
+	Singled = true;
 }

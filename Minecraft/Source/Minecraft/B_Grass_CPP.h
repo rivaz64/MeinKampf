@@ -16,7 +16,5 @@ class MINECRAFT_API AB_Grass_CPP : public ABaseBlock_CPP
 
 public:
 	AB_Grass_CPP();
-
-	virtual bool Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector NormalFace);
 	
 };

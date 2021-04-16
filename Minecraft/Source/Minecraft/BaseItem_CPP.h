@@ -28,6 +28,17 @@ enum eTOOL_TYPE
 	HOE   UMETA(DisplayName = "HOE")
 };
 
+UENUM()
+enum eMATERIAL_TYPE
+{
+	NULL_MATERIAL_TYPE UMETA(DisplayName = "NULL_MATERIAL_TYPE"),
+	WOOD UMETA(DisplayName = "WOOD"),
+	STONE   UMETA(DisplayName = "STONE"),
+	IRON   UMETA(DisplayName = "IRON"),
+	GOLD   UMETA(DisplayName = "GOLD"),
+	DIAMOND   UMETA(DisplayName = "DIAMOND")
+};
+
 UCLASS()
 class MINECRAFT_API ABaseItem_CPP : public AActor
 {
@@ -51,6 +62,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
 		TEnumAsByte<eITEM_TYPE> eItemType = NULL_ITEM_TYPE;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
+		TEnumAsByte<eTOOL_TYPE> eToolType = NULL_TOOL_TYPE;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
+		TEnumAsByte<eMATERIAL_TYPE> eMaterialType = NULL_MATERIAL_TYPE;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		class UStaticMesh* ItemMesh;

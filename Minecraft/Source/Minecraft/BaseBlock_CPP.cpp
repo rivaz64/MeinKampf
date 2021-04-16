@@ -274,11 +274,10 @@ void ABaseBlock_CPP::Breaked()
 	}*/
 	
 	FVector a = GetActorLocation();
-	FRotator b = GetActorRotation();
-	//GetWorld()->SpawnActor(DropItemBlock, a, b);
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Amundo::StaticClass(), FoundActors);
-	((Amundo*)FoundActors[0])->destroyblockat(GetActorLocation().X / 100, GetActorLocation().Y / 100);
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, (std::to_string(a.X) + ", " + std::to_string(a.Y)).c_str());
+	((Amundo*)FoundActors[0])->destroyblockat((int)a.X / 100, (int)a.Y / 100);
 	isAlive = false;
 	//Destroy();
 }

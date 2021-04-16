@@ -32,7 +32,7 @@ uint8 UItemFrame_W_CPP::GetCount()
 
 bool UItemFrame_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count)
 {
-	if (_count != 0)
+	if (_count != 0 && _item != NULL)
 	{
 		if (Item == NULL)
 		{
@@ -58,18 +58,22 @@ bool UItemFrame_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _co
 
 void UItemFrame_W_CPP::SubstractItem(uint8 sub)
 {
-	Count -= sub;
-	if (Count <= 0)
+	if (Count != 0)
 	{
-		Count = 0;
-		Item = NULL;
+		Count -= sub;
+		if (Count == 0)
+		{
+			Count = 0;
+			Item = NULL;
+			return;
+		}
 	}
 }
 
 bool UItemFrame_W_CPP::UpdateItems(TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
 {
 	Count = _count;
-	if (_count <= 0)
+	if (_count == 0)
 	{
 		Item = NULL;
 	}

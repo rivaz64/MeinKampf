@@ -8,25 +8,16 @@
 
 ABaseItemBlock_CPP::ABaseItemBlock_CPP()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/GrassItem_SM.GrassItem_SM"));
-
-	if (BlockAsset.Succeeded())
-	{
-		ItemMesh = BlockAsset.Object;
-	}
-
 	eItemType = BLOCK;
-	Image;
-	Durablity;
-	MaxDurablity;
-	MaxStack;
-	Singled;
+	Durablity = 1;
+	MaxDurablity = 1;
+	MaxStack = 64;
+	Singled = false;
 }
 
 void ABaseItemBlock_CPP::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void ABaseItemBlock_CPP::Tick(float DeltaTime)
