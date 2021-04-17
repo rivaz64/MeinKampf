@@ -11,8 +11,3 @@ AB_Grass_CPP::AB_Grass_CPP()
 	MaxLife = 1;
 	Life = 1;
 }
-
-bool AB_Grass_CPP::Interacted(TSubclassOf<class ABaseItem_CPP> item, FVector NormalFace)
-{
-	return true;
-}
