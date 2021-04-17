@@ -225,6 +225,7 @@ void Amundo::createchuncks(int x, int y)
 {
 	std::string scord;
 	bool vf = true;
+	FTransform trans;
 	for (int i = 0; i < 3; i++) {
 		for (int o = 0; o < 3; o++) {
 			scord = std::to_string(x + (i + 1) % 3 - 1) + std::to_string(y + (o + 1) % 3 - 1);
@@ -238,13 +239,42 @@ void Amundo::createchuncks(int x, int y)
 			}
 			if (vf) {
 				//chunksforcreate.push({ x + (i + 1) % 3 - 1,y + (o + 1) % 3 - 1 });
-				destroyed.insert({ scord,vector<vector<int>>() });
-				destroyed[scord].resize(sizex);
-				for (int u = 0; u < sizex; u++) {
-					destroyed[scord][u].resize(sizey);
+				cubitos.insert({ scord,vector<vector<vector<int>>>() });
+				//destroyed.insert({ scord,vector<vector<int>>() });
+				cubitos[scord].resize(sizex);
+				for (int x = 0; x < sizex; x++) {
+					cubitos[scord][x].resize(sizey);
+					for (int y = 0; y < sizex; y++) {
+						cubitos[scord][x][y].resize(sizez);
+						for (int z = 0; z < sizex; z++) {
+							if(z<6)
+								cubitos[scord][x][y][z] = 1;
+							else
+								cubitos[scord][x][y][z] = 0;
+						}
+					}
 				}
 			}
-			
+			if (vf) {
+				//chunksforcreate.push({ x + (i + 1) % 3 - 1,y + (o + 1) % 3 - 1 });
+				cubitos.insert({ scord,vector<vector<vector<int>>>() });
+				//destroyed.insert({ scord,vector<vector<int>>() });
+				cubitos[scord].resize(sizex);
+				for (int X = 0; X < sizex; X++) {
+					cubitos[scord][X].resize(sizey);
+					for (int Y = 0; Y < sizey; Y++) {
+						cubitos[scord][X][Y].resize(sizez);
+						for (int Z = 0; Z < sizez; Z++) {
+							if (cubitos[scord][X][Y][Z] == 1) {
+								//posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu - randcord(vx + 1, vy)-getnewalt(vx+1, vy),realaltu - randcord(vx - 1, vy)-getnewalt(vx-1, vy)),std::max(realaltu - randcord(vx , vy + 1) - getnewalt(vx, vy+1),realaltu - randcord(vx , vy - 1)-getnewalt(vx, vy-1)))) });
+
+								trans = FTransform(FVector(int(X - .5f * (sizex - 1) + sizex * x) * 100, int(Y - .5f * (sizey - 1) + sizey * y) * 100,100*Z));
+								cubesinchunk[getchunk(x, y)].push_back(GetWorld()->SpawnActor<AActor>(capas[2], trans));
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	bild = true;
@@ -293,14 +323,12 @@ void Amundo::createchunck(int px, int py)
 	bool ya = false;
 	for (volatile int x = 0; x < sizex; x++) {
 		for (volatile int y = 0; y < sizey; y++) {
-			
 			vx = int(x - .5f * (sizex - 1) + sizex * px);
 			vy = int(y - .5f * (sizey - 1) + sizey * py);
 			realaltu = randcord(vx, vy) + getnewalt(vx, vy);
 			altu = realaltu + reacomodar;
 			num = capsum - altu;
-			posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu - randcord(vx + 1, vy)-getnewalt(vx+1, vy),realaltu - randcord(vx - 1, vy)-getnewalt(vx-1, vy)),std::max(realaltu - randcord(vx , vy + 1) - getnewalt(vx, vy+1),realaltu - randcord(vx , vy - 1)-getnewalt(vx, vy-1)))) });
-			
+			//posis.push({ int(x - .5f * (sizex - 1) + sizex * px) * separacion, int(y - .5f * (sizey - 1) + sizey * py) * separacion, altu,relu(std::max(std::max(realaltu - randcord(vx + 1, vy)-getnewalt(vx+1, vy),realaltu - randcord(vx - 1, vy)-getnewalt(vx-1, vy)),std::max(realaltu - randcord(vx , vy + 1) - getnewalt(vx, vy+1),realaltu - randcord(vx , vy - 1)-getnewalt(vx, vy-1)))) });
 		}
 	}
 }
@@ -439,9 +467,9 @@ void Amundo::Tick(float DeltaTime)
 	FTransform trans;
 	
 	FVector posi;
-	volatile int checkando;
+//	volatile int checkando;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("tick del mundi"));
-	for (int i = 0; i < spf; i++) {
+	/*for (int i = 0; i < spf; i++) {
 		if (posis.size() > 0) {
 			if (in < posis.front()[2]) {
 				checkando = int(posis.front()[2] - capsum + tcapas[numc]);
@@ -457,7 +485,7 @@ void Amundo::Tick(float DeltaTime)
 
 			}
 			else {
-				if (crtrees &&istree(int(posis.front()[0]/100 ), int(posis.front()[1]/100 ))/*rand2d(int(posis.front()[0] / 100), int(posis.front()[1] / 100)) % probtree == 0//*/) {
+				if (crtrees &&istree(int(posis.front()[0]/100 ), int(posis.front()[1]/100 ))/*rand2d(int(posis.front()[0] / 100), int(posis.front()[1] / 100)) % probtree == 0//) {
 					trans = FTransform(FVector(posis.front()[0], posis.front()[1], in * separacion));
 					treesinchunk[s].push_back((Atree*)GetWorld()->SpawnActor<AActor>(tree, trans));
 
@@ -518,7 +546,7 @@ void Amundo::Tick(float DeltaTime)
 				bild = false;
 			}
 		}
-	}
+	}//*/
 
 	
 	//ACharacter* p= UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);

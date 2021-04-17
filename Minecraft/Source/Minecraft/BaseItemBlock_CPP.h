@@ -31,6 +31,9 @@ public:
 
 	virtual void Colected(class AMinecraftCharacter* Player);
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> ClassOf;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)

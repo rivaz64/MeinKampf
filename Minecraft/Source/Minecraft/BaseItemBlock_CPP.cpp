@@ -4,6 +4,8 @@
 #include "BaseItemBlock_CPP.h"
 #include "BaseBlock_CPP.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include"terreno.h"
 #include "MinecraftCharacter.h"
 
 ABaseItemBlock_CPP::ABaseItemBlock_CPP()
@@ -39,14 +41,21 @@ void ABaseItemBlock_CPP::Tick(float DeltaTime)
 
 void ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFace, UWorld* world)
 {
-	FVector a = blockPointing->GetActorLocation() + NormalFace * 100;
+	FVector a = blockPointing->GetActorLocation()/100 + NormalFace;
 	PlaceBlock(&a, world);
 }
 
 void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
 {
 	FRotator rot = { 0,0,0 };
+	TArray<AActor*> FoundActors;
+	ClassOf = Aterreno::StaticClass();
+	UGameplayStatics::GetAllActorsOfClass(world, ClassOf, FoundActors);
 	world->SpawnActor(BlockClass, pos, &rot);
+	if (FoundActors.Num() > 0) {
+		((Aterreno*)FoundActors[0])->createblockat(pos->X, pos->Y, pos->Z);
+	}
+	
 }
 
 void ABaseItemBlock_CPP::Colected(AMinecraftCharacter* Player)
