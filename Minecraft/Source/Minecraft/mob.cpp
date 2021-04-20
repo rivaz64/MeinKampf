@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include<algorithm>
 #include"mundo.h"
+#include"terreno.h"
 // Sets default values
 float pi = 3.141592653589793238462;
 Amob::Amob()
@@ -18,13 +19,71 @@ Amob::Amob()
 void Amob::BeginPlay()
 {
 	Super::BeginPlay();
-
+	actual = &gravity;
+	velmov = &velcam;
 }
 
 // Called every frame
 void Amob::Tick(float DeltaTime)
 {
-	delta = DeltaTime;
+	if (hit) {
+		velmov = &velcor;
+		distrecor = 0;
+		vidas -= 1;
+		if (vidas == 0) {
+			Destroy();
+		}
+		hit = false;
+	}
+	timer += *actual *DeltaTime;
+	if (timer >= 100) {
+		timer = 0;
+		if (distrecor > cordist) {
+			velmov = &velcam;
+		}
+		distrecor += 1;
+		if (distrec > camdist) {
+			dir = FVector(0, 0, 0);
+			distrec += 1;
+			distrec %= int(camdist + waitime);
+			if (distrec == 0) {
+				ndir = (ndir + rand()%2*2+1) % 4;
+				timer = 101;
+				SetActorRotation(rots[ndir]);
+			}
+		}
+		else {
+			SetActorLocation(FVector(round(GetActorLocation().X / 100.f) * 100, round(GetActorLocation().Y / 100.f) * 100, round(GetActorLocation().Z / 100.f) * 100));
+			TArray<AActor*> FoundActors;
+			UGameplayStatics::GetAllActorsOfClass(GetWorld(), Aterreno::StaticClass(), FoundActors);
+			if (FoundActors.Num()) {
+				if (((Aterreno*)FoundActors[0])->getcoord(GetActorLocation() / 100 + FVector(0, 0, -1)) == 0) {
+					actual = &gravity;
+					dir = FVector(0, 0, -1);
+				}
+				else if (((Aterreno*)FoundActors[0])->getcoord(GetActorLocation() / 100 + dirs[ndir]) == 0) {
+					actual = velmov;
+					dir = dirs[ndir];
+					distrec += 1;
+				}
+				else if (((Aterreno*)FoundActors[0])->getcoord(GetActorLocation() / 100 + dirs[ndir] + FVector(0, 0, 1)) == 0) {
+					actual = velmov;
+					dir = dirs[ndir];
+					SetActorLocation(GetActorLocation() + FVector(0, 0, 100));
+					distrec += 1;
+				}
+				else {
+					ndir = (ndir + 1) % 4;
+					timer = 101;
+					SetActorRotation(rots[ndir]);
+				}
+				//ndir = (ndir + 1) % 2;
+				//dir = FVector(0, 0, 0);
+			}
+		}
+	}
+	SetActorLocation(GetActorLocation()+dir**actual*DeltaTime);
+	/*delta = DeltaTime;
 	timer += DeltaTime;
 	if (atakado) {
 		uyendo = true;
@@ -66,42 +125,49 @@ void Amob::Tick(float DeltaTime)
 		if (wor->istree(round(GetActorLocation().X / 100.f + dondedetecta + distfromtree * vel * DeltaTime * sin(angle / 180 * pi)), round(GetActorLocation().Y / 100.f + dondedetecta + distfromtree * vel * DeltaTime * cos(angle / 180 * pi))) || wor->istree(round(GetActorLocation().X / 100.f + dondedetecta + distfromtree * vel * DeltaTime * sin(angle / 180 * pi)), round(GetActorLocation().Y / 100.f - 1 + dondedetecta + distfromtree * vel * DeltaTime * cos(angle / 180 * pi))) || wor->istree(round(GetActorLocation().X / 100.f - 1 + dondedetecta + distfromtree * vel * DeltaTime * sin(angle / 180 * pi)), round(GetActorLocation().Y / 100.f + dondedetecta + distfromtree * vel * DeltaTime * cos(angle / 180 * pi))) || wor->istree(round(GetActorLocation().X / 100.f - 1 + dondedetecta + distfromtree * vel * DeltaTime * sin(angle / 180 * pi)), round(GetActorLocation().Y / 100.f - 1 + dondedetecta + distfromtree * vel * DeltaTime * cos(angle / 180 * pi)))) {
 			choka();
 		}
-		else//*/
+		else//
 			SetActorLocation(FVector(GetActorLocation().X + vel * DeltaTime * sin(angle / 180 * pi), GetActorLocation().Y + vel * DeltaTime * cos(angle / 180 * pi), alt));
-
 	}
-	
-	
-	SetActorRotation(FRotator(0, -angle + plusangl, 0));
+	SetActorRotation(FRotator(0, -angle + plusangl, 0));*/
 }
 
 void Amob::choiserotation()
 {
-	if (rand() % 2 == 0) {
+	/*if (rand() % 2 == 0) {
 		angle += rand() % 3 * noise + 2 * noise;
 	}
 	else {
 		angle -= rand() % 3 * noise + 2 * noise;
-	}
+	}*/
 }
 
 void Amob::choiseaction()
 {
-	if (atakado) {
+/*	if (atakado) {
 		uyendo = true;
 		atakado = false;
 		return;
 	}
 	caminando = !caminando;
-	uyendo = false;
+	uyendo = false;*/
 }
 
 void Amob::choka()
 {
-	angle += 180;
+/*	angle += 180;
 	vel *= 2;
 	SetActorLocation(FVector(GetActorLocation().X + vel * delta * cos(angle), GetActorLocation().Y + vel * delta * sin(angle), alt));
-	vel /= 2;
+	vel /= 2;*/
+}
+
+void Amob::hitted()
+{
+	velmov = &velcor;
+	distrecor = 0;
+	vidas -= 1;
+	if (vidas == 0) {
+		Destroy();
+	}
 }
 
 // Called to bind functionality to input

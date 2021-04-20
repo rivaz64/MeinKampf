@@ -4,6 +4,8 @@
 #include "BaseItemBlock_CPP.h"
 #include "BaseBlock_CPP.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include"terreno.h"
 #include "MinecraftCharacter.h"
 
 ABaseItemBlock_CPP::ABaseItemBlock_CPP()
@@ -29,7 +31,7 @@ bool ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFa
 {
 	if (blockPointing != NULL)
 	{
-		FVector a = blockPointing->GetActorLocation() + NormalFace * 100;
+		FVector a = blockPointing->GetActorLocation()/100 + NormalFace;
 		PlaceBlock(&a, world);
 		return true;
 	}
@@ -39,5 +41,14 @@ bool ABaseItemBlock_CPP::UseItem(ABaseBlock_CPP* blockPointing, FVector NormalFa
 void ABaseItemBlock_CPP::PlaceBlock(FVector* pos, UWorld* world)
 {
 	FRotator rot = { 0,0,0 };
-	world->SpawnActor(BlockClass, pos, &rot);
+	//TSubclassOf<class ABaseBlock_CPP> BlockClass;
+	//BlockClass.GetDefaultObject()
+	//world->SpawnActor(BlockClass, pos, &rot);
+	TArray<AActor*> FoundActors;
+	ClassOf = Aterreno::StaticClass();
+	UGameplayStatics::GetAllActorsOfClass(world, ClassOf, FoundActors);
+	
+	if (FoundActors.Num() > 0) {
+		((Aterreno*)FoundActors[0])->createblockat(pos->X, pos->Y, pos->Z, BlockClass->GetDefaultObject<ABaseBlock_CPP>()->getid());
+	}
 }

@@ -33,5 +33,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)
 		TSubclassOf<class ABaseBlock_CPP> BlockClass;
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> ClassOf;
 
 };

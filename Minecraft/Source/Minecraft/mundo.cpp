@@ -387,6 +387,7 @@ void Amundo::destroyblockat(int x, int y)
 	x = tx;
 	y = ty;
 	destroyed[getchunk(x, y)][((x % int(sizex)) + int(sizex)) % int(sizex)][((y % int(sizey)) + int(sizey)) % int(sizey)] -= 1;
+	
 }
 
 int Amundo::power(int b, int e, int m)
@@ -411,6 +412,7 @@ bool Amundo::istree(volatile int x, volatile int y)
 		if (vx == treeloc + place / probtree && vy == treeloc + place % probtree)
 			return true;
 	}
+
 	return false;
 	/*if ((vx == treeloc && vy == treeloc)||( vx-1 == treeloc && vy == treeloc)||( vx == treeloc && vy-1 == treeloc)||( vx-1 == treeloc && vy-1 == treeloc)) {
 		if (vx - 1 == treeloc) {

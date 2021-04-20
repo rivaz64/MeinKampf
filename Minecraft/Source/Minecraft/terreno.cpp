@@ -4,7 +4,9 @@
 #include "terreno.h"
 #include "Kismet/GameplayStatics.h"
 #include <algorithm>
+#include "tree.h"
 #include<cmath>
+#include"mob.h"
 // Sets default values
 Aterreno::Aterreno()
 {
@@ -13,21 +15,24 @@ Aterreno::Aterreno()
 
 }
 
+int Aterreno::getcoord(FVector p)
+{
+	int x = p.X;
+	int y = p.Y;
+	int z = p.Z;
+	string cords = "x" + std::to_string(int(floor(float(x)/16.f))) + "y" + std::to_string(int(floor(float(y) / 16.f)));
+	return cubitos[cords][((x % 16)+16)%16][((y % 16) + 16) % 16][z];
+}
+
 // Called when the game starts or when spawned
 void Aterreno::BeginPlay()
 {
 	Super::BeginPlay();
 	spawner->building = &building;
 	createchuncks(0, 0);
+	
 }
 
-
-//cubes.insert({ "x" + std::to_string(x) + "y" + std::to_string(y) + "z" + std::to_string(z),GetWorld()->SpawnActor<AActor>(terra, trans) });
-void Aterreno::deleteblock(int x, int y, int z)
-{
-	//cubes["x" + std::to_string(x) + "y" + std::to_string(y) + "z" + std::to_string(z)]->Destroy();
-	//cubes.erase("x" + std::to_string(x) + "y" + std::to_string(y) + "z" + std::to_string(z));
-}
 
 void Aterreno::createchuncks(int x, int y)
 {
@@ -48,6 +53,7 @@ void Aterreno::createchuncks(int x, int y)
 			spawnchunk(lx, ly);
 		}
 	}
+	
 	for (string s : spawnedchunks) {
 		if (std::find(tempcoords.begin(), tempcoords.end(), s) == tempcoords.end()) {
 			spawner->deletechunk(s);
@@ -55,6 +61,9 @@ void Aterreno::createchuncks(int x, int y)
 	}//*/
 	spawnedchunks = tempcoords;
 	tempcoords = {};
+	if (rand() % 3 == 0) {
+		GetWorld()->SpawnActor<AActor>(ClassOfMob, FTransform(FVector(float((rand()%16+x*16)*100), float((rand() % 16 + y * 16) * 100), 1600.f)));
+	}
 }
 
 bool Aterreno::createchunck(int x, int y)
@@ -80,7 +89,7 @@ bool Aterreno::createchunck(int x, int y)
 				cubitos.insert({ cords,vector<vector<vector<int>>>() });
 				spawner->cubes.insert({ cords,map <string, AActor*>() });
 				listos.insert({ cords,false });
-				fat = generador->runtask(chunksize, &cubitos[cords], &listos[cords]);
+				fat = generador->runtask(chunksize, &cubitos[cords], &listos[cords],lx,ly);
 				tasks.push_back(fat);
 			}
 		}
@@ -88,6 +97,10 @@ bool Aterreno::createchunck(int x, int y)
 	for (FAsyncTask<task>* t : tasks) {
 		t->EnsureCompletion();
 	}
+	usingchunk(x,y);
+	generador->spawntrees(actualchunk);
+	
+	
 	return true;
 	
 
@@ -130,6 +143,9 @@ void sit::DoWork()
 	for (int Y = 0; Y < chunksize; Y++) {
 		for (int Z = 0; Z < chunksize; Z++) {
 			if ((*actualchunk)[X][Y][Z] != 0 && ter->checkifspawn(X + x * chunksize, Y + y * chunksize, Z)) {
+				/*if ((*actualchunk)[X][Y][Z] == 4) {
+					continue;
+				}*/
 				(*posis)[Z + Y * chunksize + X * chunksize * chunksize] = { X + x * chunksize, Y + y * chunksize, Z,(*actualchunk)[X][Y][Z]};
 			}
 		}
@@ -211,55 +227,52 @@ bool Aterreno::checkifspawn(int x, int y,volatile int z)
 	
 }
 
+void Aterreno::spawnafterdestory(volatile int x, volatile int y, volatile int z)
+{
+	usingchunk(std::floor(float(x) / float(chunksize)), std::floor(float(y) / float(chunksize)));
+	if (!checkifspawn(x, y, z)) {
+		spawner->posis.push({ { x, y, z,(*actualchunk)[((x % chunksize) + chunksize) % chunksize][((y % chunksize) + chunksize) % chunksize][z] }, });
+	}
+}
+
 void Aterreno::destroyblockat(int x, int y, int z)
 {
 	//FTransform trans;
 	building = true;
-	if (!checkifspawn(x + 1, y, z)) {
-		spawner->posis.push({ { x + 1, y, z } });
-	}
-	if (!checkifspawn(x-1 , y, z)) {
-		spawner->posis.push({ { x - 1, y, z } });
-	}
-	if (!checkifspawn(x, y+1, z)) {
-		spawner->posis.push({ { x, y + 1, z } });
-	}
-	if (!checkifspawn(x, y -1, z)) {
-		spawner->posis.push({ { x, y - 1, z } });
-	}
-	if (!checkifspawn(x, y, z+1)) {
-		spawner->posis.push({ {x, y, z + 1 } });
-	}
-	if (!checkifspawn(x, y, z - 1)) {
-		spawner->posis.push({ { x, y, z - 1 } });
-	}
-	usingchunk(std::floor(float(x) / float(chunksize)), std::floor(float(y - 1) / float(chunksize)));
+	
+	spawnafterdestory(x + 1, y, z);
+	spawnafterdestory(x - 1, y, z);
+	spawnafterdestory(x, y+1, z);
+	spawnafterdestory(x, y - 1, z);
+	spawnafterdestory(x, y, z+1);
+	spawnafterdestory(x, y ,z-1);
+	usingchunk(std::floor(float(x) / float(chunksize)), std::floor(float(y) / float(chunksize)));
 	(*actualchunk)[((x % chunksize) + chunksize) % chunksize][((y % chunksize) + chunksize) % chunksize][z] = 0;
 	//building = false;
 }
 
-void Aterreno::createblockat(int x, int y, int z)
+void Aterreno::createblockat(int x, int y, int z, int id)
 {
-	spawner->posis.push({ {x,y,z} });
+	spawner->posis.push({ {x,y,z,id} });
 	usingchunk(std::floor(float(x) / float(chunksize)), std::floor(float(y - 1) / float(chunksize)));
-	(*actualchunk)[((x % chunksize) + chunksize) % chunksize][((y % chunksize) + chunksize) % chunksize][z] = 1;
+	(*actualchunk)[((x % chunksize) + chunksize) % chunksize][((y % chunksize) + chunksize) % chunksize][z] = id;
 	if (!checkifspawn(x + 1, y, z)) {
-		spawner->deletes.push({ x + 1, y, z });
+		spawner->deletes.push({ x + 1, y, z,id });
 	}
 	if (!checkifspawn(x - 1, y, z)) {
-		spawner->deletes.push({ x - 1, y, z });
+		spawner->deletes.push({ x - 1, y, z,id });
 	}
 	if (!checkifspawn(x, y + 1, z)) {
-		spawner->deletes.push({ x , y + 1, z });
+		spawner->deletes.push({ x , y + 1, z,id });
 	}
 	if (!checkifspawn(x, y - 1, z)) {
-		spawner->deletes.push({ x , y - 1, z });
+		spawner->deletes.push({ x , y - 1, z,id });
 	}
 	if (!checkifspawn(x, y, z + 1)) {
-		spawner->deletes.push({ x , y, z + 1 });
+		spawner->deletes.push({ x , y, z + 1,id });
 	}
 	if (!checkifspawn(x, y, z - 1)) {
-		spawner->deletes.push({ x , y, z - 1 });
+		spawner->deletes.push({ x , y, z - 1,id });
 	}
 	if (!building) {
 		building = true;
@@ -289,7 +302,7 @@ void Aterreno::Tick(float DeltaTime)
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 	if (FoundActors.Num()) {
-		if (floor(FoundActors[0]->GetActorLocation().X / (chunksize * 100)) != isinchunckx || round(FoundActors[0]->GetActorLocation().Y / (chunksize * 100)) != isinchuncky) {
+		if (floor(FoundActors[0]->GetActorLocation().X / (chunksize * 100)) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / (chunksize * 100)) != isinchuncky) {
 
 			isinchunckx = floor(FoundActors[0]->GetActorLocation().X / (chunksize * 100));
 			isinchuncky = floor(FoundActors[0]->GetActorLocation().Y / (chunksize * 100));

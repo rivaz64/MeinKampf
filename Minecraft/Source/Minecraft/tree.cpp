@@ -54,6 +54,13 @@ void Atree::BeginPlay()
 
 }
 
+void Atree::spawn(int x, int y, int z, vector<vector<vector<int>>>* chunk)
+{
+	for (int i = 0; i < 5; i++) {
+		(*chunk)[x][y][z + i] = 4;
+	}
+}
+
 // Called every frame
 void Atree::Tick(float DeltaTime)
 {

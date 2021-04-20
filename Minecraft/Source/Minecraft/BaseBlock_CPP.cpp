@@ -9,7 +9,8 @@
 #include "Engine/World.h"
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
-#include"mundo.h"
+//#include"mundo.h"
+#include "terreno.h"
 #include "BaseItemBlock_CPP.h"
 #include "BaseItemTool_CPP.h"
 
@@ -275,9 +276,13 @@ void ABaseBlock_CPP::Breaked()
 	
 	FVector a = GetActorLocation();
 	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Aterreno::StaticClass(), FoundActors);
+	((Aterreno*)FoundActors[0])->destroyblockat(GetActorLocation().X / 100, GetActorLocation().Y / 100, GetActorLocation().Z / 100);
+
+	/*TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), Amundo::StaticClass(), FoundActors);
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, (std::to_string(a.X) + ", " + std::to_string(a.Y)).c_str());
-	((Amundo*)FoundActors[0])->destroyblockat((int)a.X / 100, (int)a.Y / 100);
+	((Amundo*)FoundActors[0])->destroyblockat((int)a.X / 100, (int)a.Y / 100);*/
 	isAlive = false;
 	//Destroy();
 }

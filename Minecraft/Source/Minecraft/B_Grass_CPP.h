@@ -15,6 +15,8 @@ class MINECRAFT_API AB_Grass_CPP : public ABaseBlock_CPP
 	GENERATED_BODY()
 
 public:
+	int id = 1;
+	int getid();
 	AB_Grass_CPP();
 	
 };

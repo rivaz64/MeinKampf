@@ -26,6 +26,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> hojas;
 	vector<void*> cubes;
+	static void spawn(int x, int y, int z,  vector<vector<vector<int>>>* chunk);
 	virtual void Tick(float DeltaTime) override;
 	virtual void Destroy();
 	~Atree();

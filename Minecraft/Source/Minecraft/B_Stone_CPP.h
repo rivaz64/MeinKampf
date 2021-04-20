@@ -16,4 +16,6 @@ class MINECRAFT_API AB_Stone_CPP : public ABaseBlock_CPP
 	
 public:
 	AB_Stone_CPP();
+	int getid();
+	int id = 3;
 };

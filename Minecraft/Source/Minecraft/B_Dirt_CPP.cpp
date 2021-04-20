@@ -18,3 +18,8 @@ void AB_Dirt_CPP::Tick(float DeltaTime)
 
 
 }
+
+int AB_Dirt_CPP::getid()
+{
+	return 2;
+}

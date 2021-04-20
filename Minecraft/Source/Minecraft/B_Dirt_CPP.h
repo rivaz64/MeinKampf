@@ -19,5 +19,6 @@ public:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+	int getid();
+	int id = 2;
 };

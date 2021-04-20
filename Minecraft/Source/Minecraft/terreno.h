@@ -35,10 +35,13 @@ public:
 	vector<vector<vector<int>>>* actualchunk;
 	map <string, AActor*>cubes;
 	vector<string>spawnedchunks;
+	int getcoord(FVector p);
 	mutex lok;
 	bool building;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> ClassOfPlayer;
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> ClassOfMob;
 	int isinchunckx = 0;
 	int isinchuncky = 0;
 	UPROPERTY(EditAnywhere)
@@ -52,15 +55,15 @@ protected:
 
 public:	
 	// Called every frame
-	void deleteblock(int x, int y, int z);
 	void createchuncks(int x,int y);
 	bool createchunck(int x, int y);
 	void spawnchunk(int x, int y);
 	void usingchunk(int x, int y);
 	void usingchunk(int x, int y, vector<vector<vector<int>>>** tc);
 	bool checkifspawn( int x,  int y,  int z);
+	void spawnafterdestory(int x, int y, int z);
 	void destroyblockat(int x,int y,int z);
-	void createblockat(int x, int y, int z);
+	void createblockat(int x, int y, int z,int id);
 	bool checkifready(vector<vector<vector<int>>>* ch, int x, int y);
 	virtual void Tick(float DeltaTime) override;
 

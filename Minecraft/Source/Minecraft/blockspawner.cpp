@@ -36,6 +36,7 @@ void Ablockspawner::Tick(float DeltaTime)
 			for (vector<int> a : posis.front()) {
 				if (a.size() == 4) {
 					trans = FTransform(FVector(a[0], a[1], a[2]) * 100);
+					
 					cubes["x" + std::to_string(int(floor(float(a[0]) / 16.f))) + "y" + std::to_string(int(floor(float(a[1]) / 16.f)))].insert({ "x" + std::to_string(a[0]) + "y" + std::to_string(a[1]) + "z" + std::to_string(a[2]),GetWorld()->SpawnActor<AActor>(capas[a[3]-1], trans) });
 				}
 			}

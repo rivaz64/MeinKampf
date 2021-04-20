@@ -21,25 +21,36 @@ protected:
 
 public:
 	// Called every frame
+	bool falling=true;
+	bool mov = false;
+	float* actual,*velmov;
+	int distrec = 0;
+	int distrecor = 0;
+	FVector dir = FVector(0, 0, 0);
+	FRotator rot;
+	FVector dirs[4] = { FVector(0, 1, 0),FVector(1, 0, 0),FVector(0, -1, 0),FVector(-1, 0, 0) };
+	FRotator rots[4]= { FRotator(0, 0, 0),FRotator(0, -90, 0),FRotator(0, 180, 0),FRotator(0, 90, 0) };
+
+	int ndir=0;
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere)
-		float velcam = 1;
+		float gravity = 216;
 	UPROPERTY(EditAnywhere)
-		float velcor = 2;
+		float velcam = 36;
 	UPROPERTY(EditAnywhere)
-		float angle = 90;
+		float camdist = 6;
 	UPROPERTY(EditAnywhere)
-		float altu = 0;
+		float waitime = 3;
 	UPROPERTY(EditAnywhere)
-		float durcor = 5;
+		float velcor = 432;
 	UPROPERTY(EditAnywhere)
-		float durcam = 6;
+		float cordist = 36;
 	UPROPERTY(EditAnywhere)
-		float durcomer = 2;
+		float vidas = 3;
 	UPROPERTY(EditAnywhere)
 		bool uyendo = false;
 	UPROPERTY(EditAnywhere)
-		bool atakado = false;
+		bool hit = false;
 	UPROPERTY(EditAnywhere)
 		float dondedetecta = 0;
 	UPROPERTY(EditAnywhere)
@@ -57,6 +68,7 @@ public:
 	virtual void choiserotation();
 	virtual void choiseaction();
 	virtual void choka();
+	void hitted();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

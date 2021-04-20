@@ -95,7 +95,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		bool isAlive = true;
-
+	virtual int getid() { return 0; };
+	int id;
 protected:
 	float MaxLife = 1;
 	float Life = 1;

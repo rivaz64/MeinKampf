@@ -11,3 +11,8 @@ AB_Stone_CPP::AB_Stone_CPP()
 	MaxLife = 3;
 	Life = 3;
 }
+
+int AB_Stone_CPP::getid()
+{
+	return 3;
+}

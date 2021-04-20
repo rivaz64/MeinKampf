@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 void Afollower::choiserotation()
 {
-	TArray<AActor*> FoundActors;
+	/*TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
 	if (FoundActors.Num() == 0) {
 		return;
@@ -51,17 +51,17 @@ void Afollower::choiserotation()
 			else
 				angle = 180;
 		}
-	}
+	}*/
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%f"), angle));
 }
 
 void Afollower::choka()
 {
-	angle += 90;
+	/*angle += 90;
 	vel *= 2;
 	SetActorLocation(FVector(GetActorLocation().X + vel * delta * cos(angle), GetActorLocation().Y + vel * delta * sin(angle), alt));
-	vel /= 2;
+	vel /= 2;*/
 }
 
 /*void Afollower::choiseaction()
