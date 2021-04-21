@@ -49,7 +49,6 @@ void Aterreno::createchuncks(int x, int y)
 			
 			createchunck(lx, ly);
 			tempcoords.push_back("x" + std::to_string(lx) + "y" + std::to_string(ly));
-			
 			spawnchunk(lx, ly);
 		}
 	}
@@ -61,8 +60,18 @@ void Aterreno::createchuncks(int x, int y)
 	}//*/
 	spawnedchunks = tempcoords;
 	tempcoords = {};
+	usingchunk(x, y);
 	if (rand() % 3 == 0) {
-		GetWorld()->SpawnActor<AActor>(ClassOfMob, FTransform(FVector(float((rand()%16+x*16)*100), float((rand() % 16 + y * 16) * 100), 1600.f)));
+		int sx = rand() % 16;
+		int sy = rand() % 16;
+		int si;
+		for (si = 0; si < 16; si++) {
+			if ((*actualchunk)[sx][sy][si] == 0) {
+				break;
+			}
+		}
+		si += 1;
+		GetWorld()->SpawnActor<AActor>(ClassOfMob, FTransform(FVector(float((sx+x*16)*100), float((sy + y * 16) * 100), si*100.f)));
 	}
 }
 
@@ -71,6 +80,8 @@ bool Aterreno::createchunck(int x, int y)
 	string cords = "x" + std::to_string(x) + "y" + std::to_string(y);
 	bool vf = true;
 	int lx, ly;
+	vector<bool> ya;
+	
 	FAsyncTask<task>* fat;
 	vector<FAsyncTask<task>*> tasks;
 	for (int i = 0; i < 3; i++) {
@@ -85,6 +96,7 @@ bool Aterreno::createchunck(int x, int y)
 					break;
 				}
 			}
+			ya.push_back(vf);
 			if (vf) {
 				cubitos.insert({ cords,vector<vector<vector<int>>>() });
 				spawner->cubes.insert({ cords,map <string, AActor*>() });
@@ -97,8 +109,17 @@ bool Aterreno::createchunck(int x, int y)
 	for (FAsyncTask<task>* t : tasks) {
 		t->EnsureCompletion();
 	}
-	usingchunk(x,y);
-	generador->spawntrees(actualchunk);
+	for (int i = 0; i < 3; i++) {
+		for (int o = 0; o < 3; o++) {
+			if (ya[i * 3 + o]) {
+				lx = x + (i + 1) % 3 - 1;
+				ly = y + (o + 1) % 3 - 1;
+				usingchunk(lx, ly);
+				generador->spawntrees(actualchunk);
+			}
+		}
+	}
+	
 	
 	
 	return true;

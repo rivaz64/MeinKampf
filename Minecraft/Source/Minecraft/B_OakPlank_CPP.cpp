@@ -10,3 +10,8 @@ AB_OakPlank_CPP::AB_OakPlank_CPP()
 	MaxLife = 1;
 	Life = 1;
 }
+
+int AB_OakPlank_CPP::getid()
+{
+	return 5;
+}

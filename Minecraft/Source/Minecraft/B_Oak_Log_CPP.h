@@ -16,4 +16,5 @@ class MINECRAFT_API AB_Oak_Log_CPP : public ABaseBlock_CPP
 
 public:
 	AB_Oak_Log_CPP();
+	int getid();
 };
