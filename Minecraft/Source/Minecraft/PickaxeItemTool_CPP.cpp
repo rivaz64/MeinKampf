@@ -3,3 +3,7 @@
 
 #include "PickaxeItemTool_CPP.h"
 
+APickaxeItemTool_CPP::APickaxeItemTool_CPP()
+{
+	eToolType = PICKAXE;
+}

@@ -14,4 +14,6 @@ class MINECRAFT_API APickaxeItemTool_CPP : public ABaseItemTool_CPP
 {
 	GENERATED_BODY()
 	
+public:
+	APickaxeItemTool_CPP();
 };

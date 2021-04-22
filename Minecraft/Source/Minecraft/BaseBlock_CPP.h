@@ -91,12 +91,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		class UMaterialInterface* BackMaterial;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
+		TSubclassOf<class UUserWidget> InsideMenuClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BlockInfo)
+		class UUserWidget* InsideMenu;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		bool isAlive = true;
 	virtual int getid() { return 0; };
 	int id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool OpenWidget = false;
 protected:
 	float MaxLife = 1;
 	float Life = 1;

@@ -6,6 +6,7 @@
 ABaseItemTool_CPP::ABaseItemTool_CPP()
 {
 	eItemType = TOOL;
+	eMaterialType = WOOD;
 	Durablity = 59;
 	MaxDurablity = 59;
 	MaxStack = 1;
