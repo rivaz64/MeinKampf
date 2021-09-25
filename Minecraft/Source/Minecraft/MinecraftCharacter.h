@@ -13,6 +13,7 @@ class UCameraComponent;
 class UMotionControllerComponent;
 class UAnimMontage;
 class USoundBase;
+class AChunkRenderer;
 
 UCLASS(config=Game)
 class AMinecraftCharacter : public ACharacter
@@ -52,6 +53,10 @@ class AMinecraftCharacter : public ACharacter
 	UMotionControllerComponent* L_MotionController;
 
 public:
+
+	UPROPERTY(EditAnywhere)
+		AChunkRenderer* m_world;
+
 	AMinecraftCharacter();
 
 protected:
@@ -172,6 +177,6 @@ public:
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
+	
 };
 

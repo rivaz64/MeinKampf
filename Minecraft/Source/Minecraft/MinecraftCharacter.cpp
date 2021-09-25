@@ -14,10 +14,10 @@
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 #include <string>
-
+#include "ChunckMesh.h"
 #include "HUD_W_CPP.h"
 #include "Inventory_W_CPP.h"
-
+#include "ChunkRenderer.h"
 #include "B_Grass_CPP.h"
 
 
@@ -154,7 +154,20 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		false, .1f, 0,
 		1
 	);*/
-
+	auto chunk = Cast< AChunckMesh>(Hit.Actor);
+	if (chunk != NULL)
+	{
+		if (Hitting)
+		{
+			//PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
+		  
+			m_world->destroingAt(Hit.Location,Hit.Normal,DeltaTime);
+		}
+		else{
+			m_world->desPoint();
+		}
+	}
+	/*
 	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);
 
 	if (Block != NULL)
@@ -196,7 +209,7 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	if (hited)
 	{
 		PointingNormal = Hit.ImpactNormal;
-	}
+	}*/
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> item, uint8 count)

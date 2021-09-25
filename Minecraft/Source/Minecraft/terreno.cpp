@@ -29,7 +29,7 @@ void Aterreno::BeginPlay()
 {
 	Super::BeginPlay();
 	spawner->building = &building;
-	createchuncks(0, 0);
+	//createchuncks(0, 0);
 	
 }
 
@@ -320,7 +320,7 @@ bool Aterreno::checkifready(vector<vector<vector<int>>>* tempchunk, int x, int y
 void Aterreno::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	TArray<AActor*> FoundActors;
+	/*TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / (chunksize * 100)) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / (chunksize * 100)) != isinchuncky) {
@@ -330,7 +330,7 @@ void Aterreno::Tick(float DeltaTime)
 
 			createchuncks(isinchunckx, isinchuncky);
 		}
-	}
+	}*/
 }
 
 
