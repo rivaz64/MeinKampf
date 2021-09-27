@@ -7,10 +7,13 @@
 #include "B_grass.h"
 #include "B_stone.h"
 #include "B_bedrock.h"
+#include "B_cobblestone.h"
+#include "ItemDroped_CPP.h"
+#include "BaseGrassItemBlock_CPP.h"
 using std::vector;
 float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
-vector<Block*> bloks = { new B_grass,new B_stone, new B_bedRock };
+vector<Block*> bloks = { new B_grass,new B_stone, new B_bedRock, new B_cobblestone };
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -229,10 +232,22 @@ void AChunckMesh::Tick(float DeltaTime)
 
 }
 
-void AChunckMesh::destroyBlock(int px, int py, int pz)
+char AChunckMesh::destroyBlock(int px, int py, int pz)
 {
-	c->data[px * 256 + py * 16 + pz] = 0;
-	
+	int location = px * 256 + py * 16 + pz;
+	FTransform trans(GetActorLocation()+FVector(px,py,pz)*100.f+FVector(50,50,50));
+  //AItemDroped_CPP* a = (AItemDroped_CPP*)GetWorld()->SpawnActor<AActor>(item, trans);
+	//a->Item = bloks[c->data[location]-1]->item;
+	char ans = c->data[location];
+	c->data[location] = 0;
+	return bloks[ans-1]->breaked;
+}
+
+char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
+{
+	int location = px * 256 + py * 16 + pz;
+	c->data[location] = tipe;
+	return 0;
 }
 
 float AChunckMesh::lifeOf(int px, int py, int pz)

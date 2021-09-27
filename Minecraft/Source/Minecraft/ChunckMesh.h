@@ -49,7 +49,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void destroyBlock(int x,int y,int z);
+	char destroyBlock(int x,int y,int z);
+	char placeBlock(int x,int y,int z,char tipe);
 	void destroingAt(FVector pos, FVector nor);
 	float lifeOf(int x,int y,int z);
+	TSubclassOf<AActor> item;
 };

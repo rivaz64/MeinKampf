@@ -5,7 +5,9 @@
 #include <algorithm>
 #include "BreakingQuad.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "ItemDroped_CPP.h"
+#include "BaseGrassItemBlock_CPP.h"
+//#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
 //std::vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
 			
@@ -34,6 +36,7 @@ void AChunkRenderer::BeginPlay()
 	Chunk::savedData = new HashTable2d(512);
 	//((AChunckMesh*)me)->c.generate(0, 0);
 	spawnChuncks(0, 0, 2);
+	//AChunckMesh::item = item;
 }
 
 
@@ -45,6 +48,7 @@ void AChunkRenderer::spawnChuncks(int x,int y, int dis)
 			if (!world->getNodeAt(i, o)) {
 				FTransform trans = FTransform(FVector(i * 1600, o * 1600, 0));
 				world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), i, o);
+				
 			}
 		}
 	}
@@ -106,6 +110,24 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 		
 }
 
+void AChunkRenderer::placeBlock(FVector pos, FVector nor)
+{
+	if(actualBlock==-1){
+		return;
+	}
+	pos.X = int((pos.X + nor.X) / 100.f);
+	pos.Y = int((pos.Y + nor.Y) / 100.f);
+	pos.Z = int((pos.Z + nor.Z) / 100.f);
+	auto actualChunk = ((AChunckMesh*)world->getNodeAt(pos.X / 16, pos.Y / 16));
+	world->eraseAt(pos.X / 16, pos.Y / 16);
+	actualChunk->item = item;
+	actualBlock = actualChunk->placeBlock((int)pos.X % 16, (int)pos.Y% 16, (int)pos.Z% 16,actualBlock);
+	actualChunk->Destroy();
+	FTransform trans = FTransform(FVector(((int)pos.X / 16) * 1600, ((int)pos.Y/ 16) * 1600, 0));
+	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), ((int)pos.X / 16), ((int)pos.Y/ 16));
+	actualBlock = -1;
+}
+
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)
 {
@@ -131,16 +153,19 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(pos.X / 16, pos.Y / 16));
 	world->eraseAt(pos.X / 16, pos.Y / 16);
-	actualChunk->destroyBlock((int)pos.X % 16, (int)pos.Y% 16, (int)pos.Z% 16);
+	actualChunk->item = item;
+	actualBlock = actualChunk->destroyBlock((int)pos.X % 16, (int)pos.Y% 16, (int)pos.Z% 16);
 	actualChunk->Destroy();
 	FTransform trans = FTransform(FVector(((int)pos.X / 16) * 1600, ((int)pos.Y/ 16) * 1600, 0));
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), ((int)pos.X / 16), ((int)pos.Y/ 16));
+	
 	}
 
 void AChunkRenderer::desPoint()
 {
 	if(actualQuad != nullptr ){
 		actualQuad->Destroy();
+		actualQuad = nullptr;
 	}
 	step = 0;
 	life = 0;

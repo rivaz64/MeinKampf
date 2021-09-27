@@ -2,7 +2,7 @@
 
 
 #include "B_grass.h"
-
+#include "BaseGrassItemBlock_CPP.h"
 B_grass::B_grass()
 {
   textures[0] = FVector2D(3, 0);
@@ -12,6 +12,8 @@ B_grass::B_grass()
   textures[4] = FVector2D(3, 0);
   textures[5] = FVector2D(0, 0);
   life = 1;
+  breaked = 1;
+  item = ABaseGrassItemBlock_CPP::StaticClass();
 }
 
 B_grass::~B_grass()

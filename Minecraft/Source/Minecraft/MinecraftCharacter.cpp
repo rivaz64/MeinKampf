@@ -166,6 +166,9 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		else{
 			m_world->desPoint();
 		}
+		if(interacting){
+			m_world->placeBlock(Hit.Location,Hit.Normal);
+		}
 	}
 	/*
 	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);
@@ -234,6 +237,7 @@ void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AMinecraftCharacter::StopFire);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMinecraftCharacter::Interact);
+	PlayerInputComponent->BindAction("Interact", IE_Released, this, &AMinecraftCharacter::Interact);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -271,7 +275,7 @@ void AMinecraftCharacter::StopFire()
 void AMinecraftCharacter::Interact()
 {
 	//TSubclassOf<class ABaseItem_CPP> Item = (*HUD)[HUDSlotActive];
-	TSubclassOf<class ABaseItem_CPP> Item = HUDWidget->GetItem(HUDSlotActive);
+	/*TSubclassOf<class ABaseItem_CPP> Item = HUDWidget->GetItem(HUDSlotActive);
 
 	static bool CanUseItem = true;
 	if (PointingBlock != NULL)
@@ -284,7 +288,8 @@ void AMinecraftCharacter::Interact()
 		if (Item->GetDefaultObject<ABaseItem_CPP>()->UseItem(PointingBlock, PointingNormal, GetWorld()))
 			InventoryWidget->SubstractItem(1, HUDSlotActive);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "CanUseItemInBlock");
-	}
+	}*/
+	interacting = !interacting;
 }
 
 void AMinecraftCharacter::OnResetVR()

@@ -12,6 +12,7 @@ B_stone::B_stone()
   textures[4] = FVector2D(1, 0);
   textures[5] = FVector2D(1, 0);
   life = .5;
+  breaked = 4;
 }
 
 B_stone::~B_stone()

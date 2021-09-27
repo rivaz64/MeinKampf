@@ -31,8 +31,11 @@ protected:
 		TArray<TSubclassOf<AActor>> quad;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> ClassOfPlayer;
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> item;
 	int isinchunckx = 0;
 	int isinchuncky = 0;
+	char actualBlock;
 	//int actualStep = -1;
 	void spawnChuncks(int x, int y, int dis);
 	void despawnChunks(int x, int y, int dis);
@@ -49,5 +52,5 @@ public:
 	void destroyBlock(FVector pos);
 	void desPoint();
 	void destroingAt(FVector pos, FVector nor, float delta);
-	
+	void placeBlock(FVector pos, FVector nor);
 };

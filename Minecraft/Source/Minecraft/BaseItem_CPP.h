@@ -80,4 +80,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool Singled;
 
+	
+
 };
