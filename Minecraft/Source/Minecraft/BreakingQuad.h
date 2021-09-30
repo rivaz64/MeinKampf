@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "C:\UE_4.26\Engine\Plugins/Runtime/ProceduralMeshComponent/Source/ProceduralMeshComponent/Public/ProceduralMeshComponent.h"
+#include "ProceduralMeshComponent.h"
 
 #include "Materials/MaterialInterface.h"
 #include "BreakingQuad.generated.h"

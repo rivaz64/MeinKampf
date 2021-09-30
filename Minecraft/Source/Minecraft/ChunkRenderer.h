@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "C:\UE_4.26\Engine\Plugins/Runtime/ProceduralMeshComponent/Source/ProceduralMeshComponent/Public/ProceduralMeshComponent.h"
+#include "ProceduralMeshComponent.h"
 #include "ChunckMesh.h"
 #include "HashTable2d.h"
 #include "ChunkRenderer.generated.h"
