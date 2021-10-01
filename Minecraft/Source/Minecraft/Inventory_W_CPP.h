@@ -23,6 +23,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count);
 	UFUNCTION(BlueprintCallable)
+		bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+	UFUNCTION(BlueprintCallable)
 		void SubstractItem(uint8 sub, uint8 slot_num);
 	UFUNCTION(BlueprintCallable)
 		void SetHUD(class UHUD_W_CPP* _hud);

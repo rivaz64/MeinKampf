@@ -171,7 +171,9 @@ protected:
 public:
 
 	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 count);
+		bool AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count);
+	UFUNCTION(BlueprintCallable)
+		bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
 
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }

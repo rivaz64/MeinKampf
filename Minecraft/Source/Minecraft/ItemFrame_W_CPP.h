@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count);
 	UFUNCTION(BlueprintCallable)
+		bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+	UFUNCTION(BlueprintCallable)
 		void SubstractItem(uint8 sub);
 	UFUNCTION(BlueprintCallable)
 		bool UpdateItems(TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count);

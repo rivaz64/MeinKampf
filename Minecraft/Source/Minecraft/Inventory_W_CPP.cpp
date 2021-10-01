@@ -22,6 +22,23 @@ bool UInventory_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _co
 	}
 	return false;
 }
+bool UInventory_W_CPP::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount)
+{
+	for (int i = 0; i < Slots.Num(); i++)
+	{
+		if (Slots[i]->AddItemR(_item, _count, _oCount))
+		{
+			if (i < 9)
+			{
+				HUD->UpdateItems(i, Slots[i]->GetItem(), Slots[i]->GetCount());
+			}
+			return true;
+		}
+
+		_count = _oCount;
+	}
+	return false;
+}
 
 void UInventory_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
 {
