@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ProceduralMeshComponent.h"
+#include "C:\UE_4.26\Engine\Plugins/Runtime/ProceduralMeshComponent/Source/ProceduralMeshComponent/Public/ProceduralMeshComponent.h"
 #include "ChunckMesh.h"
 #include "HashTable2d.h"
 #include "ChunkRenderer.generated.h"
@@ -38,7 +38,7 @@ protected:
 	char actualBlock;
 	//int actualStep = -1;
 	void spawnChuncks(int x, int y, int dis);
-	void despawnChunks(int x, int y, int dis);
+	void despawnChunks(int x, int y, int dis,int dir);
 	HashTable2d* world=nullptr;
 	int step = 0;
 	AActor *actualQuad=nullptr;

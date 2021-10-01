@@ -15,16 +15,19 @@ public:
 	Chunk* right=NULL;
 	Chunk* front = NULL;
 	Chunk* back = NULL;
-	float rand2d(float x, float y);
+	bool generated = false;
+	static float rand2d(float x, float y);
 	unsigned char* data;
 	FVector position;
-	float lerp(float a, float b, float t);
-	float perlinNoise2D(float x,float y);
+	static float lerp(float a, float b, float t);
+	static float perlinNoise2D(float x,float y);
 	Chunk();
 	~Chunk();
 	void generate(int x, int y);
 	static HashTable2d* savedData;
+	static void createChunkAt(int x,int y);
 	static void generateChunkAt(int x, int y);
 	static Chunk* getChunkAt(int x, int y);
-
+	static void spawnTreeAt(int x,int y);
+	static void spawnBlockAt(int x,int y,int z, char type);
 };

@@ -8,12 +8,14 @@
 #include "B_stone.h"
 #include "B_bedrock.h"
 #include "B_cobblestone.h"
+#include "B_wood.h"
+#include "B_leaves.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
 float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
-vector<Block*> bloks = { new B_grass,new B_stone, new B_bedRock, new B_cobblestone };
+vector<Block*> bloks = { new B_grass,new B_stone, new B_bedRock, new B_cobblestone, new B_wood ,new B_leaves };
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -195,7 +197,8 @@ bool AChunckMesh::checkFace(FVector& pos, FVector f)
 	if (checkPos.Y > 15) {
 		return ((Chunk*)Chunk::savedData->getNodeAt(x, y+1))->data[int(checkPos.X * 256 + checkPos.Z)] == 0;
 	}
-	return c->data[int(checkPos.X * 256 + checkPos.Y * 16 + checkPos.Z)] == 0;
+	char data = c->data[int(checkPos.X * 256 + checkPos.Y * 16 + checkPos.Z)];
+	return data == 0 || data == 6;
 }
 
 void AChunckMesh::addTextures(int dim, int dir, FVector2D texpos)
@@ -218,6 +221,12 @@ void AChunckMesh::addTextures(int dim, int dir, FVector2D texpos)
 		texturesinorder[0] = texturesinorder[3];
 		texturesinorder[3] = temp;
 	}
+
+	if (dim == 2 && dir == 1) {
+		FVector2D temp = texturesinorder[0];
+		texturesinorder[0] = texturesinorder[3];
+		texturesinorder[3] = temp;
+	}
 	for (int i = start; i < start + 4 * d; i += d) {
 		UV0.Add(texturesinorder[i % 4]);
 	}
@@ -232,13 +241,10 @@ void AChunckMesh::Tick(float DeltaTime)
 
 }
 
-char AChunckMesh::destroyBlock(int px, int py, int pz)
+char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
 {
 	int location = px * 256 + py * 16 + pz;
-	FTransform trans(GetActorLocation()+FVector(px,py,pz)*100.f+FVector(50,50,50));
-  //AItemDroped_CPP* a = (AItemDroped_CPP*)GetWorld()->SpawnActor<AActor>(item, trans);
-	//a->Item = bloks[c->data[location]-1]->item;
-	char ans = c->data[location];
+	volatile char ans = c->data[location];
 	c->data[location] = 0;
 	return bloks[ans-1]->breaked;
 }

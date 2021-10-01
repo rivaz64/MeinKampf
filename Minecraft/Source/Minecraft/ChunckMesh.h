@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ProceduralMeshComponent.h"
+#include "C:\UE_4.26\Engine\Plugins/Runtime/ProceduralMeshComponent/Source/ProceduralMeshComponent/Public/ProceduralMeshComponent.h"
 #include "Chunk.h"
 #include "Materials/MaterialInterface.h"
 #include "ChunckMesh.generated.h"
@@ -49,7 +49,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	char destroyBlock(int x,int y,int z);
+	char destroyBlock( volatile int x,int y,int z);
 	char placeBlock(int x,int y,int z,char tipe);
 	void destroingAt(FVector pos, FVector nor);
 	float lifeOf(int x,int y,int z);

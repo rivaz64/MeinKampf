@@ -42,6 +42,7 @@ float Chunk::perlinNoise2D(float x, float y)
 Chunk::Chunk()
 {
 	data = new unsigned char[size * size * height];
+	memset(data,0,sizeof(char)*size * size * height);
 }
 
 Chunk::~Chunk()
@@ -66,19 +67,60 @@ void Chunk::generate(int x,int y)
 		else if (actAlt < alt) {
 			data[i] = 1;
 		}
-		else {
-			data[i] = 0;
+	}
+	int pos = abs(rand2d(x,y))*25;
+	int posx = 5+pos/5;
+	int posy = 5+pos%5;
+	alt = abs(fmod(perlinNoise2D(float(posx)/16.f+x, float(posy)/16.f+y),1))*8+2;
+	for(int i=0;i<5;++i){
+		data[posx*256+posy*16+alt+i]=5;
+	}
+	for(int i=0;i<3;++i){
+		for(int o=0;o<3;++o){
+			if(i==1 || o==1){
+				data[(posx-1+i)*256+(posy-1+o)*16+alt+5]=6;
+			}
+			if(!(i==1 && o==1)){
+				data[(posx-1+i)*256+(posy-1+o)*16+alt+4]=6;
+			}
 		}
+	}
+	for(int i=0;i<5;++i){
+		for(int o=0;o<5;++o){
+			if(!(i==2 && o==2)){
+				data[(posx-2+i)*256+(posy-2+o)*16+alt+2]=6;
+				if(!((i==0 && o==0)||(i==4 && o==0)||(i==0 && o==4)||(i==4 && o==4))){
+					data[(posx-2+i)*256+(posy-2+o)*16+alt+3]=6;
+				}
+			}
+		}
+	}
+	generated = true;
+}
+
+void Chunk::createChunkAt(int x, int y)
+{
+	auto* data = savedData->getNodeAt(x, y);
+	if (!data) {
+		auto* ch = new Chunk;
+		savedData->insert(ch, x, y);
 	}
 }
 
 void Chunk::generateChunkAt(int x, int y)
 {
-	auto* data = savedData->getNodeAt(x, y);
-	if (!data) {
-		auto* ch = new Chunk;
-		ch->generate(x, y);
-		savedData->insert(ch, x, y);
+	createChunkAt(x, y);
+	createChunkAt(x+1, y);
+	createChunkAt(x-1, y);
+	createChunkAt(x, y+1);
+	createChunkAt(x, y-1);
+	auto* data = (Chunk*)savedData->getNodeAt(x, y);
+	if (!data->generated) {
+		data->generate(x, y);
+		/*int pos = abs(rand2d(x,y))*25;
+		int posx = pos/5-2;
+		int posy = pos%5-2;
+		spawnTreeAt(x*16+posx,y*16+posy);*/
 	}
 }
 
@@ -90,4 +132,42 @@ Chunk* Chunk::getChunkAt(int x, int y)
 	generateChunkAt(x, y+1);
 	generateChunkAt(x, y-1);
 	return (Chunk*)savedData->getNodeAt(x, y);
+}
+
+void Chunk::spawnTreeAt(int x, int y)
+{
+	unsigned int alt = abs(fmod(perlinNoise2D(float(x)/16.f+x, float(y)/16.f+y),1))*8+2;
+	for(int i=0;i<5;++i){
+		spawnBlockAt(x,y,alt+i,5);
+	}
+	for(int i=0;i<3;++i){
+		for(int o=0;o<3;++o){
+			if(i==1 || o==1){
+				spawnBlockAt(x-1+i,y-1+o,alt+5,6);
+			}
+			if(!(i==1 && o==1)){
+				spawnBlockAt(x-1+i,y-1+o,alt+4,6);
+			}
+		}
+	}
+	for(int i=0;i<5;++i){
+		for(int o=0;o<5;++o){
+			if(!(i==2 && o==2)){
+				spawnBlockAt(x-2+i,y-2+o,alt+2,6);
+				if(!((i==0 && o==0)||(i==4 && o==0)||(i==0 && o==4)||(i==4 && o==4))){
+					spawnBlockAt(x-2+i,y-2+o,alt+3,6);
+				}
+			}
+		}
+	}
+}
+
+void Chunk::spawnBlockAt(int x,int y,int z, char type){
+	createChunkAt(floor(float(x)/16.f),floor(float(y)/16.f));
+	Chunk* actual = (Chunk*)savedData->getNodeAt(floor(float(x)/16.f),floor(float(y)/16.f));
+	
+	if(actual){
+		actual->data[((x%16)+16)%16 *256 +((y%16)+16)%16 * 16 + z] = type;
+	}
+	
 }
