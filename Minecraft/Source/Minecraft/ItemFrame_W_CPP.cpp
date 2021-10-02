@@ -90,7 +90,7 @@ bool UItemFrame_W_CPP::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _c
 			}
 			else
 			{
-				_oCount += _count + Count - Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
+				_oCount = _count + Count - Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
 				Count = Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
 				return false;
 			}
