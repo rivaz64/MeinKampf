@@ -28,6 +28,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> mesh;
 	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> sand;
+	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AActor>> quad;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> ClassOfPlayer;
@@ -53,4 +55,6 @@ public:
 	void desPoint();
 	void destroingAt(FVector pos, FVector nor, float delta);
 	void placeBlock(FVector pos, FVector nor);
+	UFUNCTION(BlueprintCallable)
+	void placeSand(FVector pos);
 };

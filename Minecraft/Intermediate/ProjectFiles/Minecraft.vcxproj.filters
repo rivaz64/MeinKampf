@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Minecraft.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{3B9504BC-9EB2-4D95-93FF-59A304FB6043}</UniqueIdentifier>
+      <UniqueIdentifier>{EC2B7C2E-1C80-47AD-8774-6F13A404D206}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Minecraft.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{D2C9DEDE-0882-4C3D-B302-C587E0026938}</UniqueIdentifier>
+      <UniqueIdentifier>{D88B376F-0FB8-4631-AECB-DE43E92D7D86}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,7 +30,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Minecraft">
-      <UniqueIdentifier>{3CC6E00C-81B4-421F-B3F1-D6EE3D74F8E1}</UniqueIdentifier>
+      <UniqueIdentifier>{D6FF3C26-69E7-43A5-88A5-4B4D75782CCC}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Minecraft\AxeItemTool_CPP.cpp">
       <Filter>Source\Minecraft</Filter>
@@ -186,6 +186,12 @@
       <Filter>Source\Minecraft</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\Minecraft\B_Oak_Log_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_sand.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_sand.h">
       <Filter>Source\Minecraft</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\Minecraft\B_stone.cpp">
