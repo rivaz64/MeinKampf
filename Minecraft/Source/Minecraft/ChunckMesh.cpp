@@ -10,12 +10,20 @@
 #include "B_cobblestone.h"
 #include "B_wood.h"
 #include "B_leaves.h"
+#include "B_sand.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
 float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
-vector<Block*> bloks = { new B_grass,new B_stone, new B_bedRock, new B_cobblestone, new B_wood ,new B_leaves };
+vector<Block*> bloks = { 
+new B_grass,
+new B_stone,
+new B_bedRock, 
+new B_cobblestone,
+new B_wood ,
+new B_leaves,
+new B_sand};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -65,9 +73,9 @@ void AChunckMesh::generateMesh()
 	UV0.Reset();
 	tangents.Reset();
 	vertexColors.Reset();
-	for (unsigned i = 0; i < 4096; ++i) {
+	for (unsigned i = 0; i < Chunk::len; ++i) {
 		if (c->data[i] != 0) {
-			addCube(FVector(i / 256, (i % 256) / 16, i % 16), c->data[i]-1);
+			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 		}
 	}
 	//m_mesh->CreateMeshSection()
@@ -186,18 +194,23 @@ bool AChunckMesh::checkFace(FVector& pos, FVector f)
 		return false;
 	}
 	if (checkPos.X < 0 ) {
-		return ((Chunk*)Chunk::savedData->getNodeAt(x-1,y))->data[int(15 * 256 + checkPos.Y * 16 + checkPos.Z)] == 0;
+		return ((Chunk*)Chunk::savedData->getNodeAt(x-1,y))->getAt(15,checkPos.Y,checkPos.Z)==0;
+		//return ((Chunk*)Chunk::savedData->getNodeAt(x-1,y))->data[int(15 * 256 + checkPos.Y * 16 + checkPos.Z)] == 0;
 	}
 	if (checkPos.X > 15) {
-		return ((Chunk*)Chunk::savedData->getNodeAt(x +1, y))->data[int(checkPos.Y * 16 + checkPos.Z)] == 0;
+		return ((Chunk*)Chunk::savedData->getNodeAt(x+1,y))->getAt(0,checkPos.Y,checkPos.Z)==0;
+		//return ((Chunk*)Chunk::savedData->getNodeAt(x +1, y))->data[int(checkPos.Y * 16 + checkPos.Z)] == 0;
 	}
 	if (checkPos.Y < 0) {
-		return ((Chunk*)Chunk::savedData->getNodeAt(x, y-1))->data[int(checkPos.X * 256 + 15 * 16 + checkPos.Z)] == 0;
+		return ((Chunk*)Chunk::savedData->getNodeAt(x,y-1))->getAt(checkPos.X,15,checkPos.Z)==0;
+		//return ((Chunk*)Chunk::savedData->getNodeAt(x, y-1))->data[int(checkPos.X * 256 + 15 * 16 + checkPos.Z)] == 0;
 	}
 	if (checkPos.Y > 15) {
-		return ((Chunk*)Chunk::savedData->getNodeAt(x, y+1))->data[int(checkPos.X * 256 + checkPos.Z)] == 0;
+		return ((Chunk*)Chunk::savedData->getNodeAt(x,y+1))->getAt(checkPos.X,0,checkPos.Z)==0;
+
+		//return ((Chunk*)Chunk::savedData->getNodeAt(x, y+1))->data[int(checkPos.X * 256 + checkPos.Z)] == 0;
 	}
-	char data = c->data[int(checkPos.X * 256 + checkPos.Y * 16 + checkPos.Z)];
+	char data = ((Chunk*)Chunk::savedData->getNodeAt(x,y))->getAt(checkPos.X,checkPos.Y,checkPos.Z);
 	return data == 0 || data == 6;
 }
 
@@ -243,20 +256,19 @@ void AChunckMesh::Tick(float DeltaTime)
 
 char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
 {
-	int location = px * 256 + py * 16 + pz;
-	volatile char ans = c->data[location];
-	c->data[location] = 0;
+	
+	volatile char ans = c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16));
+	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16),0);
 	return bloks[ans-1]->breaked;
 }
 
 char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
 {
-	int location = px * 256 + py * 16 + pz;
-	c->data[location] = tipe;
+	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16),tipe);
 	return 0;
 }
 
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
-	return bloks[c->data[px * 256 + py * 16 + pz]-1]->life;
+	return bloks[c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16))-1]->life;
 }
