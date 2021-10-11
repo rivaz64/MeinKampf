@@ -198,6 +198,8 @@ inline int Chunk::mod(int n,int m)
 	return ((n%m)+m)%m;
 }
 
+
+
 float Chunk::getAltAt(float x, float y)
 {
 	return 0;//abs(fmod(perlinNoise2D(float(i / (size*height))/16.f+x, float((i % (size*height)) / height)/16.f+y),1))*12+2;

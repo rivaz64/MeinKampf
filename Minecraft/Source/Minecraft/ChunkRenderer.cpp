@@ -176,6 +176,15 @@ void AChunkRenderer::destroyBlock(FVector pos)
 		trans = FTransform(FVector((wx) * 1600, (wy+1) * 1600, 0));
 		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy+1);
 	}
+
+	pos.Z += 1;
+
+	auto upBlock =  actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
+
+	if(upBlock == 7){
+		sandFall = true;
+		sandFallingAt = pos;
+	}
 }
 
 
@@ -199,12 +208,19 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 	int wy = floor(pos.Y / 16);
 
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
+
 	world->eraseAt(wx,wy);
+
 	actualChunk->item = item;
+
 	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,actualBlock);
+
 	actualChunk->Destroy();
+
 	FTransform trans = FTransform(FVector(wx * 1600, wy * 1600, 0));
+
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
+
 	actualBlock = -1;
 }
 
@@ -229,6 +245,13 @@ void AChunkRenderer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+
+	if(sandFall){
+		sandFall=false;
+		destroyBlock(sandFallingAt);
+		placeBlock(sandFallingAt*100.f,FVector(1,1,1));
+	}
+
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {
 			float antex = isinchunckx;

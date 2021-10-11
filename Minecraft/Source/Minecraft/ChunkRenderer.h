@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "C:\UE_4.26\Engine\Plugins/Runtime/ProceduralMeshComponent/Source/ProceduralMeshComponent/Public/ProceduralMeshComponent.h"
+#include "ProceduralMeshComponent.h"
 #include "ChunckMesh.h"
 #include "HashTable2d.h"
 #include "ChunkRenderer.generated.h"
@@ -48,6 +48,8 @@ protected:
 	float life = 0;
 	float blockLife=0;
 	
+	bool sandFall = false;
+	FVector sandFallingAt;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
