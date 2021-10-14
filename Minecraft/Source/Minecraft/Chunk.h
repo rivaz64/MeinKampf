@@ -30,7 +30,7 @@ public:
 	static void spawnTreeAt(int x,int y);
 	static void spawnBlockAt(int x,int y,int z, char type);
 	void spawnBlock(int x,int y,int z, char type);
-	
+	unsigned int waterAtitude = 4;
 	static inline int mod(int n,int m);
 	inline char getAt(int x,int y,int z);
 	float getAltAt(float x,float y);

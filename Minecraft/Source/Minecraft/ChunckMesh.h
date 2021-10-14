@@ -24,6 +24,8 @@ public:
 	virtual void PostLoad() override;
 	UPROPERTY(EditAnywhere)
 	UProceduralMeshComponent* m_mesh;
+	UPROPERTY(EditAnywhere)
+  UProceduralMeshComponent* m_waterMesh;
 	void generateMesh();
 	Chunk* c;
 	TArray<FVector> vertices;
@@ -32,8 +34,18 @@ public:
 	TArray<FVector2D> UV0;
 	TArray<FProcMeshTangent> tangents;
 	TArray<FLinearColor> vertexColors;
+
+	TArray<FVector> waterVertices;
+	TArray<int32> waterTriangles;
+	TArray<FVector> waterNormals;
+	TArray<FVector2D> waterUV0;
+	TArray<FProcMeshTangent> waterTangents;
+	TArray<FLinearColor> waterVertexColors;
+
 	int totaltris = 0;
+	int totalWaterTris = 0;
 	void addQuad(FVector& pos, FVector face, bool front,volatile char blockType);
+	void addWater(FVector pos);
 	void addCube(FVector pos, char blockType);
 	bool checkFace(FVector& pos, FVector f);
 	void addTextures(int dim, int dir, FVector2D texpos);

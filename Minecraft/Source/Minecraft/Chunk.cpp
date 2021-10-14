@@ -57,7 +57,7 @@ void Chunk::generate(int x,int y)
 	for (unsigned int i = 0; i < len; ++i) {
 		actAlt = i % height;
 		if (actAlt == 0) {
-			alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.8f, (float((i % (size*height)) / height)/16.f+y))*.8f,1))*12+2;
+			alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.6f, (float((i % (size*height)) / height)/16.f+y))*.6f,1))*18+2;
 			data[i] = 3;
 			continue;
 		}
@@ -72,11 +72,14 @@ void Chunk::generate(int x,int y)
 			else
 			data[i] = 1;
 		}
+		else if(actAlt<waterAtitude){
+			data[i] = 8;
+		}
 	}
 	int pos = abs(rand2d(x,y))*25;
 	int posx = 5+pos/5;
 	int posy = 5+pos%5;
-	alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.8, (float(posy)/16.f+y))*.8f,1))*8+2;
+	alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.6, (float(posy)/16.f+y))*.6f,1))*18+2;
 	if(alt<4){
 		generated = true;
 		return;
