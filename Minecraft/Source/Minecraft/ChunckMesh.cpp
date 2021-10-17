@@ -31,6 +31,12 @@ AChunckMesh::AChunckMesh()
 	PrimaryActorTick.bCanEverTick = true;
 	//scene = CreateDefaultSubobject<USceneComponent>(TEXT("root"));
 	
+
+	m_root = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("root"));
+	m_root->SetupAttachment(GetRootComponent());
+	m_root->bUseAsyncCooking = true;
+	m_root->SetMaterial(0,mat);
+
 	m_waterMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("waterChunk"));
 	m_waterMesh->SetupAttachment(GetRootComponent());
 	m_waterMesh->bUseAsyncCooking = true;
@@ -105,10 +111,11 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 	FVector vx = FVector(face.X, 0, 0);
 	FVector vy = FVector(0, face.Y, 0);
 	FVector vz = FVector(0, 0, face.Z);
-	vertices.Add(FVector(pos.X * 100 + vx.X * 100, pos.Y * 100 + vx.Y * 100, pos.Z * 100 + vx.Z * 100));
-	vertices.Add(FVector(pos.X * 100 + vy.X * 100, pos.Y * 100 + vy.Y * 100, pos.Z * 100 + vy.Z * 100));
-	vertices.Add(FVector(pos.X * 100 + vz.X * 100, pos.Y * 100 + vz.Y * 100, pos.Z * 100 + vz.Z * 100));
-	vertices.Add(FVector(face.X * 100 + pos.X * 100, face.Y * 100 + pos.Y * 100, face.Z * 100 + pos.Z * 100));
+
+	vertices.Add(FVector(pos.X * 100 + vx.X * 100, pos.Y * 100 + vx.Y * 100, pos.Z * 100 + vx.Z * 100)+GetActorLocation());
+	vertices.Add(FVector(pos.X * 100 + vy.X * 100, pos.Y * 100 + vy.Y * 100, pos.Z * 100 + vy.Z * 100)+GetActorLocation());
+	vertices.Add(FVector(pos.X * 100 + vz.X * 100, pos.Y * 100 + vz.Y * 100, pos.Z * 100 + vz.Z * 100)+GetActorLocation());
+	vertices.Add(FVector(face.X * 100 + pos.X * 100, face.Y * 100 + pos.Y * 100, face.Z * 100 + pos.Z * 100)+GetActorLocation());
 
 
 	if (front) {
@@ -188,10 +195,10 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 void AChunckMesh::addWater(FVector pos)
 {
 	pos = pos + FVector(1,1,1);
-	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100));
-	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100));
+	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
+	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
+	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
+	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
 
 	waterTriangles.Add(totalWaterTris);
 	waterTriangles.Add(totalWaterTris + 2);

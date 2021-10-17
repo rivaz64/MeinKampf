@@ -3,10 +3,11 @@
 #include <vector>
 #include <cmath>
 unsigned int Chunk::size = 16;
-unsigned int Chunk::height = 32;
+unsigned int Chunk::height = 64;
 unsigned int Chunk::len = size * size * height;
 HashTable2d* Chunk::savedData = nullptr;
 std::vector<FVector2D> vecs = { FVector2D(1,0),FVector2D(0,1) ,FVector2D(-1,0) ,FVector2D(0,-1),FVector2D(1.f/sqrt(2),1.f / sqrt(2)),FVector2D(1.f / sqrt(2),-1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),-1.f / sqrt(2)) };
+
 float Chunk::rand2d(float x, float y)
 {
 	return fmod(sin(x* 2.71828182845904523536+y* 7.38905609893065022723) * 43758.5453123, 1);
@@ -17,18 +18,20 @@ float Chunk::lerp(float a, float b, float t)
 	return a + t * (b-a);
 }
 
-float Chunk::perlinNoise2D(float x, float y)
+float Chunk::perlinNoise2D(float x, float y,float localScale)
 {
+	x/=localScale;
+	y/=localScale;
 	x = abs(x);
 	y = abs(y);
 	float ix = (int)x;
 	float iy = (int)y;
 	float fx = fmod(x, 1);
 	float fy = fmod(y, 1);
-	FVector2D a = vecs[int(abs(rand2d(ix, iy)) * 8.f)];
-	FVector2D b = vecs[int(abs(rand2d(ix+1, iy)) * 8.f)];
-	FVector2D c = vecs[int(abs(rand2d(ix, iy+1)) * 8.f)];
-	FVector2D d = vecs[int(abs(rand2d(ix+1, iy+1)) * 8.f)];
+	FVector2D a = randomGradient(ix,iy);
+	FVector2D b = randomGradient(ix+1,iy);
+	FVector2D c = randomGradient(ix,iy+1);
+	FVector2D d = randomGradient(ix+1,iy+1);
 	float e = a.X * fx + a.Y * fy;
 	float f = b.X * (1-fx) + b.Y * fy;
 	float g = c.X * fx + c.Y * (1-fy);
@@ -45,6 +48,19 @@ Chunk::Chunk()
 	memset(data,0,sizeof(char)*len);
 }
 
+float Chunk::valueAt(float x, float y)
+{
+	float ans = 0;
+	float localScale =scale;
+	float localPersistence = 1;
+	for(int32 i=0; i<octaves;i++){
+		ans += perlinNoise2D(x,y,localScale)*localPersistence;
+		localScale*=lacunarity;
+		localPersistence*=persistence;
+	}
+	return ans;
+}
+
 Chunk::~Chunk()
 {
 	delete data;
@@ -57,7 +73,8 @@ void Chunk::generate(int x,int y)
 	for (unsigned int i = 0; i < len; ++i) {
 		actAlt = i % height;
 		if (actAlt == 0) {
-			alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.6f, (float((i % (size*height)) / height)/16.f+y))*.6f,1))*18+2;
+			alt = valueAt(float(i / (size*height))/16.f+x,float((i % (size*height)) / height)/16.f+y)*12+16;
+			//alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.6f, (float((i % (size*height)) / height)/16.f+y))*.6f,1))*30+2;
 			data[i] = 3;
 			continue;
 		}
@@ -66,7 +83,7 @@ void Chunk::generate(int x,int y)
 			data[i] = 2;
 		}
 		else if (actAlt < alt) {
-			if(alt <4){
+			if(alt <15){
 				data[i] = 7;
 			}
 			else
@@ -79,8 +96,9 @@ void Chunk::generate(int x,int y)
 	int pos = abs(rand2d(x,y))*25;
 	int posx = 5+pos/5;
 	int posy = 5+pos%5;
-	alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.6, (float(posy)/16.f+y))*.6f,1))*18+2;
-	if(alt<4){
+	alt = valueAt(float(posx)/16.f+x,float(posy)/16.f+y)*12+16;
+	//alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.6, (float(posy)/16.f+y))*.6f,1))*30+2;
+	if(alt<15){
 		generated = true;
 		return;
 	}
@@ -121,6 +139,18 @@ void Chunk::createChunkAt(int x, int y)
 	}
 }
 
+FVector2D Chunk::randomGradient(int x, int y)
+{
+	const unsigned w = 8 * sizeof(unsigned);
+	const unsigned s = w / 2; 
+	unsigned a = x, b = y;
+	a *= 3284157443; b ^= a << s | a >> (w-s);
+	b *= 1911520717; a ^= b << s | b >> (w-s);
+	a *= 2048419325;
+	float random = a * (3.14159265 / ~(~0u >> 1)); 
+	return {sinf(random),cosf(random)};
+}
+
 void Chunk::generateChunkAt(int x, int y)
 {
 	createChunkAt(x, y);
@@ -150,7 +180,7 @@ Chunk* Chunk::getChunkAt(int x, int y)
 
 void Chunk::spawnTreeAt(int x, int y)
 {
-	unsigned int alt = abs(fmod(perlinNoise2D(float(x)/16.f+x, float(y)/16.f+y),1))*12+2;
+	/*unsigned int alt = abs(fmod(perlinNoise2D(float(x)/16.f+x, float(y)/16.f+y),1))*12+2;
 	for(int i=0;i<5;++i){
 		spawnBlockAt(x,y,alt+i,5);
 	}
@@ -173,7 +203,7 @@ void Chunk::spawnTreeAt(int x, int y)
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void Chunk::spawnBlockAt(int x,int y,int z, char type){

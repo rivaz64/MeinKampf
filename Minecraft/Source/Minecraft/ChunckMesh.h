@@ -26,8 +26,11 @@ public:
 	UProceduralMeshComponent* m_mesh;
 	UPROPERTY(EditAnywhere)
   UProceduralMeshComponent* m_waterMesh;
+	UPROPERTY(EditAnywhere)
+		UProceduralMeshComponent* m_root;
 	void generateMesh();
 	Chunk* c;
+
 	TArray<FVector> vertices;
 	TArray<int32> Triangles;
 	TArray<FVector> normals;
