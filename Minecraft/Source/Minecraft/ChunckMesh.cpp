@@ -89,9 +89,12 @@ void AChunckMesh::generateMesh()
 	tangents.Reset();
 	vertexColors.Reset();
 	for (unsigned i = 0; i < Chunk::len; ++i) {
-		if (c->data[i] == 8 ){
+		if(c->data[i] > 8){
+			addWater(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height),16-c->data[i]);
+		}
+		else if (c->data[i] == 8 ){
 			if( c->data[i+1] != 8)
-			addWater(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height) ); //+ FVector(1, 1, 1), FVector(0, -1, -1), false, blockType);
+			addWater(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height),8 ); //+ FVector(1, 1, 1), FVector(0, -1, -1), false, blockType);
 		}
 		else if (c->data[i] != 0) {
 			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
@@ -101,6 +104,8 @@ void AChunckMesh::generateMesh()
 	m_mesh->CreateMeshSection_LinearColor(0, vertices, Triangles, normals, UV0, vertexColors, tangents, true);
 
 	m_waterMesh->CreateMeshSection_LinearColor(0, waterVertices, waterTriangles, waterNormals, waterUV0, waterVertexColors, waterTangents, false);
+
+	m_waterMesh->ContainsPhysicsTriMeshData(false);
 
 	// Enable collision data
 	m_mesh->ContainsPhysicsTriMeshData(true);
@@ -192,14 +197,38 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 	vertexColors.Add(FLinearColor(0.75, 0.75, 0.75, 1.0));
 }
 
-void AChunckMesh::addWater(FVector pos)
+void AChunckMesh::addWater(FVector pos, int alt)
 {
 	pos = pos + FVector(1,1,1);
-	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
-	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10));
 
+	if(Chunk::getBlockAt(pos-FVector(0,1,0))>=8){
+		waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
+	}
+	else{
+		waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	}
+
+	if(Chunk::getBlockAt(pos-FVector(0,1,0))>=8 || Chunk::getBlockAt(pos-FVector(1,0,0))>=8){
+		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-+1)));
+	}
+	else{
+		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	}
+
+	if(Chunk::getBlockAt(pos-FVector(1,0,0))>=8){
+		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
+	}
+	else{
+		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	}
+	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	
+	/*
+	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
+	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
+	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	*/
 	waterTriangles.Add(totalWaterTris);
 	waterTriangles.Add(totalWaterTris + 2);
 	waterTriangles.Add(totalWaterTris + 1);
@@ -275,7 +304,7 @@ bool AChunckMesh::checkFace(FVector& pos, FVector f)
 	else{
 		data = ((Chunk*)Chunk::savedData->getNodeAt(x,y))->getAt(checkPos.X,checkPos.Y,checkPos.Z);
 	} 
-	return data == 0 || data == 6 || data == 8;
+	return data == 0 || data == 6 || data >= 8;
 }
 
 void AChunckMesh::addTextures(int dim, int dir, FVector2D texpos)

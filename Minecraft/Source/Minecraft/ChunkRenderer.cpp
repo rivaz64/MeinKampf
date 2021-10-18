@@ -190,38 +190,53 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
-
-	if(actualBlock==-1){
-		return;
+	if(actualBlock == -1){
+		actualBlock = 8;
 	}
+	placeBlock(pos,nor,actualBlock);
+	regenerate(floor((pos.X+nor.X)/100.f),floor((pos.Y+nor.Y)/100.f));
+	actualBlock = -1;
+}
+
+void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
+{
+	/*if(type==-1){
+		type = 8;
+		//return;
+	}*/
 	pos.X = int((pos.X + nor.X) / 100.f);
 	pos.Y = int((pos.Y + nor.Y) / 100.f);
 	pos.Z = int((pos.Z + nor.Z) / 100.f);
-	
-	if(actualBlock == 7){
+
+	if(type == 7){
 		FTransform trans = FTransform(FVector((int)floor(pos.X) * 100, (int)floor(pos.Y) * 100, (int)floor(pos.Z) * 100));
 		GetWorld()->SpawnActor<AActor>(sand, trans);
 		return;
 	}
-	
-	int wx = floor(pos.X / 16);
-	int wy = floor(pos.Y / 16);
+
+	if(type >= 8 && 16>type){
+		if(Chunk::getBlockAt(pos+FVector(1,0,0)) == 0){
+			watterAt.push_back(FVector4(pos+FVector(1,0,0),16-type-1));
+		}
+		if(Chunk::getBlockAt(pos+FVector(0,1,0)) == 0){
+			watterAt.push_back(FVector4(pos+FVector(0,1,0),16-type-1));
+		}
+		/*if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
+			watterAt.push_back(FVector4(pos+FVector(-1,0,0),16-type-1));
+		}
+		if(Chunk::getBlockAt(pos+FVector(0,-1,0)) == 0){
+			watterAt.push_back(FVector4(pos+FVector(0,-1,0),16-type-1));
+		}*/
+	}
+
+	int wx = floor(pos.X / 16.f);
+	int wy = floor(pos.Y / 16.f);
+
 
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 
-	world->eraseAt(wx,wy);
-
-	actualChunk->item = item;
-
-	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,actualBlock);
-
-	actualChunk->Destroy();
-
-	FTransform trans = FTransform(FVector(wx * 1600, wy * 1600, 0));
-
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
-
-	actualBlock = -1;
+	actualChunk->placeBlock(pos.X,pos.Y,pos.Z,type);
+	
 }
 
 void AChunkRenderer::placeSand(FVector pos)
@@ -239,10 +254,31 @@ void AChunkRenderer::placeSand(FVector pos)
 
 }
 
+void AChunkRenderer::regenerate(float x,float y)
+{
+	int wx = floor(x / 16.f);
+	int wy = floor(y / 16.f);
+
+	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
+
+	world->eraseAt(wx,wy);
+
+	actualChunk->item = item;
+
+	
+
+	actualChunk->Destroy();
+
+	FTransform trans = FTransform(FVector(wx * 1600, wy * 1600, 0));
+
+	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
+}
+
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	watterUpdate += DeltaTime;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 
@@ -251,6 +287,30 @@ void AChunkRenderer::Tick(float DeltaTime)
 		destroyBlock(sandFallingAt);
 		placeBlock(sandFallingAt*100.f,FVector(1,1,1));
 	}
+	if(watterUpdate>.2){
+		int watterNum = watterAt.size();
+		watterUpdate=0;
+		for(int i=0;i<watterNum-1;i++){
+			auto pos = FVector(watterAt.front().X,watterAt.front().Y,watterAt.front().Z);
+			auto wPos = FVector2D(floor(pos.X/100.f),floor(pos.Y/100.f));
+			placeBlock(pos*100.f,FVector(1,1,1),16-watterAt.front().W);
+			bool already = false;
+			for(FVector2D& v: forRegen){
+				if(v==wPos){
+					already = true;
+					break;
+				}
+			}
+			if(!already){
+				forRegen.push_back(wPos);
+			}
+			watterAt.pop_front();
+		}
+		for(FVector2D& v: forRegen){
+			regenerate(v.X,v.Y);
+		}
+	}
+	
 
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {

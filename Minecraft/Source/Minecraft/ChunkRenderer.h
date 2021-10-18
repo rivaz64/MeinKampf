@@ -7,6 +7,8 @@
 #include "ProceduralMeshComponent.h"
 #include "ChunckMesh.h"
 #include "HashTable2d.h"
+#include <list>
+#include <vector>
 #include "ChunkRenderer.generated.h"
 
 UCLASS()
@@ -50,6 +52,14 @@ protected:
 	
 	bool sandFall = false;
 	FVector sandFallingAt;
+
+	bool watter = false;
+  std::list<FVector4> watterAt;
+	std::vector<FVector2D> forRegen;
+	int watterLevel = 8;
+
+	float watterUpdate = 0;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -57,6 +67,8 @@ public:
 	void desPoint();
 	void destroingAt(FVector pos, FVector nor, float delta);
 	void placeBlock(FVector pos, FVector nor);
+	void placeBlock(FVector pos, FVector nor,char type);
 	UFUNCTION(BlueprintCallable)
 	void placeSand(FVector pos);
+	void regenerate(float x,float y);
 };
