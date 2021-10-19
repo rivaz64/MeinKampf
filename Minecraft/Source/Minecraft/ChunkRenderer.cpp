@@ -204,6 +204,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 		type = 8;
 		//return;
 	}*/
+	//de cordenada de mundo a cordenada grid
 	pos.X = int((pos.X + nor.X) / 100.f);
 	pos.Y = int((pos.Y + nor.Y) / 100.f);
 	pos.Z = int((pos.Z + nor.Z) / 100.f);
@@ -214,6 +215,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 		return;
 	}
 
+	//cordenadas grid
 	if(type >= 8 && 16>type){
 		if(Chunk::getBlockAt(pos+FVector(1,0,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(1,0,0),16-type-1));
@@ -221,12 +223,12 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 		if(Chunk::getBlockAt(pos+FVector(0,1,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(0,1,0),16-type-1));
 		}
-		/*if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
+	  if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(-1,0,0),16-type-1));
 		}
 		if(Chunk::getBlockAt(pos+FVector(0,-1,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(0,-1,0),16-type-1));
-		}*/
+		}
 	}
 
 	int wx = floor(pos.X / 16.f);
@@ -287,12 +289,16 @@ void AChunkRenderer::Tick(float DeltaTime)
 		destroyBlock(sandFallingAt);
 		placeBlock(sandFallingAt*100.f,FVector(1,1,1));
 	}
+
 	if(watterUpdate>.2){
 		int watterNum = watterAt.size();
 		watterUpdate=0;
 		for(int i=0;i<watterNum-1;i++){
+			//coordenadas gird
 			auto pos = FVector(watterAt.front().X,watterAt.front().Y,watterAt.front().Z);
-			auto wPos = FVector2D(floor(pos.X/100.f),floor(pos.Y/100.f));
+			//coordenadas Chunk
+			auto wPos = FVector2D(floor(pos.X/16.f),floor(pos.Y/16.f));
+			//coordenadas world
 			placeBlock(pos*100.f,FVector(1,1,1),16-watterAt.front().W);
 			bool already = false;
 			for(FVector2D& v: forRegen){

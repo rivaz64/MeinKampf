@@ -199,36 +199,65 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 
 void AChunckMesh::addWater(FVector pos, int alt)
 {
+	auto Rpos = pos;
+	int WposX = floor(GetActorLocation().X/100.f);
+	int WposY = floor(GetActorLocation().Y/100.f);
+	auto Wpos =FVector(WposX,WposY,0);
+	//localChunkPos
 	pos = pos + FVector(1,1,1);
 
-	if(Chunk::getBlockAt(pos-FVector(0,1,0))>=8){
-		waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
-	}
-	else{
+	/*if(Chunk::getBlockAt(Rpos-FVector(1,0,0))>=8)
+		waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-1)));
+	else
 		waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
-	}
 
-	if(Chunk::getBlockAt(pos-FVector(0,1,0))>=8 || Chunk::getBlockAt(pos-FVector(1,0,0))>=8){
-		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-+1)));
-	}
-	else{
+	if(Chunk::getBlockAt(Rpos-FVector(0,1,0))>=8)
+		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-1)));
+	else
 		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+
+  waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+
+	if(Chunk::getBlockAt(Rpos-FVector(1,0,0))>=8 && Chunk::getBlockAt(Rpos-FVector(0,1,0))>=8)
+		waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-2)));
+	else if(Chunk::getBlockAt(Rpos-FVector(1,0,0))>=8 || Chunk::getBlockAt(Rpos-FVector(0,1,0))>=8)
+	  waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-1)));
+	else
+		waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+	*/
+
+	int ea=0;
+	int eb=0;
+	int ec=0;
+	int ed=0;
+
+	char actual = Chunk::getBlockAt(Rpos);
+
+	if(Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos)>=8 && Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos) < actual){
+		++ea;
+		++ed;
+	}
+	if(Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos)>=8 && Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos) < actual){
+		++eb;
+		++ec;
 	}
 
-	if(Chunk::getBlockAt(pos-FVector(1,0,0))>=8){
-		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
+
+	if(Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos)>=8 && Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos) < actual){
+		++eb;
+		++ed;
 	}
-	else{
-		waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+
+	if(Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos)>=8 && Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos) < actual){
+		++ea;
+		++ec;
 	}
-	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
+
+	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ea)));
+  waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-eb)));
+  waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ec)));
+  waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ed)));
 	
-	/*
-	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
-	waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt+1)));
-	waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt)));
-	*/
 	waterTriangles.Add(totalWaterTris);
 	waterTriangles.Add(totalWaterTris + 2);
 	waterTriangles.Add(totalWaterTris + 1);
