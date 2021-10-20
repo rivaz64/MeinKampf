@@ -217,13 +217,26 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)
 {
-	return InventoryWidget->AddItem(_item, _count);
+  if (InventoryWidget)
+	{
+	  return InventoryWidget->AddItem(_item, _count);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool AMinecraftCharacter::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount)
 {
-	return InventoryWidget->AddItemR(_item, _count, _oCount);
-	//return true;
+  if (InventoryWidget)
+  {
+    return InventoryWidget->AddItemR(_item, _count, _oCount);
+  }
+  else
+  {
+    return false;
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////
