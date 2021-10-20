@@ -13,6 +13,7 @@ B_cobblestone::B_cobblestone()
   textures[5] = FVector2D(0, 1);
   life = .5;
   breaked = 4;
+  type = TYPE::BLOCK;
 }
 
 B_cobblestone::~B_cobblestone()

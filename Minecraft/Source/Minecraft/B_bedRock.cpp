@@ -12,6 +12,7 @@ B_bedRock::B_bedRock()
   textures[4] = FVector2D(1, 1);
   textures[5] = FVector2D(1, 1);
   life = .001;
+  type = TYPE::BLOCK;
 }
 
 B_bedRock::~B_bedRock()

@@ -13,6 +13,7 @@ B_leaves::B_leaves()
   textures[5] = FVector2D(4, 3);
   life = 8;
   breaked = 4;
+  type = TYPE::BLOCK;
 }
 
 B_leaves::~B_leaves()

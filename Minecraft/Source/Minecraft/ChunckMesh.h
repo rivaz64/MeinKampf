@@ -50,6 +50,7 @@ public:
 	void addQuad(FVector& pos, FVector face, bool front,volatile char blockType);
 	void addWater(FVector pos, int alt);
 	void addCube(FVector pos, char blockType);
+	void addQuads(FVector pos, char blockType);
 	bool checkFace(FVector& pos, FVector f);
 	void addTextures(int dim, int dir, FVector2D texpos);
 	

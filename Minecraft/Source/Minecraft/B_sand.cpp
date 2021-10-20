@@ -13,6 +13,7 @@ B_sand::B_sand()
   textures[5] = FVector2D(2, 1);
   life = 1;
   breaked = 7;
+  type = TYPE::BLOCK;
 }
 
 B_sand::~B_sand()

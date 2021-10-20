@@ -1,11 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Chunk.h"
+#include"Block.h"
 #include <vector>
 #include <cmath>
+
 unsigned int Chunk::size = 16;
 unsigned int Chunk::height = 64;
 unsigned int Chunk::len = size * size * height;
 HashTable2d* Chunk::savedData = nullptr;
+
 std::vector<FVector2D> vecs = { FVector2D(1,0),FVector2D(0,1) ,FVector2D(-1,0) ,FVector2D(0,-1),FVector2D(1.f/sqrt(2),1.f / sqrt(2)),FVector2D(1.f / sqrt(2),-1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),-1.f / sqrt(2)) };
 
 float Chunk::rand2d(float x, float y)
@@ -69,13 +72,13 @@ Chunk::~Chunk()
 void Chunk::generate(int x,int y)
 {
 	unsigned int actAlt = 0;
-	for (unsigned int i = 0; i < len; ++i){
+	/*for (unsigned int i = 0; i < len; ++i){
 		actAlt = i % height;
 		if (actAlt == 0){
 			data[i] = 3;
 		}
-	}
-	/*
+	}*/
+	
 	unsigned int alt = 0;
 	
 	for (unsigned int i = 0; i < len; ++i) {
@@ -83,22 +86,22 @@ void Chunk::generate(int x,int y)
 		if (actAlt == 0) {
 			alt = valueAt(float(i / (size*height))/16.f+x,float((i % (size*height)) / height)/16.f+y)*12+16;
 			//alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.6f, (float((i % (size*height)) / height)/16.f+y))*.6f,1))*30+2;
-			data[i] = 3;
+			data[i] = (int)BLOCK::BEDROCK;
 			continue;
 		}
 		if (actAlt < alt-1) {
 			
-			data[i] = 2;
+			data[i] = (int)BLOCK::STONE;
 		}
 		else if (actAlt < alt) {
 			if(alt <15){
-				data[i] = 7;
+				data[i] = (int)BLOCK::SAND;
 			}
 			else
-			data[i] = 1;
+			data[i] = (int)BLOCK::GRASS;
 		}
 		else if(actAlt<waterAtitude){
-			data[i] = 8;
+			data[i] = (int)BLOCK::WATTER;
 		}
 	}
 	int pos = abs(rand2d(x,y))*25;
@@ -106,35 +109,43 @@ void Chunk::generate(int x,int y)
 	int posy = 5+pos%5;
 	alt = valueAt(float(posx)/16.f+x,float(posy)/16.f+y)*12+16;
 	//alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.6, (float(posy)/16.f+y))*.6f,1))*30+2;
-	if(alt<15){
-		generated = true;
-		return;
-	}
-		
-	//spawnTreeAt(posx,posy,posy+y*16);
-	for(int i=0;i<6;++i){
-		data[posx*size*height+posy*height+alt+i]=5;
-	}
-	for(int i=0;i<3;++i){
-		for(int o=0;o<3;++o){
-			if(i==1 || o==1){
-				data[(posx-1+i)*size*height+(posy-1+o)*height+alt+6]=6;
-			}
-			if(!(i==1 && o==1)){
-				data[(posx-1+i)*size*height+(posy-1+o)*height+alt+5]=6;
-			}
+	if(alt>=15){
+		for(int i=0;i<6;++i){
+			data[posx*size*height+posy*height+alt+i]=(int)BLOCK::WOOD;
 		}
-	}
-	for(int i=0;i<5;++i){
-		for(int o=0;o<5;++o){
-			if(!(i==2 && o==2)){
-				data[(posx-2+i)*size*height+(posy-2+o)*height+alt+3]=6;
-				if(!((i==0 && o==0)||(i==4 && o==0)||(i==0 && o==4)||(i==4 && o==4))){
-					data[(posx-2+i)*size*height+(posy-2+o)*height+alt+4]=6;
+		for(int i=0;i<3;++i){
+			for(int o=0;o<3;++o){
+				if(i==1 || o==1){
+					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+6]=(int)BLOCK::LEAVES;
+				}
+				if(!(i==1 && o==1)){
+					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+5]=(int)BLOCK::LEAVES;
 				}
 			}
 		}
-	}//*/
+		for(int i=0;i<5;++i){
+			for(int o=0;o<5;++o){
+				if(!(i==2 && o==2)){
+					data[(posx-2+i)*size*height+(posy-2+o)*height+alt+3]=(int)BLOCK::LEAVES;
+					if(!((i==0 && o==0)||(i==4 && o==0)||(i==0 && o==4)||(i==4 && o==4))){
+						data[(posx-2+i)*size*height+(posy-2+o)*height+alt+4]=(int)BLOCK::LEAVES;
+					}
+				}
+			}
+		}//*/
+	}
+	for(int i=0;i<6;++i){
+		pos = abs(rand2d(x+i*2,y+i*3))*256;
+		posx = pos/16;
+		posy = pos%16;
+		alt = valueAt(float(posx)/16.f+x,float(posy)/16.f+y)*12+16;
+		if(data[posx*size*height+posy*height+alt+i]==(int)BLOCK::AIR){
+			data[posx*size*height+posy*height+alt+i]=(int)BLOCK::RED_FLOWER;
+		}
+	}
+	
+	//spawnTreeAt(posx,posy,posy+y*16);
+	
 	generated = true;
 }
 
