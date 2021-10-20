@@ -127,3 +127,29 @@ bool UItemFrame_W_CPP::UpdateItems(TSubclassOf<class ABaseItem_CPP> _itemType, u
 	return true;
 }
 
+bool UItemFrame_W_CPP::UpdateItemsR(TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count, uint8& _oCount)
+{
+  if (_count <= Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack)
+	{
+    Count = _count;
+    if (_count == 0)
+    {
+      Item = NULL;
+    }
+    else
+    {
+      Item = _itemType;
+    }
+		_oCount = 0;
+	  return true;
+	}
+	else
+	{
+	  Count = Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
+    _oCount = _count - Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
+    Item = _itemType;
+		return false;
+	}
+  return true;
+}
+
