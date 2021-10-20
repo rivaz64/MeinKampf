@@ -13,6 +13,7 @@ B_wood::B_wood()
   textures[5] = FVector2D(5, 1);
   life = .5;
   breaked = 5;
+  type = TYPE::BLOCK;
 }
 
 B_wood::~B_wood()

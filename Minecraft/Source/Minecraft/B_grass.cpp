@@ -14,6 +14,7 @@ B_grass::B_grass()
   life = 1;
   breaked = 1;
   item = ABaseGrassItemBlock_CPP::StaticClass();
+  type = TYPE::BLOCK;
 }
 
 B_grass::~B_grass()

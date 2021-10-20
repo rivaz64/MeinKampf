@@ -13,6 +13,7 @@ B_stone::B_stone()
   textures[5] = FVector2D(1, 0);
   life = .5;
   breaked = 4;
+  type = TYPE::BLOCK;
 }
 
 B_stone::~B_stone()

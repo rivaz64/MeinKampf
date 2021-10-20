@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
+#include "Block.h"
 //#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
 //std::vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
@@ -142,7 +143,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 	volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
 	volatile char ans = actualChunk->c->data[location];
-	actualChunk->c->data[location] = 0;
+	actualChunk->c->data[location] = (int)BLOCK::AIR;
 	//actualBlock =  bloks[ans-1]->breaked;
 
 	actualChunk->Destroy();
@@ -181,7 +182,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 	auto upBlock =  actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
 
-	if(upBlock == 7){
+	if(upBlock == (int)BLOCK::SAND){
 		sandFall = true;
 		sandFallingAt = pos;
 	}
@@ -191,7 +192,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
 	if(actualBlock == -1){
-		actualBlock = 8;
+		actualBlock = (int)BLOCK::WATTER;
 	}
 	placeBlock(pos,nor,actualBlock);
 	regenerate(floor((pos.X+nor.X)/100.f),floor((pos.Y+nor.Y)/100.f));
@@ -209,25 +210,25 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 	pos.Y = int((pos.Y + nor.Y) / 100.f);
 	pos.Z = int((pos.Z + nor.Z) / 100.f);
 
-	if(type == 7){
+	if(type == (int)BLOCK::SAND){
 		FTransform trans = FTransform(FVector((int)floor(pos.X) * 100, (int)floor(pos.Y) * 100, (int)floor(pos.Z) * 100));
 		GetWorld()->SpawnActor<AActor>(sand, trans);
 		return;
 	}
 
 	//cordenadas grid
-	if(type >= 8 && 16>type){
+	if(type >= (int)BLOCK::WATTER && (int)BLOCK::WATTER+8>type){
 		if(Chunk::getBlockAt(pos+FVector(1,0,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(1,0,0),16-type-1));
+			watterAt.push_back(FVector4(pos+FVector(1,0,0),(int)BLOCK::WATTER+7-type));
 		}
 		if(Chunk::getBlockAt(pos+FVector(0,1,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(0,1,0),16-type-1));
+			watterAt.push_back(FVector4(pos+FVector(0,1,0),(int)BLOCK::WATTER+7-type));
 		}
 	  if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(-1,0,0),16-type-1));
+			watterAt.push_back(FVector4(pos+FVector(-1,0,0),(int)BLOCK::WATTER+7-type));
 		}
 		if(Chunk::getBlockAt(pos+FVector(0,-1,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(0,-1,0),16-type-1));
+			watterAt.push_back(FVector4(pos+FVector(0,-1,0),(int)BLOCK::WATTER+7-type));
 		}
 	}
 
@@ -249,7 +250,7 @@ void AChunkRenderer::placeSand(FVector pos)
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
 	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
 	actualChunk->item = item;
-	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,7);
+	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::SAND);
 	actualChunk->Destroy();
 	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.X / 16) * 1600, 0));
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
@@ -299,7 +300,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 			//coordenadas Chunk
 			auto wPos = FVector2D(floor(pos.X/16.f),floor(pos.Y/16.f));
 			//coordenadas world
-			placeBlock(pos*100.f,FVector(1,1,1),16-watterAt.front().W);
+			placeBlock(pos*100.f,FVector(1,1,1),(int)BLOCK::WATTER+8-watterAt.front().W);
 			bool already = false;
 			for(FVector2D& v: forRegen){
 				if(v==wPos){
