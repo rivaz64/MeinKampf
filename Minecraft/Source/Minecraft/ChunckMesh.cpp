@@ -12,6 +12,8 @@
 #include "B_leaves.h"
 #include "B_sand.h"
 #include "B_RedFlower.h"
+#include "B_YellowFlower.h"
+#include "B_SugarCane.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
@@ -25,7 +27,9 @@ new B_cobblestone,
 new B_wood ,
 new B_leaves,
 new B_sand,
-new B_RedFlower};
+new B_RedFlower,
+new B_YellowFlower,
+new B_SugarCane};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {

@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "B_RedFlower.h"
+#include "B_SugarCane.h"
 
-B_RedFlower::B_RedFlower()
+B_SugarCane::B_SugarCane()
 {
-  textures[0] = FVector2D(12, 0);
+  textures[0] = FVector2D(9, 4);
   life = 4;
   type = TYPE::QUADS;
 }
 
-B_RedFlower::~B_RedFlower()
+B_SugarCane::~B_SugarCane()
 {
 }

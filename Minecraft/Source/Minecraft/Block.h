@@ -32,6 +32,8 @@ enum class BLOCK{
 	LEAVES,
 	SAND,
 	RED_FLOWER,
+	YELLOW_FLOWER,
+	SUGAR_CANE,
 	WATTER
 };
 

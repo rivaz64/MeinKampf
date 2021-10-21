@@ -4,16 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Block.h"
-
-
-
 /**
  * 
  */
-class MINECRAFT_API B_sand :
+class MINECRAFT_API B_YellowFlower:
 	public Block
 {
 public:
-	B_sand();
-	~B_sand();
+	B_YellowFlower();
+	~B_YellowFlower();
 };

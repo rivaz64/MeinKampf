@@ -72,13 +72,13 @@ Chunk::~Chunk()
 void Chunk::generate(int x,int y)
 {
 	unsigned int actAlt = 0;
-	/*for (unsigned int i = 0; i < len; ++i){
+	for (unsigned int i = 0; i < len; ++i){
 		actAlt = i % height;
 		if (actAlt == 0){
 			data[i] = 3;
 		}
-	}*/
-	
+	}
+	/*
 	unsigned int alt = 0;
 	
 	for (unsigned int i = 0; i < len; ++i) {
@@ -132,17 +132,25 @@ void Chunk::generate(int x,int y)
 					}
 				}
 			}
-		}//*/
+		}
 	}
+
+	//pos = abs(rand2d(x+i*2,y+i*3))*256;
+	
+  
 	for(int i=0;i<6;++i){
 		pos = abs(rand2d(x+i*2,y+i*3))*256;
 		posx = pos/16;
 		posy = pos%16;
 		alt = valueAt(float(posx)/16.f+x,float(posy)/16.f+y)*12+16;
-		if(data[posx*size*height+posy*height+alt+i]==(int)BLOCK::AIR){
-			data[posx*size*height+posy*height+alt+i]=(int)BLOCK::RED_FLOWER;
+		if(alt == 14){
+			data[posx*size*height+posy*height+alt]=(int)BLOCK::SUGAR_CANE;
+			data[posx*size*height+posy*height+alt+1]=(int)BLOCK::SUGAR_CANE;
 		}
-	}
+		else if(data[posx*size*height+posy*height+alt]==(int)BLOCK::AIR){
+			data[posx*size*height+posy*height+alt]=(int)BLOCK::RED_FLOWER+i%2;
+		}
+	}//*/
 	
 	//spawnTreeAt(posx,posy,posy+y*16);
 	

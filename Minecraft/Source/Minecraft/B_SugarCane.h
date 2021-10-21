@@ -4,16 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Block.h"
-
-
-
 /**
  * 
  */
-class MINECRAFT_API B_sand :
+class MINECRAFT_API B_SugarCane:
 	public Block
 {
 public:
-	B_sand();
-	~B_sand();
+	B_SugarCane();
+	~B_SugarCane();
 };
