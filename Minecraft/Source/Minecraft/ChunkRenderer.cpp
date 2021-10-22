@@ -192,10 +192,28 @@ void AChunkRenderer::destroyBlock(FVector pos)
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
 	if(actualBlock == -1){
-		actualBlock = (int)BLOCK::WATTER;
+		GEngine->AddOnScreenDebugMessage(-1, 100.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z ));
+
+		pos.X = int((pos.X - nor.X*2.f) / 100.f);
+		pos.Y = int((pos.Y - nor.Y*2.f) / 100.f);
+		pos.Z = int((pos.Z - nor.Z*2.f) / 100.f);
+
+		GEngine->AddOnScreenDebugMessage(-1, 100.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z ));
+
+		int wx = floor(pos.X / 16.f);
+		int wy = floor(pos.Y / 16.f);
+		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
+		if(actualChunk->c->getAt(pos.X,pos.Y,pos.Z)==(int)BLOCK::GRASS)
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
+
+		regenerate(floor((pos.X)/100.f),floor((pos.Y)/100.f));
+
 	}
-	placeBlock(pos,nor,actualBlock);
-	regenerate(floor((pos.X+nor.X)/100.f),floor((pos.Y+nor.Y)/100.f));
+	else{
+		placeBlock(pos,nor,actualBlock);
+		regenerate(floor((pos.X+nor.X)/100.f),floor((pos.Y+nor.Y)/100.f));
+	}
+	
 	actualBlock = -1;
 }
 

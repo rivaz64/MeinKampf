@@ -19,7 +19,8 @@ new B_sand};
 
 enum class TYPE{
 	BLOCK,
-	QUADS
+	QUADS,
+	SMALLBLOCK
 };
 
 enum class BLOCK{
@@ -34,6 +35,7 @@ enum class BLOCK{
 	RED_FLOWER,
 	YELLOW_FLOWER,
 	SUGAR_CANE,
+	FARMLAND_DRY,
 	WATTER
 };
 

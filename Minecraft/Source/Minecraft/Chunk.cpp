@@ -72,13 +72,13 @@ Chunk::~Chunk()
 void Chunk::generate(int x,int y)
 {
 	unsigned int actAlt = 0;
-	for (unsigned int i = 0; i < len; ++i){
+	/*for (unsigned int i = 0; i < len; ++i){
 		actAlt = i % height;
 		if (actAlt == 0){
 			data[i] = 3;
 		}
-	}
-	/*
+	}*/
+	
 	unsigned int alt = 0;
 	
 	for (unsigned int i = 0; i < len; ++i) {
@@ -250,7 +250,7 @@ void Chunk::spawnBlock(int x,int y,int z, char type)
 
 inline char Chunk::getAt(int x,int y,int z)
 {
-	return data[x *height*size + y * height + z];
+	return data[mod(x,16) *height*size + mod(y,16) * height + z];
 }
 
 char Chunk::getBlockAt(FVector p)

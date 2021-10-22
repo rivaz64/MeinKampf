@@ -14,6 +14,7 @@
 #include "B_RedFlower.h"
 #include "B_YellowFlower.h"
 #include "B_SugarCane.h"
+#include "B_Farmland_Dry.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
@@ -29,7 +30,8 @@ new B_leaves,
 new B_sand,
 new B_RedFlower,
 new B_YellowFlower,
-new B_SugarCane};
+new B_SugarCane,
+new B_Farmland_Dry};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -447,7 +449,7 @@ char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
 
 char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
 {
-	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16),tipe);
+	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),16,tipe);
 	return 0;
 }
 
