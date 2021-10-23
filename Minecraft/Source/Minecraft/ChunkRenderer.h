@@ -56,6 +56,9 @@ protected:
 	bool watter = false;
   std::list<FVector4> watterAt;
 	std::vector<FVector2D> forRegen;
+
+	std::list<FVector> farmlands;
+
 	int watterLevel = 8;
 
 	float watterUpdate = 0;
@@ -74,4 +77,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void placeSand(FVector pos);
 	void regenerate(float x,float y);
+
+  bool watterCheck(FVector& v);
 };

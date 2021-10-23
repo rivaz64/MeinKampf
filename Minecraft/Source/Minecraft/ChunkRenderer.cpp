@@ -202,7 +202,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
 
 		regenerate(pos.X,pos.Y);
-
+		farmlands.push_back(pos);
 	}
 	else{
 		placeBlock(pos,nor,actualBlock);
@@ -289,6 +289,12 @@ void AChunkRenderer::regenerate(float x,float y)
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
 }
 
+bool AChunkRenderer::watterCheck(FVector& v)
+{
+	auto newPos = v+FVector(rand()%15-7,rand()%15-7,rand()%15-7);
+	return Chunk::getBlockAt(newPos) == (int)BLOCK::WATTER;
+}
+
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)
 {
@@ -303,9 +309,10 @@ void AChunkRenderer::Tick(float DeltaTime)
 		placeBlock(sandFallingAt*100.f,FVector(1,1,1));
 	}
 
-	if(watterUpdate>.2){
-		int watterNum = watterAt.size();
+	if(watterUpdate>1){
 		watterUpdate=0;
+		/*int watterNum = watterAt.size();
+		
 		for(int i=0;i<watterNum-1;i++){
 			//coordenadas gird
 			auto pos = FVector(watterAt.front().X,watterAt.front().Y,watterAt.front().Z);
@@ -327,7 +334,18 @@ void AChunkRenderer::Tick(float DeltaTime)
 		}
 		for(FVector2D& v: forRegen){
 			regenerate(v.X,v.Y);
+		}*/
+		FVector actual;
+		for(auto it = farmlands.begin();it!=farmlands.end();++it){
+			actual = *it;
+			if(watterCheck(actual)){
+				placeBlock(actual*100.f,FVector(1,1,1),(int)BLOCK::FARMLAND_WET);
+				farmlands.erase(it);
+				regenerate(actual.X,actual.Y);
+				break;
+			}
 		}
+
 	}
 	
 

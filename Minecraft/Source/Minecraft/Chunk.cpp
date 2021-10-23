@@ -255,7 +255,7 @@ inline char Chunk::getAt(int x,int y,int z)
 
 char Chunk::getBlockAt(FVector p)
 {
-	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->data[mod(p.X,16) *height*size + mod(p.Y,16) * height + mod(p.Z,16)];
+	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->getAt(p.X,p.Y,p.Z);
 }
 
 inline int Chunk::mod(int n,int m)
