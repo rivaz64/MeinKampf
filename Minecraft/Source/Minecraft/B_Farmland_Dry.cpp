@@ -5,12 +5,12 @@
 
 B_Farmland_Dry::B_Farmland_Dry()
 {
-  textures[0] = FVector2D(0, 0);
-  textures[1] = FVector2D(0, 0);
-  textures[2] = FVector2D(0, 0);
-  textures[3] = FVector2D(0, 0);
-  textures[4] = FVector2D(0, 0);
-  textures[5] = FVector2D(0, 0);
+  textures[0] = FVector2D(2, 0);
+  textures[1] = FVector2D(2, 0);
+  textures[2] = FVector2D(2, 0);
+  textures[3] = FVector2D(2, 0);
+  textures[4] = FVector2D(2, 0);
+  textures[5] = FVector2D(7,5);
   life = 1;
   type = TYPE::BLOCK;
 }

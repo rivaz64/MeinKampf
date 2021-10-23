@@ -68,6 +68,9 @@ public:
 	void destroingAt(FVector pos, FVector nor, float delta);
 	void placeBlock(FVector pos, FVector nor);
 	void placeBlock(FVector pos, FVector nor,char type);
+
+	
+
 	UFUNCTION(BlueprintCallable)
 	void placeSand(FVector pos);
 	void regenerate(float x,float y);

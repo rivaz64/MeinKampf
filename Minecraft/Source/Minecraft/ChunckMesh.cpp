@@ -449,7 +449,7 @@ char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
 
 char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
 {
-	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),16,tipe);
+	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),pz,tipe);
 	return 0;
 }
 
