@@ -58,10 +58,13 @@ protected:
 	std::vector<FVector2D> forRegen;
 
 	std::list<FVector> farmlands;
+	std::list<FVector> crops;
 
 	int watterLevel = 8;
 
 	float watterUpdate = 0;
+
+	float cropUpdate = 0;
 
 public:	
 	// Called every frame

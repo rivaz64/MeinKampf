@@ -16,6 +16,7 @@
 #include "B_SugarCane.h"
 #include "B_Farmland_Dry.h"
 #include "B_Farmland_Wet.h"
+#include "B_Crop.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
@@ -33,7 +34,15 @@ new B_RedFlower,
 new B_YellowFlower,
 new B_SugarCane,
 new B_Farmland_Dry,
-new B_Farmland_Wet};
+new B_Farmland_Wet,
+new B_Crop,
+new B_Crop1,
+new B_Crop2,
+new B_Crop3,
+new B_Crop4,
+new B_Crop5,
+new B_Crop6,
+new B_Crop7};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {

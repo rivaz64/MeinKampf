@@ -198,11 +198,19 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		int wx = floor(pos.X / 16.f);
 		int wy = floor(pos.Y / 16.f);
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-		if(actualChunk->c->getAt(pos.X,pos.Y,pos.Z)==(int)BLOCK::GRASS)
-		actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
-
-		regenerate(pos.X,pos.Y);
-		farmlands.push_back(pos);
+		auto block = actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
+		if(block==(int)BLOCK::GRASS){
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
+			regenerate(pos.X,pos.Y);
+			farmlands.push_back(pos);
+		}
+		if(block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
+			pos.Z++;
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CROP);
+			regenerate(pos.X,pos.Y);
+			crops.push_back(pos);
+		}
+		
 	}
 	else{
 		placeBlock(pos,nor,actualBlock);
@@ -300,6 +308,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	watterUpdate += DeltaTime;
+	cropUpdate += DeltaTime;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 
@@ -346,8 +355,29 @@ void AChunkRenderer::Tick(float DeltaTime)
 			}
 		}
 
+
+
 	}
 	
+
+	if(cropUpdate>6){
+		cropUpdate=0;
+		
+		FVector actual;
+		for(auto it = crops.begin();it!=crops.end();++it){
+			actual = *it;
+			auto block = Chunk::getBlockAt(actual);
+			if(block<(int)BLOCK::WATTER-1 && block>= (int)BLOCK::CROP){
+				placeBlock(actual*100.f,FVector(1,1,1),block+1);
+				regenerate(actual.X,actual.Y);
+			}
+			else{
+				crops.erase(it);
+				break;
+			}
+
+		}
+	}
 
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {
