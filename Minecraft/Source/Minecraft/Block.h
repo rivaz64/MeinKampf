@@ -48,6 +48,7 @@ enum class BLOCK{
 	CROP7,
 	DOOR_UP,
 	DOOR_DOWN,
+	CRAFTING_TABLE,
 	WATTER
 };
 

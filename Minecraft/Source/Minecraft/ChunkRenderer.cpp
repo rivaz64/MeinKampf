@@ -192,7 +192,6 @@ void AChunkRenderer::destroyBlock(FVector pos)
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
 	if(actualBlock == -1){
-
 		pos.X = int((pos.X - nor.X) / 100.f);
 		pos.Y = int((pos.Y - nor.Y) / 100.f);
 		pos.Z = int((pos.Z - nor.Z) / 100.f);
@@ -216,6 +215,11 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			pos.Z++;
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::DOOR_DOWN);
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z+1,(int)BLOCK::DOOR_UP);
+			regenerate(pos.X,pos.Y);
+		}
+		if(cual == 4 && block != (int)BLOCK::CRAFTING_TABLE){
+			pos.Z++;
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CRAFTING_TABLE);
 			regenerate(pos.X,pos.Y);
 		}
 		

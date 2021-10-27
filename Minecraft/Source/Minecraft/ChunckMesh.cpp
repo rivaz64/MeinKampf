@@ -18,6 +18,7 @@
 #include "B_Farmland_Wet.h"
 #include "B_Crop.h"
 #include "B_Door.h"
+#include "B_CraftingTable.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
@@ -45,7 +46,8 @@ new B_Crop5,
 new B_Crop6,
 new B_Crop7,
 new B_Door_Up,
-new B_Door_Down};
+new B_Door_Down,
+new B_CraftingTable};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
