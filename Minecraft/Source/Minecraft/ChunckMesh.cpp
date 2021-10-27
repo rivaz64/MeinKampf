@@ -17,6 +17,7 @@
 #include "B_Farmland_Dry.h"
 #include "B_Farmland_Wet.h"
 #include "B_Crop.h"
+#include "B_Door.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 using std::vector;
@@ -42,7 +43,9 @@ new B_Crop3,
 new B_Crop4,
 new B_Crop5,
 new B_Crop6,
-new B_Crop7};
+new B_Crop7,
+new B_Door_Up,
+new B_Door_Down};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -118,8 +121,12 @@ void AChunckMesh::generateMesh()
 		else if (c->data[i] != (int)BLOCK::AIR) {
 			if(bloks[c->data[i]-1]->type == TYPE::BLOCK)
 			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
-			else
+			else if(bloks[c->data[i]-1]->type == TYPE::QUADS)
 				addQuads(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
+			else if(bloks[c->data[i]-1]->type == TYPE::QUAD){
+				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
+
+			}
 		}
 	}
 	//m_mesh->CreateMeshSection()
@@ -374,6 +381,37 @@ void AChunckMesh::addQuads(FVector pos, char blockType)
 	addTextures(0, 1, bloks[blockType]->textures[0]);
 
 	totaltris += 8;
+	for(int i=0;i<4;++i){
+		normals.Add(FVector(0, 0, 1));
+		tangents.Add(FProcMeshTangent(0, 1, 0));
+		vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	}
+}
+
+void AChunckMesh::addInflatedQuad(FVector pos, char blockType)
+{
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100 )+GetActorLocation());
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100 )+GetActorLocation());
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100+100 )+GetActorLocation());
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100+100 )+GetActorLocation());
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris + 1);
+
+	addTextures(0, 1, bloks[blockType]->textures[0]);
+
+	totaltris += 4;
 	for(int i=0;i<4;++i){
 		normals.Add(FVector(0, 0, 1));
 		tangents.Add(FProcMeshTangent(0, 1, 0));

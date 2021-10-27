@@ -37,6 +37,11 @@ protected:
 		TSubclassOf<AActor> ClassOfPlayer;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> item;
+
+	UPROPERTY(EditAnywhere)
+		int cual;
+
+
 	int isinchunckx = 0;
 	int isinchuncky = 0;
 	char actualBlock;

@@ -20,6 +20,7 @@ new B_sand};
 enum class TYPE{
 	BLOCK,
 	QUADS,
+	QUAD,
 	SMALLBLOCK
 };
 
@@ -45,6 +46,8 @@ enum class BLOCK{
 	CROP5,
 	CROP6,
 	CROP7,
+	DOOR_UP,
+	DOOR_DOWN,
 	WATTER
 };
 

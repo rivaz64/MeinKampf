@@ -192,6 +192,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
 	if(actualBlock == -1){
+
 		pos.X = int((pos.X - nor.X) / 100.f);
 		pos.Y = int((pos.Y - nor.Y) / 100.f);
 		pos.Z = int((pos.Z - nor.Z) / 100.f);
@@ -199,16 +200,23 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		int wy = floor(pos.Y / 16.f);
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 		auto block = actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
-		if(block==(int)BLOCK::GRASS){
+		if(cual == 1 && block==(int)BLOCK::GRASS){
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
 			regenerate(pos.X,pos.Y);
 			farmlands.push_back(pos);
 		}
-		if(block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
+		if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
 			pos.Z++;
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CROP);
 			regenerate(pos.X,pos.Y);
 			crops.push_back(pos);
+		}
+
+		if(cual == 3 && block != (int)BLOCK::DOOR_DOWN){
+			pos.Z++;
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::DOOR_DOWN);
+			actualChunk->placeBlock(pos.X,pos.Y,pos.Z+1,(int)BLOCK::DOOR_UP);
+			regenerate(pos.X,pos.Y);
 		}
 		
 	}
