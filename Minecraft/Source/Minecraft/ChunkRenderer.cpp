@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
+#include "B_CraftingTable_CPP.h"
 #include "Block.h"
 //#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
@@ -204,25 +205,29 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			regenerate(pos.X,pos.Y);
 			farmlands.push_back(pos);
 		}
-		if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
+		else if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
 			pos.Z++;
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CROP);
 			regenerate(pos.X,pos.Y);
 			crops.push_back(pos);
 		}
 
-		if(cual == 3 && block != (int)BLOCK::DOOR_DOWN){
+		else if(cual == 3 && block != (int)BLOCK::DOOR_DOWN){
 			pos.Z++;
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::DOOR_DOWN);
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z+1,(int)BLOCK::DOOR_UP);
 			regenerate(pos.X,pos.Y);
 		}
-		if(cual == 4 && block != (int)BLOCK::CRAFTING_TABLE){
+		else if(cual == 4 && block != (int)BLOCK::CRAFTING_TABLE){
 			pos.Z++;
 			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CRAFTING_TABLE);
 			regenerate(pos.X,pos.Y);
 		}
-		
+		else if(block == (int)BLOCK::CRAFTING_TABLE){
+			TArray<AActor*> crafting;
+			UGameplayStatics::GetAllActorsOfClass(GetWorld(),AB_CraftingTable_CPP::StaticClass(),crafting);
+			((AB_CraftingTable_CPP*)crafting[0])->OpenWidget = true;
+		}
 	}
 	else{
 		placeBlock(pos,nor,actualBlock);
