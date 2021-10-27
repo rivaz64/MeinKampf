@@ -12,3 +12,8 @@ ABaseItemTool_CPP::ABaseItemTool_CPP()
 	MaxStack = 1;
 	Singled = true;
 }
+
+void ABaseItemTool_CPP::setMaterialType(TEnumAsByte<eMATERIAL_TYPE> materialType)
+{
+	eMaterialType = materialType;
+}
