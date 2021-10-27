@@ -20,6 +20,9 @@ public:
 
 	virtual bool UseItem(class ABaseBlock_CPP* block, FVector NormalFace, UWorld* world){ return false; }
 
+	UFUNCTION(BlueprintCallable)
+	void setMaterialType(TEnumAsByte<eMATERIAL_TYPE> materialType);
+
 public:
 	float MiningSpeed = 1.5f	;
 };
