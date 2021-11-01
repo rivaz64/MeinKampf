@@ -102,10 +102,14 @@ void AChunckMesh::PostLoad()
 
 void AChunckMesh::generateMesh()
 {
+	
 	x = GetActorLocation().X / 1600;
 	y = GetActorLocation().Y / 1600;
 	Chunk::generateChunkAt(x,y);
 	c=Chunk::getChunkAt(x,y);
+
+	
+
 	vertices.Reset();
 	Triangles.Reset();
 	normals.Reset();
@@ -140,6 +144,7 @@ void AChunckMesh::generateMesh()
 
 	// Enable collision data
 	m_mesh->ContainsPhysicsTriMeshData(true);
+
 }
 
 void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char blockType)
@@ -506,5 +511,5 @@ char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
 
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
-	return bloks[c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16))-1]->life;
+	return bloks[c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),pz)-1]->life;
 }

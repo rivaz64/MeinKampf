@@ -47,11 +47,12 @@ void AChunkRenderer::spawnChuncks(int x,int y, int dis)
 	int rad = dis * 2 + 1;
 	for (int i = x - dis; i < x + dis + 1; ++i) {
 		for (int o = y - dis; o < y + dis + 1; ++o) {
-			if (!world->getNodeAt(i, o)) {
+			if (!Chunk::getChunkAt(i, o)->spawned) {
 				FTransform trans = FTransform(FVector(i * 1600, o * 1600, 0));
 				world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), i, o);
-				
+				Chunk::getChunkAt(i, o)->spawned = true;
 			}
+			
 		}
 	}
 }
@@ -61,7 +62,8 @@ void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 	if(dir == 0){
 		for (int i = x - dis; i < x + dis + 1; ++i){
 			auto actual = (AChunckMesh*)world->getNodeAt(i, y+dis);
-			if (actual) {
+			if (actual && actual->c) {
+				actual->c->spawned = false;
 				actual->Destroy();
 			}
 		}
@@ -69,7 +71,8 @@ void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 	if(dir == 1){
 		for (int i = x - dis; i < x + dis + 1; ++i){
 			auto actual = (AChunckMesh*)world->getNodeAt(i, y-dis);
-			if (actual) {
+			if (actual&& actual->c) {
+				actual->c->spawned = false;
 				actual->Destroy();
 			}
 		}
@@ -77,7 +80,8 @@ void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 	if(dir == 2){
 		for (int i = y - dis; i < y + dis + 1; ++i){
 			auto actual = (AChunckMesh*)world->getNodeAt(x+dis,i);
-			if (actual) {
+			if (actual&& actual->c) {
+				actual->c->spawned = false;
 				actual->Destroy();
 			}
 		}
@@ -85,7 +89,8 @@ void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 	if(dir == 3){
 		for (int i = y - dis; i < y + dis + 1; ++i){
 			auto actual = (AChunckMesh*)world->getNodeAt(x-dis,i);
-			if (actual) {
+			if (actual&& actual->c) {
+				actual->c->spawned = false;
 				actual->Destroy();
 			}
 		}
@@ -95,24 +100,26 @@ void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("Simple message"));
-	pos.X = int(floor((pos.X-nor.X) / 100.f));
+	pos.X = int(floor((pos.X - nor.X) / 100.f));
 	pos.Y = int(floor((pos.Y - nor.Y) / 100.f));
 	pos.Z = int(floor((pos.Z - nor.Z) / 100.f));
 	//auto actualChunk = ((AChunckMesh*)world->getNodeAt(pos.X / 16, pos.Y / 16));
 	//actualChunk->destroingAt(pos, nor);
-	if(PointingBlock!=pos){
-		if(actualQuad != nullptr ){
+	if (PointingBlock != pos) {
+		if (actualQuad != nullptr) {
 			actualQuad->Destroy();
 		}
 		step = 0;
 		life = 0;
 		PointingBlock = pos;
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
-		blockLife = actualChunk->lifeOf(pos.X,pos.Y,pos.Z);
+		blockLife = actualChunk->lifeOf(pos.X, pos.Y, pos.Z);
 	}
-	
+
 	FVector4 data = FVector4(nor.X, nor.Y, nor.Z, 0);
-	life += delta*blockLife;
+	life += delta * blockLife;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%f"), life));
+
 	if (life >= 1) {
 		destroyBlock(pos);
 		life = 0;
@@ -192,36 +199,34 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
+	auto inerpos = FVector(int((pos.X - nor.X) / 100.f),int((pos.Y - nor.Y) / 100.f),int((pos.Z - nor.Z) / 100.f));
+	auto outpos = FVector(int((pos.X + nor.X) / 100.f),int((pos.Y + nor.Y) / 100.f),int((pos.Z + nor.Z) / 100.f));
+
 	if(actualBlock == -1){
-		pos.X = int((pos.X - nor.X) / 100.f);
-		pos.Y = int((pos.Y - nor.Y) / 100.f);
-		pos.Z = int((pos.Z - nor.Z) / 100.f);
-		int wx = floor(pos.X / 16.f);
-		int wy = floor(pos.Y / 16.f);
+		int wx = floor(inerpos.X / 16.f);
+		int wy = floor(inerpos.Y / 16.f);
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-		auto block = actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
+		auto block = actualChunk->c->getAt(inerpos.X,inerpos.Y,inerpos.Z);
 		if(cual == 1 && block==(int)BLOCK::GRASS){
-			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::FARMLAND_DRY);
-			regenerate(pos.X,pos.Y);
-			farmlands.push_back(pos);
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::FARMLAND_DRY);
+			regenerate(inerpos.X,inerpos.Y);
+			farmlands.push_back(inerpos);
 		}
 		else if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
-			pos.Z++;
-			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CROP);
-			regenerate(pos.X,pos.Y);
-			crops.push_back(pos);
+			inerpos.Z++;
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::CROP);
+			regenerate(inerpos.X,inerpos.Y);
+			crops.push_back(inerpos);
 		}
 
 		else if(cual == 3 && block != (int)BLOCK::DOOR_DOWN){
-			pos.Z++;
-			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::DOOR_DOWN);
-			actualChunk->placeBlock(pos.X,pos.Y,pos.Z+1,(int)BLOCK::DOOR_UP);
-			regenerate(pos.X,pos.Y);
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)BLOCK::DOOR_DOWN);
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z+1,(int)BLOCK::DOOR_UP);
+			regenerate(outpos.X,outpos.Y);
 		}
 		else if(cual == 4 && block != (int)BLOCK::CRAFTING_TABLE){
-			pos.Z++;
-			actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::CRAFTING_TABLE);
-			regenerate(pos.X,pos.Y);
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)BLOCK::CRAFTING_TABLE);
+			regenerate(outpos.X,outpos.Y);
 		}
 		else if(block == (int)BLOCK::CRAFTING_TABLE){
 			TArray<AActor*> crafting;

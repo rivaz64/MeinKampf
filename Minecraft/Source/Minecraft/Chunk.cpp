@@ -155,6 +155,7 @@ void Chunk::generate(int x,int y)
 	//spawnTreeAt(posx,posy,posy+y*16);
 	
 	generated = true;
+
 }
 
 void Chunk::createChunkAt(int x, int y)

@@ -45,4 +45,6 @@ public:
 	float lacunarity = .5f;
 
 	float persistence = .75f;
+
+	bool spawned = false;
 };
