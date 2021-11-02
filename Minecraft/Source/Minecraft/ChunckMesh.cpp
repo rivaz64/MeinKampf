@@ -45,9 +45,12 @@ new B_Crop4,
 new B_Crop5,
 new B_Crop6,
 new B_Crop7,
+new B_CraftingTable,
 new B_Door_Up,
 new B_Door_Down,
-new B_CraftingTable};
+new B_Door_Up,
+new B_Door_Down,
+};
 // Sets default values
 AChunckMesh::AChunckMesh()
 {
@@ -130,7 +133,10 @@ void AChunckMesh::generateMesh()
 			else if(bloks[c->data[i]-1]->type == TYPE::QUADS)
 				addQuads(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			else if(bloks[c->data[i]-1]->type == TYPE::QUAD){
-				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
+				if(c->data[i]<=(int)BLOCK::DOOR_DOWN)
+				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,0);
+				else
+					addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,1);
 
 			}
 		}
@@ -395,12 +401,22 @@ void AChunckMesh::addQuads(FVector pos, char blockType)
 	}
 }
 
-void AChunckMesh::addInflatedQuad(FVector pos, char blockType)
+void AChunckMesh::addInflatedQuad(FVector pos, char blockType,int state)
 {
-	vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100 )+GetActorLocation());
-	vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100 )+GetActorLocation());
-	vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100+100 )+GetActorLocation());
-	vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100+100 )+GetActorLocation());
+
+	if (state == 0) {
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100+100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 +100, pos.Z * 100+100 )+GetActorLocation());
+	}
+	else {
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100+100, pos.Y * 100, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 , pos.Z * 100+100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100+100, pos.Y * 100, pos.Z * 100+100 )+GetActorLocation());
+	}
+	
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 	Triangles.Add(totaltris);

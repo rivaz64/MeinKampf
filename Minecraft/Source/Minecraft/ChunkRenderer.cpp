@@ -199,6 +199,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 {
+
 	auto inerpos = FVector(int((pos.X - nor.X) / 100.f),int((pos.Y - nor.Y) / 100.f),int((pos.Z - nor.Z) / 100.f));
 	auto outpos = FVector(int((pos.X + nor.X) / 100.f),int((pos.Y + nor.Y) / 100.f),int((pos.Z + nor.Z) / 100.f));
 
@@ -232,6 +233,21 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			TArray<AActor*> crafting;
 			UGameplayStatics::GetAllActorsOfClass(GetWorld(),AB_CraftingTable_CPP::StaticClass(),crafting);
 			((AB_CraftingTable_CPP*)crafting[0])->OpenWidget = true;
+		}
+		else if (block >= (int)BLOCK::DOOR_UP && block <= (int)BLOCK::DOOR_DOWN_OPEN) {
+			if (block % 2 == 0) {
+				inerpos.Z-=1;
+			}
+			if (block <= (int)BLOCK::DOOR_DOWN) {
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::DOOR_DOWN_OPEN);
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)BLOCK::DOOR_UP_OPEN);
+			}
+			else
+			{
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::DOOR_DOWN);
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)BLOCK::DOOR_UP);
+			}
+			regenerate(inerpos.X,inerpos.Y);
 		}
 	}
 	else{

@@ -166,7 +166,9 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		else{
 			m_world->desPoint();
 		}
-		if(interacting){
+		timeSinceLast += DeltaTime;
+		if(interacting && timeSinceLast>.2){
+			timeSinceLast = 0;
 			m_world->placeBlock(Hit.Location,Hit.Normal);
 		}
 	}

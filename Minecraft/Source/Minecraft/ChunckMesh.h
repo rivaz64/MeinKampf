@@ -51,7 +51,7 @@ public:
 	void addWater(FVector pos, int alt);
 	void addCube(FVector pos, char blockType);
 	void addQuads(FVector pos, char blockType);
-	void addInflatedQuad(FVector pos, char blockType);
+	void addInflatedQuad(FVector pos, char blockType,int dir);
 	bool checkFace(FVector& pos, FVector f);
 	void addTextures(int dim, int dir, FVector2D texpos);
 	

@@ -182,5 +182,7 @@ public:
 	
 
 	bool interacting = false;
+
+	float timeSinceLast=0;
 };
 
