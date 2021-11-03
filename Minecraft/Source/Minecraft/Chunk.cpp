@@ -95,7 +95,8 @@ void Chunk::generate(int x,int y)
 		}
 		else if (actAlt < alt) {
 			if(alt <15){
-				data[i] = (int)BLOCK::SAND;
+				data[i] = (int)BLOCK::GRASS;
+				//data[i] = (int)BLOCK::SAND;
 			}
 			else
 			data[i] = (int)BLOCK::GRASS;

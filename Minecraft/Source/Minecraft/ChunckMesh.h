@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		UProceduralMeshComponent* m_root;
 	void generateMesh();
-	Chunk* c;
+	Chunk* c = nullptr;
 
 	TArray<FVector> vertices;
 	TArray<int32> Triangles;

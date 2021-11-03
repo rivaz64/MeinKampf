@@ -337,7 +337,7 @@ void AChunkRenderer::regenerate(float x,float y)
 
 bool AChunkRenderer::watterCheck(FVector& v)
 {
-	auto newPos = v+FVector(rand()%15-7,rand()%15-7,rand()%15-7);
+	auto newPos = v+FVector(rand()%11-5,rand()%11-5,0);
 	return Chunk::getBlockAt(newPos) == (int)BLOCK::WATTER;
 }
 
@@ -405,8 +405,13 @@ void AChunkRenderer::Tick(float DeltaTime)
 		for(auto it = crops.begin();it!=crops.end();++it){
 			actual = *it;
 			auto block = Chunk::getBlockAt(actual);
-			if(block<(int)BLOCK::WATTER-1 && block>= (int)BLOCK::CROP){
-				placeBlock(actual*100.f,FVector(1,1,1),block+1);
+			if(block<(int)BLOCK::CROP+8 && block>= (int)BLOCK::CROP){
+				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)BLOCK::FARMLAND_WET) {
+					placeBlock(actual*100.f,FVector(1,1,1),block+1);
+				}
+				else {
+					placeBlock(actual*100.f,FVector(1,1,1),0);
+				}
 				regenerate(actual.X,actual.Y);
 			}
 			else{

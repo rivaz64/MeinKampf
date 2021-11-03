@@ -10,7 +10,7 @@ using std::list;
 struct HT2DNode {
 	int x;
 	int y;
-	void* data;
+	void* data = nullptr;
 	HT2DNode(int _x, int _y, void* d) :x(_x), y(_y), data(d) {};
 };
 /**
