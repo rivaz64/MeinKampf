@@ -25,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	UProceduralMeshComponent* m_mesh;
 	UPROPERTY(EditAnywhere)
-  UProceduralMeshComponent* m_waterMesh;
+  UProceduralMeshComponent* m_CMesh;
 	UPROPERTY(EditAnywhere)
 		UProceduralMeshComponent* m_root;
 	void generateMesh();
@@ -38,15 +38,15 @@ public:
 	TArray<FProcMeshTangent> tangents;
 	TArray<FLinearColor> vertexColors;
 
-	TArray<FVector> waterVertices;
-	TArray<int32> waterTriangles;
-	TArray<FVector> waterNormals;
-	TArray<FVector2D> waterUV0;
-	TArray<FProcMeshTangent> waterTangents;
-	TArray<FLinearColor> waterVertexColors;
+	TArray<FVector> CVertices;
+	TArray<int32> CTriangles;
+	TArray<FVector> CNormals;
+	TArray<FVector2D> CUV0;
+	TArray<FProcMeshTangent> CTangents;
+	TArray<FLinearColor> CVertexColors;
 
 	int totaltris = 0;
-	int totalWaterTris = 0;
+	int totalCTris = 0;
 	void addQuad(FVector& pos, FVector face, bool front,volatile char blockType);
 	void addWater(FVector pos, int alt);
 	void addCube(FVector pos, char blockType);

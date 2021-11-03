@@ -64,10 +64,10 @@ AChunckMesh::AChunckMesh()
 	m_root->bUseAsyncCooking = true;
 	m_root->SetMaterial(0,mat);
 
-	m_waterMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("waterChunk"));
-	m_waterMesh->SetupAttachment(GetRootComponent());
-	m_waterMesh->bUseAsyncCooking = true;
-	m_waterMesh->SetMaterial(0,mat);
+	m_CMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("collicionChunk"));
+	m_CMesh->SetupAttachment(GetRootComponent());
+	m_CMesh->bUseAsyncCooking = true;
+	m_CMesh->SetMaterial(0,mat);
 
 	m_mesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("chunk"));
 	m_mesh->SetupAttachment(GetRootComponent());
@@ -142,14 +142,15 @@ void AChunckMesh::generateMesh()
 		}
 	}
 	//m_mesh->CreateMeshSection()
-	m_mesh->CreateMeshSection_LinearColor(0, vertices, Triangles, normals, UV0, vertexColors, tangents, true);
+	m_mesh->CreateMeshSection_LinearColor(0, vertices, Triangles, normals, UV0, vertexColors, tangents, false);
 
-	m_waterMesh->CreateMeshSection_LinearColor(0, waterVertices, waterTriangles, waterNormals, waterUV0, waterVertexColors, waterTangents,false);
+	m_CMesh->CreateMeshSection_LinearColor(0, CVertices, CTriangles, CNormals, CUV0, CVertexColors, CTangents,true);
 
-	m_waterMesh->ContainsPhysicsTriMeshData(false);
+	m_CMesh->ContainsPhysicsTriMeshData(true);
 
+	m_CMesh->SetVisibility(false);
 	// Enable collision data
-	m_mesh->ContainsPhysicsTriMeshData(true);
+	m_mesh->ContainsPhysicsTriMeshData(false);
 
 }
 
@@ -163,6 +164,12 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 	vertices.Add(FVector(pos.X * 100 + vy.X * 100, pos.Y * 100 + vy.Y * 100, pos.Z * 100 + vy.Z * 100)+GetActorLocation());
 	vertices.Add(FVector(pos.X * 100 + vz.X * 100, pos.Y * 100 + vz.Y * 100, pos.Z * 100 + vz.Z * 100)+GetActorLocation());
 	vertices.Add(FVector(face.X * 100 + pos.X * 100, face.Y * 100 + pos.Y * 100, face.Z * 100 + pos.Z * 100)+GetActorLocation());
+
+
+	CVertices.Add(FVector(pos.X * 100 + vx.X * 100, pos.Y * 100 + vx.Y * 100, pos.Z * 100 + vx.Z * 100)+GetActorLocation());
+	CVertices.Add(FVector(pos.X * 100 + vy.X * 100, pos.Y * 100 + vy.Y * 100, pos.Z * 100 + vy.Z * 100)+GetActorLocation());
+	CVertices.Add(FVector(pos.X * 100 + vz.X * 100, pos.Y * 100 + vz.Y * 100, pos.Z * 100 + vz.Z * 100)+GetActorLocation());
+	CVertices.Add(FVector(face.X * 100 + pos.X * 100, face.Y * 100 + pos.Y * 100, face.Z * 100 + pos.Z * 100)+GetActorLocation());
 
 
 	if (front) {
@@ -223,20 +230,89 @@ void AChunckMesh::addQuad(FVector& pos, FVector face, bool front,volatile char b
 		}
 	}
 	totaltris += 4;
+
+	if (front) {
+		CTriangles.Add(totalCTris);
+		CTriangles.Add(totalCTris + 1);
+		CTriangles.Add(totalCTris + 2);
+		if (face.X == 0) {
+			CTriangles.Add(totalCTris + 2);
+			CTriangles.Add(totalCTris + 1);
+			CTriangles.Add(totalCTris + 3);
+
+		}
+		if (face.Y == 0) {
+			CTriangles.Add(totalCTris + 0);
+			CTriangles.Add(totalCTris + 2);
+			CTriangles.Add(totalCTris + 3);
+
+		}
+		if (face.Z == 0) {
+			CTriangles.Add(totalCTris + 1);
+			CTriangles.Add(totalCTris + 0);
+			CTriangles.Add(totalCTris + 3);
+
+
+		}
+	}
+	else {
+		CTriangles.Add(totalCTris);
+		CTriangles.Add(totalCTris + 2);
+		CTriangles.Add(totalCTris + 1);
+		if (face.X == 0) {
+			CTriangles.Add(totalCTris + 2);
+			CTriangles.Add(totalCTris + 3);
+			CTriangles.Add(totalCTris + 1);
+
+
+		}
+		if (face.Y == 0) {
+			CTriangles.Add(totalCTris + 0);
+			CTriangles.Add(totalCTris + 3);
+			CTriangles.Add(totalCTris + 2);
+
+
+		}
+		if (face.Z == 0) {
+			CTriangles.Add(totalCTris + 1);
+			CTriangles.Add(totalCTris + 3);
+			CTriangles.Add(totalCTris + 0);
+
+
+
+		}
+	}
+	totalCTris += 4;
+
 	normals.Add(FVector(0, 0, 1));
 	normals.Add(FVector(0, 0, 1));
 	normals.Add(FVector(0, 0, 1));
 	normals.Add(FVector(0, 0, 1));
+
+	CNormals.Add(FVector(0, 0, 1));
+	CNormals.Add(FVector(0, 0, 1));
+	CNormals.Add(FVector(0, 0, 1));
+	CNormals.Add(FVector(0, 0, 1));
 
 	tangents.Add(FProcMeshTangent(0, 1, 0));
 	tangents.Add(FProcMeshTangent(0, 1, 0));
 	tangents.Add(FProcMeshTangent(0, 1, 0));
 	tangents.Add(FProcMeshTangent(0, 1, 0));
 
-	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
-	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
-	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
-	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CTangents.Add(FProcMeshTangent(0, 1, 0));
+	CTangents.Add(FProcMeshTangent(0, 1, 0));
+	CTangents.Add(FProcMeshTangent(0, 1, 0));
+	CTangents.Add(FProcMeshTangent(0, 1, 0));
+
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	CVertexColors.Add(FLinearColor(1, 1, 1, 1.0));
 }
 
 void AChunckMesh::addWater(FVector pos, int alt)
@@ -295,38 +371,38 @@ void AChunckMesh::addWater(FVector pos, int alt)
 		++ec;
 	}
 
-	waterVertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ea)));
-  waterVertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-eb)));
-  waterVertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ec)));
-  waterVertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ed)));
+	vertices.Add(FVector(pos.X * 100 - 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ea)));
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100 - 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-eb)));
+	vertices.Add(FVector(pos.X * 100, pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ec)));
+  vertices.Add(FVector(-100 + pos.X * 100,-100 + pos.Y * 100, pos.Z * 100)+GetActorLocation()-FVector(0,0,10*(9-alt-ed)));
 	
-	waterTriangles.Add(totalWaterTris);
-	waterTriangles.Add(totalWaterTris + 2);
-	waterTriangles.Add(totalWaterTris + 1);
-	waterTriangles.Add(totalWaterTris + 1);
-	waterTriangles.Add(totalWaterTris + 3);
-	waterTriangles.Add(totalWaterTris);
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris);
 
-	auto texpos = FVector2D(0,0);
+	auto texpos = FVector2D(14,12);
 	std::vector<FVector2D> texturesinorder = { textcords[2] + texpos * TEXTURESIZE,textcords[1] + texpos * TEXTURESIZE
 		,textcords[0] + texpos * TEXTURESIZE,FVector2D(TEXTURESIZE, TEXTURESIZE) + texpos * TEXTURESIZE };
 	
 
 	for (int i = 0; i <  4; ++i) {
-		waterUV0.Add(texturesinorder[i]);
+		UV0.Add(texturesinorder[i]);
 	}
 	
-	totalWaterTris += 4;
+	totaltris += 4;
 
-	waterNormals.Add(FVector(0, 0, 1));
-	waterNormals.Add(FVector(0, 0, 1));
-	waterNormals.Add(FVector(0, 0, 1));
-	waterNormals.Add(FVector(0, 0, 1));
+	normals.Add(FVector(0, 0, 1));
+	normals.Add(FVector(0, 0, 1));
+	normals.Add(FVector(0, 0, 1));
+	normals.Add(FVector(0, 0, 1));
 
-	waterTangents.Add(FProcMeshTangent(0, 1, 0));
-	waterTangents.Add(FProcMeshTangent(0, 1, 0));
-	waterTangents.Add(FProcMeshTangent(0, 1, 0));
-	waterTangents.Add(FProcMeshTangent(0, 1, 0));
+	tangents.Add(FProcMeshTangent(0, 1, 0));
+	tangents.Add(FProcMeshTangent(0, 1, 0));
+	tangents.Add(FProcMeshTangent(0, 1, 0));
+	tangents.Add(FProcMeshTangent(0, 1, 0));
 
 	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
 	vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
