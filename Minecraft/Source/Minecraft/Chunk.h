@@ -7,7 +7,7 @@
 /**
  * 
  */
-class Chunk
+class MINECRAFT_API Chunk
 {
 	
 public:
@@ -33,7 +33,10 @@ public:
 	static void spawnBlockAt(int x,int y,int z, char type);
 	void spawnBlock(int x,int y,int z, char type);
 	unsigned int waterAtitude = 14;
-	static inline int mod(int n,int m);
+  static inline int mod(int n, int m)
+  {
+    return ((n % m) + m) % m;
+  }
 	inline char getAt(int x,int y,int z);
 	static char getBlockAt(FVector p);
 	float getAltAt(float x,float y);

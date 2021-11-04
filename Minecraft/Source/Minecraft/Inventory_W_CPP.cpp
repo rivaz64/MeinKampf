@@ -7,6 +7,8 @@
 #include "ItemFrame_W_CPP.h"
 #include "Containers/Array.h"
 
+#include <string>
+
 bool UInventory_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count)
 {
 	for (int i = 0; i < Slots.Num(); i++)
@@ -19,7 +21,7 @@ bool UInventory_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _co
 			}
 			return true;	
 		}
-	}
+  }
 	return false;
 }
 bool UInventory_W_CPP::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount)

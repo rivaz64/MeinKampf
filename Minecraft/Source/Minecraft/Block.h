@@ -24,7 +24,7 @@ enum class TYPE{
 	SMALLBLOCK
 };
 
-enum class BLOCK{
+enum class CHUNK_BLOCK{
 	AIR=0,
 	GRASS,
 	STONE,

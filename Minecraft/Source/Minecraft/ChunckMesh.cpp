@@ -120,20 +120,20 @@ void AChunckMesh::generateMesh()
 	tangents.Reset();
 	vertexColors.Reset();
 	for (unsigned i = 0; i < Chunk::len; ++i) {
-		if(c->data[i] > (int)BLOCK::WATTER){
+		if(c->data[i] > (int)CHUNK_BLOCK::WATTER){
 			addWater(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height),16-c->data[i]);
 		}
-		else if (c->data[i] ==  (int)BLOCK::WATTER){
-			if( c->data[i+1] != (int)BLOCK::WATTER)
+		else if (c->data[i] ==  (int)CHUNK_BLOCK::WATTER){
+			if( c->data[i+1] != (int)CHUNK_BLOCK::WATTER)
 			addWater(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height),8 ); //+ FVector(1, 1, 1), FVector(0, -1, -1), false, blockType);
 		}
-		else if (c->data[i] != (int)BLOCK::AIR) {
+		else if (c->data[i] != (int)CHUNK_BLOCK::AIR) {
 			if(bloks[c->data[i]-1]->type == TYPE::BLOCK)
 			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			else if(bloks[c->data[i]-1]->type == TYPE::QUADS)
 				addQuads(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			else if(bloks[c->data[i]-1]->type == TYPE::QUAD){
-				if(c->data[i]<=(int)BLOCK::DOOR_DOWN)
+				if(c->data[i]<=(int)CHUNK_BLOCK::DOOR_DOWN)
 				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,0);
 				else
 					addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,1);
@@ -351,22 +351,22 @@ void AChunckMesh::addWater(FVector pos, int alt)
 
 	char actual = Chunk::getBlockAt(Rpos);
 
-	if(Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos)>=(int)BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos) < actual){
+	if(Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos) < actual){
 		++ea;
 		++ed;
 	}
-	if(Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos)>=(int)BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos) < actual){
+	if(Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos) < actual){
 		++eb;
 		++ec;
 	}
 
 
-	if(Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos)>=(int)BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos) < actual){
+	if(Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos) < actual){
 		++eb;
 		++ed;
 	}
 
-	if(Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos)>=(int)BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos) < actual){
+	if(Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos) < actual){
 		++ea;
 		++ec;
 	}
@@ -542,7 +542,7 @@ bool AChunckMesh::checkFace(FVector& pos, FVector f)
 	else{
 		data = ((Chunk*)Chunk::savedData->getNodeAt(x,y))->getAt(checkPos.X,checkPos.Y,checkPos.Z);
 	} 
-	return data == (int)BLOCK::AIR || data == (int)BLOCK::LEAVES || data >= (int)BLOCK::WATTER || data >= (int)BLOCK::RED_FLOWER;
+	return data == (int)CHUNK_BLOCK::AIR || data == (int)CHUNK_BLOCK::LEAVES || data >= (int)CHUNK_BLOCK::WATTER || data >= (int)CHUNK_BLOCK::RED_FLOWER;
 }
 
 void AChunckMesh::addTextures(int dim, int dir, FVector2D texpos)

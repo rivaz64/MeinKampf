@@ -241,6 +241,89 @@ bool AMinecraftCharacter::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8
   }
 }
 
+bool AMinecraftCharacter::AddItemC(TSubclassOf<class ABaseItem_CPP> _item,
+                                   uint8 _count,
+                                   uint8 maxStack,
+                                   uint8& _oCount)
+{
+  if (inventory_items)
+  {
+    for (int i = 0; i < inventory_items->Num(); ++i)
+    {
+      if ((*inventory_items)[i] == _item)
+      {
+        if ((*inventory_count)[i] + _count <= maxStack)
+        {
+					(*inventory_count)[i] += _count;
+					_count = 0;
+        }
+				else
+				{
+					(*inventory_count)[i] = maxStack;
+					_count -= maxStack - (*inventory_count)[i];
+				}
+      }
+
+			if (_count == 0)
+			{
+			  _oCount = 0;
+				return true;
+			}
+    }
+
+    for (int i = 0; i < inventory_items->Num(); ++i)
+    {
+      if ((*inventory_items)[i] == NULL)
+      {
+        (*inventory_items)[i] = _item;
+
+        if (_count <= maxStack)
+        {
+          (*inventory_count)[i] = _count;
+          _count = 0;
+        }
+        else
+        {
+          (*inventory_count)[i] = maxStack;
+          _count -= maxStack;
+        }
+      }
+
+      if (_count == 0)
+      {
+        _oCount = 0;
+        return true;
+      }
+		}
+  }
+
+	_oCount = _count;
+	return false;
+}
+
+void AMinecraftCharacter::GetItemC(int _index, TSubclassOf<class ABaseItem_CPP>& _oType, uint8& _oCount)
+{
+  _oType = (*inventory_items)[_index];
+	_oCount = (*inventory_count)[_index];
+}
+
+void AMinecraftCharacter::SetItemC(int _index, uint8 maxStack, TSubclassOf<class ABaseItem_CPP> _type, uint8 _count, uint8& _oCount)
+{
+  (*inventory_items)[_index] = _type;
+
+  if (_count <= maxStack)
+  {
+    (*inventory_count)[_index] = _count;
+    _oCount = 0;
+  }
+  else
+  {
+    (*inventory_count)[_index] = maxStack;
+    _oCount = _count - maxStack;
+  }
+  
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
