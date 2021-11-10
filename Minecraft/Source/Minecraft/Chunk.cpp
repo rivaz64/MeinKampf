@@ -86,23 +86,23 @@ void Chunk::generate(int x,int y)
 		if (actAlt == 0) {
 			alt = valueAt(float(i / (size*height))/16.f+x,float((i % (size*height)) / height)/16.f+y)*12+16;
 			//alt = abs(fmod(perlinNoise2D((float(i / (size*height))/16.f+x)*.6f, (float((i % (size*height)) / height)/16.f+y))*.6f,1))*30+2;
-			data[i] = (int)BLOCK::BEDROCK;
+			data[i] = (int)CHUNK_BLOCK::BEDROCK;
 			continue;
 		}
 		if (actAlt < alt-1) {
 			
-			data[i] = (int)BLOCK::STONE;
+			data[i] = (int)CHUNK_BLOCK::STONE;
 		}
 		else if (actAlt < alt) {
 			if(alt <15){
-				data[i] = (int)BLOCK::GRASS;
-				//data[i] = (int)BLOCK::SAND;
+				data[i] = (int)CHUNK_BLOCK::GRASS;
+				//data[i] = (int)CHUNK_BLOCK::SAND;
 			}
 			else
-			data[i] = (int)BLOCK::GRASS;
+			data[i] = (int)CHUNK_BLOCK::GRASS;
 		}
 		else if(actAlt<waterAtitude){
-			data[i] = (int)BLOCK::WATTER;
+			data[i] = (int)CHUNK_BLOCK::WATTER;
 		}
 	}
 	int pos = abs(rand2d(x,y))*25;
@@ -112,24 +112,24 @@ void Chunk::generate(int x,int y)
 	//alt = abs(fmod(perlinNoise2D((float(posx)/16.f+x)*.6, (float(posy)/16.f+y))*.6f,1))*30+2;
 	if(alt>=15){
 		for(int i=0;i<6;++i){
-			data[posx*size*height+posy*height+alt+i]=(int)BLOCK::WOOD;
+			data[posx*size*height+posy*height+alt+i]=(int)CHUNK_BLOCK::WOOD;
 		}
 		for(int i=0;i<3;++i){
 			for(int o=0;o<3;++o){
 				if(i==1 || o==1){
-					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+6]=(int)BLOCK::LEAVES;
+					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+6]=(int)CHUNK_BLOCK::LEAVES;
 				}
 				if(!(i==1 && o==1)){
-					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+5]=(int)BLOCK::LEAVES;
+					data[(posx-1+i)*size*height+(posy-1+o)*height+alt+5]=(int)CHUNK_BLOCK::LEAVES;
 				}
 			}
 		}
 		for(int i=0;i<5;++i){
 			for(int o=0;o<5;++o){
 				if(!(i==2 && o==2)){
-					data[(posx-2+i)*size*height+(posy-2+o)*height+alt+3]=(int)BLOCK::LEAVES;
+					data[(posx-2+i)*size*height+(posy-2+o)*height+alt+3]=(int)CHUNK_BLOCK::LEAVES;
 					if(!((i==0 && o==0)||(i==4 && o==0)||(i==0 && o==4)||(i==4 && o==4))){
-						data[(posx-2+i)*size*height+(posy-2+o)*height+alt+4]=(int)BLOCK::LEAVES;
+						data[(posx-2+i)*size*height+(posy-2+o)*height+alt+4]=(int)CHUNK_BLOCK::LEAVES;
 					}
 				}
 			}
@@ -145,11 +145,11 @@ void Chunk::generate(int x,int y)
 		posy = pos%16;
 		alt = valueAt(float(posx)/16.f+x,float(posy)/16.f+y)*12+16;
 		if(alt == 14){
-			data[posx*size*height+posy*height+alt]=(int)BLOCK::SUGAR_CANE;
-			data[posx*size*height+posy*height+alt+1]=(int)BLOCK::SUGAR_CANE;
+			data[posx*size*height+posy*height+alt]=(int)CHUNK_BLOCK::SUGAR_CANE;
+			data[posx*size*height+posy*height+alt+1]=(int)CHUNK_BLOCK::SUGAR_CANE;
 		}
-		else if(data[posx*size*height+posy*height+alt]==(int)BLOCK::AIR){
-			data[posx*size*height+posy*height+alt]=(int)BLOCK::RED_FLOWER+i%2;
+		else if(data[posx*size*height+posy*height+alt]==(int)CHUNK_BLOCK::AIR){
+			data[posx*size*height+posy*height+alt]=(int)CHUNK_BLOCK::RED_FLOWER+i%2;
 		}
 	}//*/
 	
@@ -260,10 +260,6 @@ char Chunk::getBlockAt(FVector p)
 	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->getAt(p.X,p.Y,p.Z);
 }
 
-inline int Chunk::mod(int n,int m)
-{
-	return ((n%m)+m)%m;
-}
 
 
 

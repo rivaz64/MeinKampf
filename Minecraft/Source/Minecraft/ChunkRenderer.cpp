@@ -151,7 +151,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 	volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
 	volatile char ans = actualChunk->c->data[location];
-	actualChunk->c->data[location] = (int)BLOCK::AIR;
+	actualChunk->c->data[location] = (int)CHUNK_BLOCK::AIR;
 	//actualBlock =  bloks[ans-1]->breaked;
 
 	actualChunk->Destroy();
@@ -190,7 +190,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 	auto upBlock =  actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
 
-	if(upBlock == (int)BLOCK::SAND){
+	if(upBlock == (int)CHUNK_BLOCK::SAND){
 		sandFall = true;
 		sandFallingAt = pos;
 	}
@@ -208,47 +208,44 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		int wy = floor(inerpos.Y / 16.f);
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 		auto block = actualChunk->c->getAt(inerpos.X,inerpos.Y,inerpos.Z);
-		if(cual == 1 && block==(int)BLOCK::GRASS){
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), inerpos.X, inerpos.Y, inerpos.Z));
-
-			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::FARMLAND_DRY);
+		if(cual == 1 && block==(int)CHUNK_BLOCK::GRASS){
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::FARMLAND_DRY);
 			regenerate(inerpos.X,inerpos.Y);
 			farmlands.push_back(inerpos);
 		}
-		else if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
+		else if(cual == 2 && block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET){
 			inerpos.Z++;
-			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::CROP);
-
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CROP);
 			regenerate(inerpos.X,inerpos.Y);
 			crops.push_back(inerpos);
 		}
 
-		else if(cual == 3 && block != (int)BLOCK::DOOR_DOWN){
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)BLOCK::DOOR_DOWN);
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z+1,(int)BLOCK::DOOR_UP);
+		else if(cual == 3 && block != (int)CHUNK_BLOCK::DOOR_DOWN){
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN);
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP);
 			regenerate(outpos.X,outpos.Y);
 		}
-		else if(cual == 4 && block != (int)BLOCK::CRAFTING_TABLE){
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)BLOCK::CRAFTING_TABLE);
+		else if(cual == 4 && block != (int)CHUNK_BLOCK::CRAFTING_TABLE){
+			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::CRAFTING_TABLE);
 			regenerate(outpos.X,outpos.Y);
 		}
-		else if(block == (int)BLOCK::CRAFTING_TABLE){
+		else if(block == (int)CHUNK_BLOCK::CRAFTING_TABLE){
 			TArray<AActor*> crafting;
 			UGameplayStatics::GetAllActorsOfClass(GetWorld(),AB_CraftingTable_CPP::StaticClass(),crafting);
 			((AB_CraftingTable_CPP*)crafting[0])->OpenWidget = true;
 		}
-		else if (block >= (int)BLOCK::DOOR_UP && block <= (int)BLOCK::DOOR_DOWN_OPEN) {
+		else if (block >= (int)CHUNK_BLOCK::DOOR_UP && block <= (int)CHUNK_BLOCK::DOOR_DOWN_OPEN) {
 			if (block % 2 == 0) {
 				inerpos.Z-=1;
 			}
-			if (block <= (int)BLOCK::DOOR_DOWN) {
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::DOOR_DOWN_OPEN);
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)BLOCK::DOOR_UP_OPEN);
+			if (block <= (int)CHUNK_BLOCK::DOOR_DOWN) {
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN_OPEN);
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP_OPEN);
 			}
 			else
 			{
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::DOOR_DOWN);
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)BLOCK::DOOR_UP);
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN);
+				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP);
 			}
 			regenerate(inerpos.X,inerpos.Y);
 		}
@@ -272,25 +269,25 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 	pos.Y = int((pos.Y + nor.Y) / 100.f);
 	pos.Z = int((pos.Z + nor.Z) / 100.f);
 
-	if(type == (int)BLOCK::SAND){
+	if(type == (int)CHUNK_BLOCK::SAND){
 		FTransform trans = FTransform(FVector((int)floor(pos.X) * 100, (int)floor(pos.Y) * 100, (int)floor(pos.Z) * 100));
 		GetWorld()->SpawnActor<AActor>(sand, trans);
 		return;
 	}
 
 	//cordenadas grid
-	if(type >= (int)BLOCK::WATTER && (int)BLOCK::WATTER+8>type){
+	if(type >= (int)CHUNK_BLOCK::WATTER && (int)CHUNK_BLOCK::WATTER+8>type){
 		if(Chunk::getBlockAt(pos+FVector(1,0,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(1,0,0),(int)BLOCK::WATTER+7-type));
+			watterAt.push_back(FVector4(pos+FVector(1,0,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
 		if(Chunk::getBlockAt(pos+FVector(0,1,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(0,1,0),(int)BLOCK::WATTER+7-type));
+			watterAt.push_back(FVector4(pos+FVector(0,1,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
 	  if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(-1,0,0),(int)BLOCK::WATTER+7-type));
+			watterAt.push_back(FVector4(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
 		if(Chunk::getBlockAt(pos+FVector(0,-1,0)) == 0){
-			watterAt.push_back(FVector4(pos+FVector(0,-1,0),(int)BLOCK::WATTER+7-type));
+			watterAt.push_back(FVector4(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
 	}
 
@@ -304,17 +301,6 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 	
 }
 
-void AChunkRenderer::remake(FVector pos)
-{
-	waitingForRemake.push_back(pos);
-	/*auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
-	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
-	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.X / 16) * 1600, 0));
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
-	*/
-}
-
 void AChunkRenderer::placeSand(FVector pos)
 {
 	pos.X = int((pos.X + 1) / 100.f);
@@ -323,7 +309,7 @@ void AChunkRenderer::placeSand(FVector pos)
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
 	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
 	actualChunk->item = item;
-	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)BLOCK::SAND);
+	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::SAND);
 	actualChunk->Destroy();
 	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.X / 16) * 1600, 0));
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
@@ -352,7 +338,7 @@ void AChunkRenderer::regenerate(float x,float y)
 bool AChunkRenderer::watterCheck(FVector& v)
 {
 	auto newPos = v+FVector(rand()%11-5,rand()%11-5,0);
-	return Chunk::getBlockAt(newPos) == (int)BLOCK::WATTER;
+	return Chunk::getBlockAt(newPos) == (int)CHUNK_BLOCK::WATTER;
 }
 
 // Called every frame
@@ -363,18 +349,6 @@ void AChunkRenderer::Tick(float DeltaTime)
 	cropUpdate += DeltaTime;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
-
-	if (waitingForRemake.size()>0) {
-		auto pos = waitingForRemake[0];
-		auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
-		world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
-		actualChunk->Destroy();
-		FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
-		FActorSpawnParameters params;
-		params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans,params), floor(pos.X / 16), floor(pos.Y / 16));
-		waitingForRemake.clear();
-	}
 
 	if(sandFall){
 		sandFall=false;
@@ -392,7 +366,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 			//coordenadas Chunk
 			auto wPos = FVector2D(floor(pos.X/16.f),floor(pos.Y/16.f));
 			//coordenadas world
-			placeBlock(pos*100.f,FVector(1,1,1),(int)BLOCK::WATTER+8-watterAt.front().W);
+			placeBlock(pos*100.f,FVector(1,1,1),(int)CHUNK_BLOCK::WATTER+8-watterAt.front().W);
 			bool already = false;
 			for(FVector2D& v: forRegen){
 				if(v==wPos){
@@ -412,7 +386,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 		for(auto it = farmlands.begin();it!=farmlands.end();++it){
 			actual = *it;
 			if(watterCheck(actual)){
-				placeBlock(actual*100.f,FVector(1,1,1),(int)BLOCK::FARMLAND_WET);
+				placeBlock(actual*100.f,FVector(1,1,1),(int)CHUNK_BLOCK::FARMLAND_WET);
 				farmlands.erase(it);
 				regenerate(actual.X,actual.Y);
 				break;
@@ -431,8 +405,8 @@ void AChunkRenderer::Tick(float DeltaTime)
 		for(auto it = crops.begin();it!=crops.end();++it){
 			actual = *it;
 			auto block = Chunk::getBlockAt(actual);
-			if(block<(int)BLOCK::CROP+8 && block>= (int)BLOCK::CROP){
-				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)BLOCK::FARMLAND_WET) {
+			if(block<(int)CHUNK_BLOCK::CROP+8 && block>= (int)CHUNK_BLOCK::CROP){
+				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET) {
 					placeBlock(actual*100.f,FVector(1,1,1),block+1);
 				}
 				else {

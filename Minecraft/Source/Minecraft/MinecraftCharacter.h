@@ -107,6 +107,12 @@ public:
 		uint8 HUDSlotActive = 0;
 	class TArray<TSubclassOf<class ABaseItem_CPP>>* HUD;
 
+
+
+  TArray<TSubclassOf<class ABaseItem_CPP>> inventory_items;
+  TArray<uint8> inventory_count;
+	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool UsedItem = false;
 protected:
@@ -173,7 +179,24 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count);
 	UFUNCTION(BlueprintCallable)
-		bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+    bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+
+  UFUNCTION(BlueprintCallable)
+    bool AddItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+  UFUNCTION(BlueprintCallable)
+    bool SubstractItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
+
+  UFUNCTION(BlueprintCallable)
+    bool AddSlotItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8 _index, uint8& _oCount);
+  UFUNCTION(BlueprintCallable)
+    bool SubstractSlotItemC(uint8 _count, uint8 _index, uint8& _oCount);
+
+  UFUNCTION(BlueprintCallable)
+    void GetItemC(uint8 _index, TSubclassOf<class ABaseItem_CPP>& _oType, uint8& _oCount);
+  UFUNCTION(BlueprintCallable)
+    bool SetItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8 _index, uint8& _oCount);
+  UFUNCTION(BlueprintCallable)
+    int GetItemsCountC();
 
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
