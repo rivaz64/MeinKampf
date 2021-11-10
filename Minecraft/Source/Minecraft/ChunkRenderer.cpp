@@ -209,6 +209,8 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 		auto block = actualChunk->c->getAt(inerpos.X,inerpos.Y,inerpos.Z);
 		if(cual == 1 && block==(int)BLOCK::GRASS){
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), inerpos.X, inerpos.Y, inerpos.Z));
+
 			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::FARMLAND_DRY);
 			regenerate(inerpos.X,inerpos.Y);
 			farmlands.push_back(inerpos);
@@ -216,6 +218,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		else if(cual == 2 && block==(int)BLOCK::FARMLAND_DRY || block==(int)BLOCK::FARMLAND_WET){
 			inerpos.Z++;
 			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)BLOCK::CROP);
+
 			regenerate(inerpos.X,inerpos.Y);
 			crops.push_back(inerpos);
 		}
@@ -301,6 +304,17 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 	
 }
 
+void AChunkRenderer::remake(FVector pos)
+{
+	waitingForRemake.push_back(pos);
+	/*auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
+	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
+	actualChunk->Destroy();
+	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.X / 16) * 1600, 0));
+	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
+	*/
+}
+
 void AChunkRenderer::placeSand(FVector pos)
 {
 	pos.X = int((pos.X + 1) / 100.f);
@@ -349,6 +363,18 @@ void AChunkRenderer::Tick(float DeltaTime)
 	cropUpdate += DeltaTime;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+
+	if (waitingForRemake.size()>0) {
+		auto pos = waitingForRemake[0];
+		auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
+		world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
+		actualChunk->Destroy();
+		FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
+		FActorSpawnParameters params;
+		params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans,params), floor(pos.X / 16), floor(pos.Y / 16));
+		waitingForRemake.clear();
+	}
 
 	if(sandFall){
 		sandFall=false;

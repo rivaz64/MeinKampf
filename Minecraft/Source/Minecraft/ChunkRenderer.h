@@ -65,6 +65,8 @@ protected:
 	std::list<FVector> farmlands;
 	std::list<FVector> crops;
 
+	std::vector<FVector> waitingForRemake;
+
 	int watterLevel = 8;
 
 	float watterUpdate = 0;
@@ -80,6 +82,7 @@ public:
 	void placeBlock(FVector pos, FVector nor);
 	void placeBlock(FVector pos, FVector nor,char type);
 
+	void remake(FVector pos);
 	
 
 	UFUNCTION(BlueprintCallable)

@@ -21,6 +21,8 @@
 #include "B_CraftingTable.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
+#include "Kismet/GameplayStatics.h"
+#include "ChunkRenderer.h"
 using std::vector;
 float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
@@ -74,7 +76,7 @@ AChunckMesh::AChunckMesh()
 	m_mesh->bUseAsyncCooking = true;
 	m_mesh->SetMaterial(0,mat);
 	
-	
+	m_CMesh->OnComponentHit.AddDynamic(this,&AChunckMesh::OnCompHit);
 }
 
 void AChunckMesh::destroingAt(FVector pos, FVector nor)
@@ -604,4 +606,20 @@ char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
 	return bloks[c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),pz)-1]->life;
+}
+
+void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	auto pos = Hit.ImpactPoint + Hit.ImpactNormal;
+	pos = FVector(floor(pos.X / 100.f),floor(pos.Y / 100.f),floor(pos.Z / 100.f));
+	auto blok = Chunk::getBlockAt(pos);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
+
+	if (blok == (int)BLOCK::FARMLAND_DRY || blok == (int)BLOCK::FARMLAND_WET) {
+		Chunk::spawnBlockAt(pos.X,pos.Y,pos.Z,(int)BLOCK::GRASS);
+		TArray<AActor*> renderer;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AChunkRenderer::StaticClass(), renderer);
+		((AChunkRenderer*)renderer[0])->remake(pos);
+	}
+	
 }

@@ -70,5 +70,10 @@ public:
 	char placeBlock(int x,int y,int z,char tipe);
 	void destroingAt(FVector pos, FVector nor);
 	float lifeOf(int x,int y,int z);
+
+	UFUNCTION()
+	void 
+	OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 	TSubclassOf<AActor> item;
 };
