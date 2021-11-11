@@ -221,6 +221,16 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	{
 		PointingNormal = Hit.ImpactNormal;
 	}*/
+
+  if (HUDWidget)
+  {
+    int HUDSlots = 9 < inventory_items.Num() ? 9 : inventory_items.Num();
+    HUDSlots = HUDSlots < inventory_count.Num() ? HUDSlots : inventory_count.Num();
+    for (int i = 0; i < HUDSlots; ++i)
+    {
+      HUDWidget->UpdateItems(i, inventory_items[i], inventory_count[i]);
+    }
+  }
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)
@@ -316,19 +326,25 @@ bool AMinecraftCharacter::SubstractItemC(TSubclassOf<class ABaseItem_CPP> _item,
 
 bool AMinecraftCharacter::AddSlotItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8 _index, uint8 & _oCount)
 {
-  if (inventory_items.Num() > _index && inventory_count.Num() > _index && _item && inventory_items[_index] == _item)
+  if (inventory_items.Num() > _index && inventory_count.Num() > _index && _item && _count > 0 && (inventory_items[_index] == _item || inventory_items[_index] == NULL))
   {
+    if (inventory_items[_index] == NULL)
+    {
+      inventory_items[_index] = _item;
+    }
     uint8 maxStack = _item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
 
     if (inventory_count[_index] + _count <= maxStack)
     {
       inventory_count[_index] += _count;
       _oCount = 0;
+      return true;
     }
     else
     {
-      inventory_count[_index] = maxStack;
       _oCount = (inventory_count[_index] + _count) - maxStack;
+      inventory_count[_index] = maxStack;
+      return false;
     }
   }
   return false;
@@ -342,11 +358,13 @@ bool AMinecraftCharacter::SubstractSlotItemC(uint8 _count, uint8 _index, uint8 &
     {
       inventory_count[_index] -= _count;
       _oCount = 0;
+      return true;
     }
     else
     {
       inventory_count[_index] = 0;
       _oCount = (_count - inventory_count[_index]);
+      return false;
     }
   }
   return false;

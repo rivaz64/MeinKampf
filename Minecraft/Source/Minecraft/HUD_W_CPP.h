@@ -31,14 +31,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetSelected(int itemSelected);
 	UFUNCTION(BlueprintCallable)
-		TSubclassOf<class ABaseItem_CPP> GetItem(uint8 slot_num);
-	UFUNCTION(BlueprintCallable)
-		uint8 GetCount(uint8 slot_num);
-	UFUNCTION(BlueprintCallable)
-		bool AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 _count);
-	UFUNCTION(BlueprintCallable)
-		void SubstractItem(uint8 sub, uint8 slot_num);
-	UFUNCTION(BlueprintCallable)
-		bool UpdateItems(uint8 slot_num, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count);
+		bool UpdateItems(uint8 _index, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count);
 	
 };

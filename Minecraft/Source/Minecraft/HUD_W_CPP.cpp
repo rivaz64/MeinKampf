@@ -21,27 +21,7 @@ void UHUD_W_CPP::SetSelected(int itemSelected)
 	ItemBar->SetSelected(itemSelected);
 }
 
-TSubclassOf<class ABaseItem_CPP> UHUD_W_CPP::GetItem(uint8 slot_num)
+bool UHUD_W_CPP::UpdateItems(uint8 _index, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
 {
-	return ItemBar->GetItem(slot_num);
-}
-
-uint8 UHUD_W_CPP::GetCount(uint8 slot_num)
-{
-	return ItemBar->GetCount(slot_num);
-}
-
-bool UHUD_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> item, uint8 _count)
-{
-	return ItemBar->AddItem(item, _count);
-}
-
-void UHUD_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
-{
-	ItemBar->SubstractItem(sub, slot_num);
-}
-
-bool UHUD_W_CPP::UpdateItems(uint8 slot_num, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
-{
-	return ItemBar->UpdateItems(slot_num, _itemType, _count);
+	return ItemBar->UpdateItems(_index, _itemType, _count);
 }
