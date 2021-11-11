@@ -56,6 +56,9 @@ void ADropManager_CPP::SpawnItemFromType(FVector pos, eSPAWN_ITEM_TYPE type, int
 		{
     case CHUNK_BLOCK::AIR:
       break;
+    case CHUNK_BLOCK::DIRT:
+      item = ABaseDirtItemBlock_CPP::StaticClass();
+      break;
     case CHUNK_BLOCK::GRASS:
       item = ABaseGrassItemBlock_CPP::StaticClass();
       break;
