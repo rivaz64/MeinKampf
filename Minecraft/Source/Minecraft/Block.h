@@ -27,6 +27,7 @@ enum class TYPE{
 enum class CHUNK_BLOCK{
 	AIR=0,
 	GRASS,
+	DIRT,
 	STONE,
 	BEDROCK,
 	COBBLESTONE,

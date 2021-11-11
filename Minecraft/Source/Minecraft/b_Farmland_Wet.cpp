@@ -12,6 +12,7 @@ B_Farmland_Wet::B_Farmland_Wet()
   textures[4] = FVector2D(2, 0);
   textures[5] = FVector2D(6,5);
   life = 1;
+  breaked = (int)CHUNK_BLOCK::DIRT;
   type = TYPE::BLOCK;
 }
 

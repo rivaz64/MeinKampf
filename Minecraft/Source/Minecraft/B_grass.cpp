@@ -12,7 +12,7 @@ B_grass::B_grass()
   textures[4] = FVector2D(3, 0);
   textures[5] = FVector2D(0, 0);
   life = 1;
-  breaked = 1;
+  breaked = (int)CHUNK_BLOCK::DIRT;
   item = ABaseGrassItemBlock_CPP::StaticClass();
   type = TYPE::BLOCK;
 }

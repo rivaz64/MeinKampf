@@ -5,6 +5,7 @@
 #include <vector>
 #include "HashTable2d.h"
 #include "B_grass.h"
+#include "B_dirt.h"
 #include "B_stone.h"
 #include "B_bedrock.h"
 #include "B_cobblestone.h"
@@ -28,6 +29,7 @@ float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
 vector<Block*> bloks = { 
 new B_grass,
+new B_dirt,
 new B_stone,
 new B_bedRock, 
 new B_cobblestone,
@@ -592,8 +594,8 @@ void AChunckMesh::Tick(float DeltaTime)
 char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
 {
 	
-	volatile char ans = c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16));
-	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),Chunk::mod(pz,16),0);
+	volatile char ans = c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),pz);
+	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),pz,(int)CHUNK_BLOCK::AIR);
 	return bloks[ans-1]->breaked;
 }
 
@@ -615,8 +617,8 @@ void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	auto blok = Chunk::getBlockAt(pos);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
 
-	if (blok == (int)BLOCK::FARMLAND_DRY || blok == (int)BLOCK::FARMLAND_WET) {
-		Chunk::spawnBlockAt(pos.X,pos.Y,pos.Z,(int)BLOCK::GRASS);
+	if (blok == (int)CHUNK_BLOCK::FARMLAND_DRY || blok == (int)CHUNK_BLOCK::FARMLAND_WET) {
+		Chunk::spawnBlockAt(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::DIRT);
 		TArray<AActor*> renderer;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AChunkRenderer::StaticClass(), renderer);
 		((AChunkRenderer*)renderer[0])->remake(pos);

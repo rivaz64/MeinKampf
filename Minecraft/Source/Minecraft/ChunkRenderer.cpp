@@ -9,6 +9,7 @@
 #include "BaseGrassItemBlock_CPP.h"
 #include "B_CraftingTable_CPP.h"
 #include "Block.h"
+#include "DropManager_CPP.h"
 //#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
 //std::vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
@@ -134,9 +135,6 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 		actualQuad = GetWorld()->SpawnActor<AActor>(quad[step], trans);
 		step +=1;
 	}
-		
-	
-		
 }
 
 
@@ -148,6 +146,10 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	world->eraseAt(wx,wy);
 	actualChunk->item = item;
 	actualBlock = actualChunk->destroyBlock(pos.X,pos.Y,pos.Z);
+
+	TArray<AActor*> dropman;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADropManager_CPP::StaticClass(), dropman);
+	((ADropManager_CPP*)dropman[0])->SpawnItemFromType(pos * 100 + FVector(50, 50, 50), eSPAWN_ITEM_TYPE::SPAWN_BLOCK, actualBlock, 1);
 
 	volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
 	volatile char ans = actualChunk->c->data[location];
@@ -164,28 +166,28 @@ void AChunkRenderer::destroyBlock(FVector pos)
 		trans = FTransform(FVector((wx-1) * 1600, wy * 1600, 0));
 		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx-1,wy);
 	}
-	if((int(pos.Y)%16+16)%16==0){
+	else if((int(pos.Y)%16+16)%16==0){
 		actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy-1));
 		world->eraseAt(wx,wy-1);
 		actualChunk->Destroy();
 		trans = FTransform(FVector((wx) * 1600, (wy-1) * 1600, 0));
 		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans),wx,wy-1);
 	}
-	if((int(pos.X)%16+16)%16==15){
+	else if((int(pos.X)%16+16)%16==15){
 		actualChunk = ((AChunckMesh*)world->getNodeAt(wx+1,wy));
 		world->eraseAt(wx+1,wy);
 		actualChunk->Destroy();
 		trans = FTransform(FVector((wx+1) * 1600, wy * 1600, 0));
 		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx+1,wy);
 	}
-	if((int(pos.Y)%16+16)%16==15){
+	else if((int(pos.Y)%16+16)%16==15){
 		actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy+1));
 		world->eraseAt(wx,wy+1);
 		actualChunk->Destroy();
 		trans = FTransform(FVector((wx) * 1600, (wy+1) * 1600, 0));
 		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy+1);
 	}
-
+	
 	pos.Z += 1;
 
 	auto upBlock =  actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
@@ -301,6 +303,15 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 	
 }
 
+void AChunkRenderer::remake(FVector pos)
+{
+	auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
+	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
+	actualChunk->Destroy();
+	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
+	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
+}
+
 void AChunkRenderer::placeSand(FVector pos)
 {
 	pos.X = int((pos.X + 1) / 100.f);
@@ -311,7 +322,7 @@ void AChunkRenderer::placeSand(FVector pos)
 	actualChunk->item = item;
 	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::SAND);
 	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.X / 16) * 1600, 0));
+	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
 	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
 }
 
