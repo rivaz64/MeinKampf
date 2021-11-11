@@ -18,52 +18,17 @@ void UItemBar_W_CPP::SetSelected(int itemSelected)
 	}
 }
 
-TSubclassOf<class ABaseItem_CPP> UItemBar_W_CPP::GetItem(uint8 slot_num)
+bool UItemBar_W_CPP::UpdateItems(uint8 _index, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
 {
 	auto slots = Bar->GetSlots();
-	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
-	if (frame != NULL)
-		return frame->GetItem();
-	return NULL;
-}
+  if (_index < slots.Num())
+  {
+	  auto frame = Cast<UItemFrame_W_CPP>(slots[_index]->Content);
+	  if (frame != NULL)
+	  	return frame->UpdateItems(_itemType, _count);
+	  return false;
+  }
+  return false;
 
-uint8 UItemBar_W_CPP::GetCount(uint8 slot_num)
-{
-	auto slots = Bar->GetSlots();
-	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
-	if (frame != NULL)
-		return frame->GetCount();
-	return 0;
-}
-
-bool UItemBar_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count)
-{
-	auto slots = Bar->GetSlots();
-	for (int i = 0; i < slots.Num(); i++)
-	{
-		auto frame = Cast<UItemFrame_W_CPP>(slots[i]->Content);
-		if (frame != NULL && frame->AddItem(_item, _count))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-void UItemBar_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
-{
-	auto slots = Bar->GetSlots();
-	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
-	if (frame != NULL)
-		frame->SubstractItem(sub);
-}
-
-bool UItemBar_W_CPP::UpdateItems(uint8 slot_num, TSubclassOf<class ABaseItem_CPP> _itemType, uint8 _count)
-{
-	auto slots = Bar->GetSlots();
-	auto frame = Cast<UItemFrame_W_CPP>(slots[slot_num]->Content);
-	if (frame != NULL)
-		return frame->UpdateItems(_itemType, _count);
-	return false;
 }
 
