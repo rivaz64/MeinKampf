@@ -21,8 +21,6 @@ public:
     bool AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8& _oCount);
   UFUNCTION(BlueprintCallable)
     void SubstractItem(uint8 sub, uint8 slot_num);
-  UFUNCTION(BlueprintCallable)
-    void SetHUD(class UHUD_W_CPP* _hud);
 
 
   UFUNCTION(BlueprintCallable)
@@ -44,8 +42,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 		TArray<class UItemFrame_W_CPP*> Slots;
-	UPROPERTY(BlueprintReadWrite)
-		class UHUD_W_CPP* HUD;
   UPROPERTY(BlueprintReadOnly)
     class AMinecraftCharacter* Player;
 

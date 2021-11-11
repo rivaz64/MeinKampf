@@ -16,10 +16,6 @@ bool UInventory_W_CPP::AddItem(TSubclassOf<class ABaseItem_CPP> _item, uint8 _co
 	{
 		if (Slots[i]->AddItem(_item, _count))
 		{
-			if (i < 9)
-			{
-				HUD->UpdateItems(i, Slots[i]->GetItem(), Slots[i]->GetCount());
-			}
 			return true;	
 		}
   }
@@ -31,10 +27,6 @@ bool UInventory_W_CPP::AddItemR(TSubclassOf<class ABaseItem_CPP> _item, uint8 _c
 	{
 		if (Slots[i]->AddItemR(_item, _count, _oCount))
 		{
-			if (i < 9)
-			{
-				HUD->UpdateItems(i, Slots[i]->GetItem(), Slots[i]->GetCount());
-			}
 			return true;
 		}
 
@@ -48,13 +40,7 @@ void UInventory_W_CPP::SubstractItem(uint8 sub, uint8 slot_num)
 	Slots[slot_num]->SubstractItem(sub);
 	if (slot_num < 9)
 	{
-		HUD->UpdateItems(slot_num, Slots[slot_num]->GetItem(), Slots[slot_num]->GetCount());
 	}
-}
-
-void UInventory_W_CPP::SetHUD(UHUD_W_CPP* _hud)
-{
-	HUD = _hud;
 }
 
 void UInventory_W_CPP::SetOwnerPlayer(AMinecraftCharacter* _player)
