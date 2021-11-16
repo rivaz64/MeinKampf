@@ -64,6 +64,7 @@ protected:
 
 	std::list<FVector> farmlands;
 	std::list<FVector> crops;
+	std::list<FVector> updates;
 
 	std::vector<FVector> waitingForRemake;
 

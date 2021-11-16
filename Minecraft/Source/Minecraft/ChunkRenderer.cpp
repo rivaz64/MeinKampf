@@ -215,11 +215,12 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			regenerate(inerpos.X,inerpos.Y);
 			farmlands.push_back(inerpos);
 		}
-		else if(cual == 2 && block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET){
+		else if(cual == 2 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
 			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CROP);
 			regenerate(inerpos.X,inerpos.Y);
-			crops.push_back(inerpos);
+			//crops.push_back(inerpos);
+			updates.push_back(inerpos);
 		}
 
 		else if(cual == 3 && block != (int)CHUNK_BLOCK::DOOR_DOWN){
@@ -230,6 +231,12 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		else if(cual == 4 && block != (int)CHUNK_BLOCK::CRAFTING_TABLE){
 			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::CRAFTING_TABLE);
 			regenerate(outpos.X,outpos.Y);
+		}
+		else if(cual == 5){
+			inerpos.Z++;
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CARROT);
+			regenerate(inerpos.X,inerpos.Y);
+			updates.push_back(inerpos);
 		}
 		else if(block == (int)CHUNK_BLOCK::CRAFTING_TABLE){
 			TArray<AActor*> crafting;
@@ -409,7 +416,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 	}
 	
 
-	if(cropUpdate>6){
+	/*if(cropUpdate>6){
 		cropUpdate=0;
 		
 		FVector actual;
@@ -431,7 +438,32 @@ void AChunkRenderer::Tick(float DeltaTime)
 			}
 
 		}
+	}*/
+
+	if(cropUpdate>6){
+		cropUpdate=0;
+		
+		FVector actual;
+		for(auto it = updates.begin();it!=updates.end();++it){
+			actual = *it;
+			auto block = Chunk::getBlockAt(actual);
+			if(AChunckMesh::bloks[block]->update){
+				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET) {
+					placeBlock(actual*100.f,FVector(1,1,1),block+1);
+				}
+				else {
+					placeBlock(actual*100.f,FVector(1,1,1),0);
+				}
+				regenerate(actual.X,actual.Y);
+			}
+			else{
+				updates.erase(it);
+				break;
+			}
+
+		}
 	}
+
 
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {

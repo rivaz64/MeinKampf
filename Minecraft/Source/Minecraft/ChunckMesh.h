@@ -51,7 +51,10 @@ public:
 	void addWater(FVector pos, int alt);
 	void addCube(FVector pos, char blockType);
 	void addQuads(FVector pos, char blockType);
+	void addCrops(FVector pos, char blockType);
+	void addCropQuad(FVector pos, char blockType,float cual,bool dir);
 	void addInflatedQuad(FVector pos, char blockType,int dir);
+
 	bool checkFace(FVector& pos, FVector f);
 	void addTextures(int dim, int dir, FVector2D texpos);
 	
@@ -70,6 +73,8 @@ public:
 	char placeBlock(int x,int y,int z,char tipe);
 	void destroingAt(FVector pos, FVector nor);
 	float lifeOf(int x,int y,int z);
+
+	static vector<Block*> bloks;
 
 	UFUNCTION()
 	void 

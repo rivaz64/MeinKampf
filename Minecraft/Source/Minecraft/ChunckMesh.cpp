@@ -20,6 +20,7 @@
 #include "B_Crop.h"
 #include "B_Door.h"
 #include "B_CraftingTable.h"
+#include "B_Carrots.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 #include "Kismet/GameplayStatics.h"
@@ -27,7 +28,7 @@
 using std::vector;
 float TEXTURESIZE = 1.f / 16.f;
 vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
-vector<Block*> bloks = { 
+vector<Block*> AChunckMesh::bloks = { 
 new B_grass,
 new B_dirt,
 new B_stone,
@@ -54,6 +55,10 @@ new B_Door_Up,
 new B_Door_Down,
 new B_Door_Up,
 new B_Door_Down,
+new B_Carrots,
+new B_Carrots1,
+new B_Carrots2,
+new B_Carrots3,
 };
 // Sets default values
 AChunckMesh::AChunckMesh()
@@ -136,13 +141,17 @@ void AChunckMesh::generateMesh()
 			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			else if(bloks[c->data[i]-1]->type == TYPE::QUADS)
 				addQuads(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
+			else if(bloks[c->data[i]-1]->type == TYPE::CROPS){
+				addCrops(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
+			}
+
 			else if(bloks[c->data[i]-1]->type == TYPE::QUAD){
 				if(c->data[i]<=(int)CHUNK_BLOCK::DOOR_DOWN)
 				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,0);
 				else
 					addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,1);
-
 			}
+
 		}
 	}
 	//m_mesh->CreateMeshSection()
@@ -474,6 +483,52 @@ void AChunckMesh::addQuads(FVector pos, char blockType)
 	addTextures(0, 1, bloks[blockType]->textures[0]);
 
 	totaltris += 8;
+	for(int i=0;i<4;++i){
+		normals.Add(FVector(0, 0, 1));
+		tangents.Add(FProcMeshTangent(0, 1, 0));
+		vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	}
+}
+
+void AChunckMesh::addCrops(FVector pos, char blockType)
+{
+	addCropQuad(pos,blockType,1,false);
+	addCropQuad(pos,blockType,2,false);
+	addCropQuad(pos,blockType,1,true);
+	addCropQuad(pos,blockType,2,true);
+}
+
+void AChunckMesh::addCropQuad(FVector pos, char blockType,float cual, bool dir)
+{
+	float posi = 33.33f*cual;
+	if(dir){
+		vertices.Add(FVector(pos.X * 100.f+posi, pos.Y * 100 ,    pos.Z * 100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f+posi, pos.Y * 100+100, pos.Z * 100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f+posi, pos.Y * 100 ,    pos.Z * 100+100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f+posi, pos.Y * 100+100, pos.Z * 100+100 )+GetActorLocation());
+	}
+	else{
+		vertices.Add(FVector(pos.X * 100.f,     pos.Y * 100+posi , pos.Z * 100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f+100, pos.Y * 100+posi, pos.Z * 100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f,     pos.Y * 100+posi, pos.Z * 100+100 )+GetActorLocation());
+	  vertices.Add(FVector(pos.X * 100.f+100, pos.Y * 100+posi, pos.Z * 100+100 )+GetActorLocation());
+	}
+
+	
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris + 1);
+	addTextures(0, 1, bloks[blockType]->textures[0]);
+	totaltris += 4;
 	for(int i=0;i<4;++i){
 		normals.Add(FVector(0, 0, 1));
 		tangents.Add(FProcMeshTangent(0, 1, 0));

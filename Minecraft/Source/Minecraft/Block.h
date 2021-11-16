@@ -21,6 +21,7 @@ enum class TYPE{
 	BLOCK,
 	QUADS,
 	QUAD,
+	CROPS,
 	SMALLBLOCK
 };
 
@@ -52,6 +53,10 @@ enum class CHUNK_BLOCK{
 	DOOR_DOWN,
 	DOOR_UP_OPEN,
 	DOOR_DOWN_OPEN,
+	CARROT,
+	CARROT1,
+	CARROT2,
+	CARROT3,
 	WATTER
 };
 
@@ -64,6 +69,7 @@ public:
 	TSubclassOf<class ABaseItem_CPP> item;
 	char breaked;
 	TYPE type;
+	bool update = false;
 	Block();
 	~Block();
 };
