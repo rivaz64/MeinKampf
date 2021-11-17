@@ -26,6 +26,10 @@
 #include "BaseBlock_CPP.h"
 #include "BaseItem_CPP.h"
 
+
+#include "UIHUDState_CPP.h"
+#include "UIInventoryState_CPP.h"
+
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
@@ -130,6 +134,25 @@ void AMinecraftCharacter::BeginPlay()
     inventory_items.Add(NULL);
     inventory_count.Add(0);
   }
+
+  for (int i = 0; i < static_cast<int>(eSTATE::COUNT); ++i)
+  {
+    switch (static_cast<eSTATE>(i))
+    {
+    case eSTATE::HUD:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::HUD, new UIHUDState_CPP()));
+      break;
+    case eSTATE::INVENTORY:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::INVENTORY, new UIInventoryState_CPP()));
+      break;
+    case eSTATE::CRAFTING:
+      break;
+    case eSTATE::MENU:
+      break;
+    case eSTATE::OVEN:
+      break;
+    }
+  }
 }
 
 void AMinecraftCharacter::Tick(float DeltaTime)
@@ -231,6 +254,8 @@ void AMinecraftCharacter::Tick(float DeltaTime)
       HUDWidget->UpdateItems(i, inventory_items[i], inventory_count[i]);
     }
   }
+
+  UpdateStateMachine();
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)
@@ -418,6 +443,41 @@ int AMinecraftCharacter::GetItemsCountC()
 
 ////////////////////////////|//////////////////////////////////////////////
 // Input
+
+void AMinecraftCharacter::UpdateStateMachine()
+{
+  if (CurrentState == eSTATE::NONE)
+  {
+    CurrentState = eSTATE::HUD;
+    toggleHUDWidget(true);
+  }
+
+  eSTATE newState = UIStates[CurrentState]->Update(CurrentInput);
+
+  if (newState != CurrentState)
+  {
+    CurrentState = newState;
+
+    switch (CurrentState)
+    {
+    case eSTATE::HUD:
+      toggleInventoryWidget(false);
+      toggleHUDWidget(true);
+      break;
+    case eSTATE::INVENTORY:
+      toggleInventoryWidget(true);
+      break;
+    case eSTATE::CRAFTING:
+      break;
+    case eSTATE::MENU:
+      break;
+    case eSTATE::OVEN:
+      break;
+    }
+  }
+
+  CurrentInput = INPUT_NONE;
+}
 
 void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {

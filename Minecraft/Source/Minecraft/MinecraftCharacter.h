@@ -2,9 +2,12 @@
 
 #pragma once
 
+#include "UIState_CPP.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MinecraftCharacter.generated.h"
+
 
 class UInputComponent;
 class USkeletalMeshComponent;
@@ -160,7 +163,26 @@ protected:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
-	
+
+
+
+  void UpdateStateMachine();
+
+  UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void toggleHUDWidget(bool active);
+  UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void toggleInventoryWidget(bool active);
+
+
+
+  TMap<eSTATE, UIState_CPP*> UIStates;
+
+  eSTATE CurrentState = eSTATE::NONE;
+
+ public:
+  UPROPERTY(BlueprintReadWrite)
+    TEnumAsByte<eINPUT_TYPE> CurrentInput = INPUT_NONE;
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -173,6 +195,7 @@ protected:
 	 * @returns true if touch controls were enabled.
 	 */
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
+
 
 public:
 
