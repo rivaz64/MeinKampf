@@ -29,6 +29,7 @@
 
 #include "UIHUDState_CPP.h"
 #include "UIInventoryState_CPP.h"
+#include "UICraftingState_CPP.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -146,6 +147,7 @@ void AMinecraftCharacter::BeginPlay()
       UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::INVENTORY, new UIInventoryState_CPP()));
       break;
     case eSTATE::CRAFTING:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::CRAFTING, new UICraftingState_CPP()));
       break;
     case eSTATE::MENU:
       break;
@@ -462,14 +464,21 @@ void AMinecraftCharacter::UpdateStateMachine()
     {
     case eSTATE::HUD:
       toggleInventoryWidget(false);
+      toggleCraftingWidget(false);
       toggleHUDWidget(true);
       break;
     case eSTATE::INVENTORY:
+      toggleCraftingWidget(false);
       toggleInventoryWidget(true);
       break;
     case eSTATE::CRAFTING:
+      toggleInventoryWidget(false);
+      toggleCraftingWidget(true);
       break;
     case eSTATE::MENU:
+      toggleInventoryWidget(false);
+      toggleCraftingWidget(false);
+      toggleHUDWidget(false);
       break;
     case eSTATE::OVEN:
       break;

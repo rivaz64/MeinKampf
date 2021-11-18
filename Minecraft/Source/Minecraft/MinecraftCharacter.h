@@ -172,6 +172,8 @@ protected:
     void toggleHUDWidget(bool active);
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void toggleInventoryWidget(bool active);
+  UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void toggleCraftingWidget(bool active);
 
 
 

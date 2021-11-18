@@ -25,6 +25,10 @@ eSTATE UIHUDState_CPP::Update(eINPUT_TYPE input)
   {
     return eSTATE::MENU;
   }
+  if (input == INPUT_OPEN_CRAFTING)
+  {
+    return eSTATE::CRAFTING;
+  }
   return eSTATE::HUD;
 }
 
