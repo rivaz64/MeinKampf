@@ -1,0 +1,11 @@
+{
+  "TestArray":
+  [
+    {
+      "Test INT" : 23,
+      "Test float" : 2.45,
+      "Test string" : "Hola"
+    }
+  ],
+  "Test object" : "Jajas"
+}
