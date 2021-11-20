@@ -155,7 +155,7 @@ void AChunckMesh::generateMesh()
 		}
 	}
 	//m_mesh->CreateMeshSection()
-	m_mesh->CreateMeshSection_LinearColor(0, vertices, Triangles, normals, UV0, vertexColors, tangents, false);
+	m_mesh->CreateMeshSection_LinearColor(0, vertices, Triangles, normals, UV0, vertexColors, tangents, true);
 
 	m_CMesh->CreateMeshSection_LinearColor(0, CVertices, CTriangles, CNormals, CUV0, CVertexColors, CTangents,true);
 
@@ -164,6 +164,8 @@ void AChunckMesh::generateMesh()
 	m_CMesh->SetVisibility(false);
 	// Enable collision data
 	m_mesh->ContainsPhysicsTriMeshData(false);
+
+	m_mesh->SetCollisionObjectType(ECollisionChannel::ECC_Visibility);
 
 }
 

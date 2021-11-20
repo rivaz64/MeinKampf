@@ -149,6 +149,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 	TArray<AActor*> dropman;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADropManager_CPP::StaticClass(), dropman);
+	if(dropman.Num()>0)
 	((ADropManager_CPP*)dropman[0])->SpawnItemFromType(pos * 100 + FVector(50, 50, 50), eSPAWN_ITEM_TYPE::SPAWN_BLOCK, actualBlock, 1);
 
 	volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
