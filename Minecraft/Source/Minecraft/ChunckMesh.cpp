@@ -21,6 +21,7 @@
 #include "B_Door.h"
 #include "B_CraftingTable.h"
 #include "B_Carrots.h"
+#include "B_Melon.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 #include "Kismet/GameplayStatics.h"
@@ -59,6 +60,9 @@ new B_Carrots,
 new B_Carrots1,
 new B_Carrots2,
 new B_Carrots3,
+new B_Melon,
+new B_MStem,
+new B_MAtachedStem,
 };
 // Sets default values
 AChunckMesh::AChunckMesh()
@@ -139,7 +143,7 @@ void AChunckMesh::generateMesh()
 		else if (c->data[i] != (int)CHUNK_BLOCK::AIR) {
 			if(bloks[c->data[i]-1]->type == TYPE::BLOCK)
 			addCube(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
-			else if(bloks[c->data[i]-1]->type == TYPE::QUADS)
+			else if(bloks[c->data[i]-1]->type == TYPE::PLANT)
 				addQuads(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			else if(bloks[c->data[i]-1]->type == TYPE::CROPS){
 				addCrops(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);

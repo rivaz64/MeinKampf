@@ -9,6 +9,7 @@
 #include "BaseGrassItemBlock_CPP.h"
 #include "B_CraftingTable_CPP.h"
 #include "Block.h"
+#include "MinecraftCharacter.h"
 #include "DropManager_CPP.h"
 //#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
@@ -206,6 +207,13 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 	auto inerpos = FVector(int((pos.X - nor.X) / 100.f),int((pos.Y - nor.Y) / 100.f),int((pos.Z - nor.Z) / 100.f));
 	auto outpos = FVector(int((pos.X + nor.X) / 100.f),int((pos.Y + nor.Y) / 100.f),int((pos.Z + nor.Z) / 100.f));
 
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+	/*if(FoundActors.Num()>0){
+		auto actualItem = (AMinecraftCharacter*)FoundActors[0];
+		return;
+	}*/
+
 	if(actualBlock == -1){
 		int wx = floor(inerpos.X / 16.f);
 		int wy = floor(inerpos.Y / 16.f);
@@ -233,9 +241,15 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::CRAFTING_TABLE);
 			regenerate(outpos.X,outpos.Y);
 		}
-		else if(cual == 5){
+		else if(cual == 5 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
 			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CARROT);
+			regenerate(inerpos.X,inerpos.Y);
+			updates.push_back(inerpos);
+		}
+		else if(cual == 6 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
+			inerpos.Z++;
+			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::MELON_STEM);
 			regenerate(inerpos.X,inerpos.Y);
 			updates.push_back(inerpos);
 		}
@@ -274,6 +288,9 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 		type = 8;
 		//return;
 	}*/
+
+
+
 	//de cordenada de mundo a cordenada grid
 	pos.X = int((pos.X + nor.X) / 100.f);
 	pos.Y = int((pos.Y + nor.Y) / 100.f);
@@ -360,6 +377,15 @@ bool AChunkRenderer::watterCheck(FVector& v)
 	return Chunk::getBlockAt(newPos) == (int)CHUNK_BLOCK::WATTER;
 }
 
+bool AChunkRenderer::checkForSpawn(FVector& v)
+{
+	auto down = Chunk::getBlockAt(v-FVector(0,0,-1));
+	return 
+	Chunk::getBlockAt(v)==(int)CHUNK_BLOCK::AIR &&
+	down != (int)CHUNK_BLOCK::WATTER &&
+	AChunckMesh::bloks[down]->type == TYPE::BLOCK;
+}
+
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)
 {
@@ -441,16 +467,36 @@ void AChunkRenderer::Tick(float DeltaTime)
 		}
 	}*/
 
-	if(cropUpdate>6){
+	if(cropUpdate>.2){
 		cropUpdate=0;
 		
 		FVector actual;
 		for(auto it = updates.begin();it!=updates.end();++it){
 			actual = *it;
 			auto block = Chunk::getBlockAt(actual);
-			if(AChunckMesh::bloks[block]->update){
-				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET) {
+			if(AChunckMesh::bloks[block-1]->update){
+				if ((Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET)) {
+					if(FMath::Rand()%8==0){
+						if(AChunckMesh::bloks[block]->needSpace){
+						float dx=0;
+						float dy=0;
+						int coal;
+						FVector placeToCheck;
+						do{
+							coal = FMath::Rand()%2;
+							if(coal ==0)
+							dx = FMath::Rand()%2*2-1;
+							else
+							dy = FMath::Rand()%2*2-1;
+							placeToCheck = actual + FVector(dx,dy,0);
+						}while(!checkForSpawn(placeToCheck));
+
+						placeBlock(placeToCheck*100.f,FVector(1,1,1),(char)AChunckMesh::bloks[block-1]->blockForSpawn);
+					  
+					}
 					placeBlock(actual*100.f,FVector(1,1,1),block+1);
+					}
+					
 				}
 				else {
 					placeBlock(actual*100.f,FVector(1,1,1),0);

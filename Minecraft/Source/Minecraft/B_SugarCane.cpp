@@ -7,7 +7,7 @@ B_SugarCane::B_SugarCane()
 {
   textures[0] = FVector2D(9, 4);
   life = 4;
-  type = TYPE::QUADS;
+  type = TYPE::PLANT;
 }
 
 B_SugarCane::~B_SugarCane()

@@ -91,4 +91,6 @@ public:
 	void regenerate(float x,float y);
 
   bool watterCheck(FVector& v);
+
+	bool checkForSpawn(FVector& v);
 };

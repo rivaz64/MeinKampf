@@ -650,6 +650,7 @@ void AMinecraftCharacter::ItemBarMove(float Val)
 		HUDSlotActive += Val + 9;
 		HUDSlotActive %= 9;
 		HUDWidget->SetSelected(HUDSlotActive);
+		HandedItem = (*HUD)[HUDSlotActive];
 	}
 }
 
@@ -659,6 +660,7 @@ void AMinecraftCharacter::ItemBarMoveNumeric(float Val)
 	{
 		HUDSlotActive = Val - 1;
 		HUDWidget->SetSelected(HUDSlotActive);
+		HandedItem = (*HUD)[HUDSlotActive];
 	}
 }
 

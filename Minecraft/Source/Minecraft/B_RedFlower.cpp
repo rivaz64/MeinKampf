@@ -7,7 +7,7 @@ B_RedFlower::B_RedFlower()
 {
   textures[0] = FVector2D(12, 0);
   life = 4;
-  type = TYPE::QUADS;
+  type = TYPE::PLANT;
 }
 
 B_RedFlower::~B_RedFlower()

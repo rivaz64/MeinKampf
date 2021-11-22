@@ -19,10 +19,11 @@ new B_sand};
 
 enum class TYPE{
 	BLOCK,
-	QUADS,
+	PLANT,
 	QUAD,
 	CROPS,
-	SMALLBLOCK
+	SMALLBLOCK,
+	ATTACHED
 };
 
 enum class CHUNK_BLOCK{
@@ -57,6 +58,9 @@ enum class CHUNK_BLOCK{
 	CARROT1,
 	CARROT2,
 	CARROT3,
+	MELON,
+	MELON_STEM,
+	MELON_ATTACHED_STEM,
 	WATTER
 };
 
@@ -70,6 +74,8 @@ public:
 	char breaked;
 	TYPE type;
 	bool update = false;
+	bool needSpace = false;
+	CHUNK_BLOCK blockForSpawn;
 	Block();
 	~Block();
 };
