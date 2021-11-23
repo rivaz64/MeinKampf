@@ -143,11 +143,27 @@ void AChunkRenderer::destroyBlock(FVector pos)
 {
 	int wx = floor(pos.X / 16);
 	int wy = floor(pos.Y / 16);
+	//auto destroyedBlock = 
+	if(Chunk::getBlockAt(pos)==(int)CHUNK_BLOCK::MELON){
+		if(Chunk::getBlockAt(pos+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			Chunk::setBlockAt(pos+FVector(1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+		}
+		else if(Chunk::getBlockAt(pos+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			Chunk::setBlockAt(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+		}
+		else if(Chunk::getBlockAt(pos+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			Chunk::setBlockAt(pos+FVector(0,1,0),(int)CHUNK_BLOCK::MELON_STEM);
+		}
+		else if(Chunk::getBlockAt(pos+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			Chunk::setBlockAt(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::MELON_STEM);
+		}
+	}
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 	world->eraseAt(wx,wy);
 	actualChunk->item = item;
 	actualBlock = actualChunk->destroyBlock(pos.X,pos.Y,pos.Z);
 
+	
 	TArray<AActor*> dropman;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADropManager_CPP::StaticClass(), dropman);
 	if(dropman.Num()>0)
@@ -478,11 +494,13 @@ void AChunkRenderer::Tick(float DeltaTime)
 				if ((Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET)) {
 					if(FMath::Rand()%8==0){
 						if(AChunckMesh::bloks[block]->needSpace){
-						float dx=0;
-						float dy=0;
+						float dx;
+						float dy;
 						int coal;
 						FVector placeToCheck;
 						do{
+							dx=0;
+							dy=0;
 							coal = FMath::Rand()%2;
 							if(coal ==0)
 							dx = FMath::Rand()%2*2-1;

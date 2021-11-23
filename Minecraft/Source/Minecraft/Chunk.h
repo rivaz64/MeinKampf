@@ -38,7 +38,9 @@ public:
     return ((n % m) + m) % m;
   }
 	inline char getAt(int x,int y,int z);
+	void setAt(int x,int y,int z,char b);
 	static char getBlockAt(FVector p);
+	static void setBlockAt(FVector p,char b);
 	float getAltAt(float x,float y);
 
 	float scale =2;

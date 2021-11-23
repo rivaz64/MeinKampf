@@ -54,7 +54,7 @@ public:
 	void addCrops(FVector pos, char blockType);
 	void addCropQuad(FVector pos, char blockType,float cual,bool dir);
 	void addInflatedQuad(FVector pos, char blockType,int dir);
-
+	void addHalfQuad(FVector pos, char blockType,int dir);
 	bool checkFace(FVector& pos, FVector f);
 	void addTextures(int dim, int dir, FVector2D texpos);
 	

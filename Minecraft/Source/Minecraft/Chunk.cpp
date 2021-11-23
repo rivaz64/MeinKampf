@@ -255,9 +255,19 @@ inline char Chunk::getAt(int x,int y,int z)
 	return data[mod(x,16) *height*size + mod(y,16) * height + z];
 }
 
+void Chunk::setAt(int x, int y, int z,char b)
+{
+	data[mod(x,16) *height*size + mod(y,16) * height + z]=b;
+}
+
 char Chunk::getBlockAt(FVector p)
 {
 	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->getAt(p.X,p.Y,p.Z);
+}
+
+void Chunk::setBlockAt(FVector p, char b)
+{
+	getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->setAt(p.X,p.Y,p.Z,b);
 }
 
 

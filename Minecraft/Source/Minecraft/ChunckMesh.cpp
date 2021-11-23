@@ -149,6 +149,33 @@ void AChunckMesh::generateMesh()
 				addCrops(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1);
 			}
 
+			else if(bloks[c->data[i]-1]->type == TYPE::ATTACHED){
+
+				FVector place(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height);
+
+				addQuads(place, c->data[i]-1);
+
+				int dir;
+
+				if(Chunk::getBlockAt(place+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON){
+					dir =0;
+				}
+
+				else if(Chunk::getBlockAt(place+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON){
+					dir =1;
+				}
+
+				else if(Chunk::getBlockAt(place+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON){
+					dir =2;
+				}
+
+				else if(Chunk::getBlockAt(place+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON){
+					dir =3;
+				}
+
+				addHalfQuad(place, c->data[i]-1,dir);
+			}
+
 			else if(bloks[c->data[i]-1]->type == TYPE::QUAD){
 				if(c->data[i]<=(int)CHUNK_BLOCK::DOOR_DOWN)
 				addInflatedQuad(FVector(i / (c->size*c->height), (i % (c->size*c->height)) / c->height, i % c->height), c->data[i]-1,0);
@@ -559,7 +586,53 @@ void AChunckMesh::addInflatedQuad(FVector pos, char blockType,int state)
 	}
 	
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 1);
+	Triangles.Add(totaltris + 2);
+	Triangles.Add(totaltris + 3);
+	Triangles.Add(totaltris + 1);
+
+	addTextures(0, 1, bloks[blockType]->textures[0]);
+
+	totaltris += 4;
+	for(int i=0;i<4;++i){
+		normals.Add(FVector(0, 0, 1));
+		tangents.Add(FProcMeshTangent(0, 1, 0));
+		vertexColors.Add(FLinearColor(1, 1, 1, 1.0));
+	}
+}
+
+void AChunckMesh::addHalfQuad(FVector pos, char blockType, int dir)
+{
+	vertices.Add(FVector(pos.X * 100+50, pos.Y * 100 + 50, pos.Z * 100 )+GetActorLocation());
+  vertices.Add(FVector(pos.X * 100+50, pos.Y * 100 + 50, pos.Z * 100+100 )+GetActorLocation());
+
+	if(dir==0){
+		vertices.Add(FVector(pos.X * 100+100, pos.Y * 100 + 50, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100+100, pos.Y * 100 + 50, pos.Z * 100+100 )+GetActorLocation());
+	}
+	else if(dir==1){
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 + 50, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100, pos.Y * 100 + 50, pos.Z * 100+100 )+GetActorLocation());
+	}
+	else if(dir==2){
+		vertices.Add(FVector(pos.X * 100+50, pos.Y * 100 + 100, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100+50, pos.Y * 100 + 100, pos.Z * 100+100 )+GetActorLocation());
+	}
+	else if(dir==3){
+		vertices.Add(FVector(pos.X * 100+50, pos.Y * 100, pos.Z * 100 )+GetActorLocation());
+		vertices.Add(FVector(pos.X * 100+50, pos.Y * 100, pos.Z * 100+100 )+GetActorLocation());
+	}
+	
+
 	Triangles.Add(totaltris);
 	Triangles.Add(totaltris + 1);
 	Triangles.Add(totaltris + 2);
