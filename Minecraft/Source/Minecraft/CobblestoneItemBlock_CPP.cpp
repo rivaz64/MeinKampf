@@ -12,7 +12,7 @@ ACobblestoneItemBlock_CPP::ACobblestoneItemBlock_CPP()
     ItemMesh = BlockAsset.Object;
   }
 
-  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Cobblestone_image.Cobblestone_image"));
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/Cobblestone_image.Cobblestone_image"));
   if (ImageAsset.Succeeded())
   {
     Image = ImageAsset.Object;

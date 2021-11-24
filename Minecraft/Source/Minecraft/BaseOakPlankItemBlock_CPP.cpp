@@ -10,5 +10,11 @@ ABaseOakPlankItemBlock_CPP::ABaseOakPlankItemBlock_CPP()
 	if (BlockAsset.Succeeded())
 	{
 		ItemMesh = BlockAsset.Object;
-	}
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/OakPlank_image.OakPlank_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }

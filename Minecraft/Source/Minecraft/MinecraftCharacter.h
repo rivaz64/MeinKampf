@@ -55,6 +55,10 @@ class AMinecraftCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
 
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* HandItemMesh;
+
 public:
 
 	UPROPERTY(EditAnywhere)
@@ -110,7 +114,8 @@ public:
 		uint8 HUDSlotActive = 0;
 	class TArray<TSubclassOf<class ABaseItem_CPP>>* HUD;
 
-
+	class UStaticMesh* DefaultItemMesh;
+	class UStaticMesh* SteveArmMesh;
 
   TArray<TSubclassOf<class ABaseItem_CPP>> inventory_items;
   TArray<uint8> inventory_count;
@@ -150,6 +155,9 @@ protected:
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+
+	void TurnAtBefore(float Rate);
+	void LookUpAtBefore(float Rate);
 
 	struct TouchData
 	{

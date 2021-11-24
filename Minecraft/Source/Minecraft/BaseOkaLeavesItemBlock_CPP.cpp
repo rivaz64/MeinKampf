@@ -10,6 +10,12 @@ ABaseOkaLeavesItemBlock_CPP::ABaseOkaLeavesItemBlock_CPP()
 	if (BlockAsset.Succeeded())
 	{
 		ItemMesh = BlockAsset.Object;
-	}
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/OakLeaves_image.OakLeaves_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }
 
