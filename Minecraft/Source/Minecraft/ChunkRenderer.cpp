@@ -147,17 +147,32 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	if(Chunk::getBlockAt(pos)==(int)CHUNK_BLOCK::MELON){
 		if(Chunk::getBlockAt(pos+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
 			Chunk::setBlockAt(pos+FVector(1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+			updates.push_back(pos+FVector(1,0,0));
 		}
 		else if(Chunk::getBlockAt(pos+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
 			Chunk::setBlockAt(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+			updates.push_back(pos+FVector(-1,0,0));
 		}
 		else if(Chunk::getBlockAt(pos+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
 			Chunk::setBlockAt(pos+FVector(0,1,0),(int)CHUNK_BLOCK::MELON_STEM);
+			updates.push_back(pos+FVector(0,1,0));
 		}
 		else if(Chunk::getBlockAt(pos+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
 			Chunk::setBlockAt(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::MELON_STEM);
+			updates.push_back(pos+FVector(0,-1,0));
 		}
 	}
+
+	else if(Chunk::getBlockAt(pos)==(int)CHUNK_BLOCK::FARMLAND_WET){
+		
+		
+		auto bloke = Chunk::getBlockAt(pos+FVector(0,0,1))-1;
+		if(bloke>=0)
+		if(AChunckMesh::bloks[bloke]->type!=TYPE::BLOCK){
+			Chunk::setBlockAt(pos+FVector(0,0,1),(int)CHUNK_BLOCK::AIR);
+		}
+	}
+
 	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
 	world->eraseAt(wx,wy);
 	actualChunk->item = item;
@@ -490,7 +505,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 		for(auto it = updates.begin();it!=updates.end();++it){
 			actual = *it;
 			auto block = Chunk::getBlockAt(actual);
-			if(AChunckMesh::bloks[block-1]->update){
+			if(block != (int)CHUNK_BLOCK::AIR && AChunckMesh::bloks[block-1]->update){
 				if ((Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET)) {
 					if(FMath::Rand()%8==0){
 						if(AChunckMesh::bloks[block]->needSpace){
