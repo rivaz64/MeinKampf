@@ -13,6 +13,8 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
+#include "Components/StaticMeshComponent.h"
+
 #include <string>
 #include "ChunckMesh.h"
 #include "HUD_W_CPP.h"
@@ -101,6 +103,22 @@ AMinecraftCharacter::AMinecraftCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+
+  HandItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Hand_Item_Mesh"));
+	HandItemMesh->SetupAttachment(RootComponent);
+
+
+  static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Game/Mara/Meshes/Items/MissingMeshItem_SM.MissingMeshItem_SM"));
+  if (MeshAsset.Succeeded())
+  {
+    DefaultItemMesh = MeshAsset.Object;
+  }
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ArmAsset(TEXT("/Game/Mara/Meshes/steve_arm.steve_arm"));
+  if (ArmAsset.Succeeded())
+  {
+    SteveArmMesh = ArmAsset.Object;
+  }
 }
 
 void AMinecraftCharacter::BeginPlay()
@@ -258,6 +276,19 @@ void AMinecraftCharacter::Tick(float DeltaTime)
   }
 
   UpdateStateMachine();
+
+  HandedItem = inventory_items[HUDSlotActive];
+	if (HandedItem)
+	{
+	  if (HandedItem->GetDefaultObject<ABaseItem_CPP>()->ItemMesh)
+		  HandItemMesh->SetStaticMesh(HandedItem->GetDefaultObject<ABaseItem_CPP>()->ItemMesh);
+    else
+      HandItemMesh->SetStaticMesh(DefaultItemMesh);
+	}
+	else
+  {
+    HandItemMesh->SetStaticMesh(SteveArmMesh);
+	}
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)
@@ -448,6 +479,7 @@ int AMinecraftCharacter::GetItemsCountC()
 
 void AMinecraftCharacter::UpdateStateMachine()
 {
+  // UI
   if (CurrentState == eSTATE::NONE)
   {
     CurrentState = eSTATE::HUD;
@@ -486,6 +518,9 @@ void AMinecraftCharacter::UpdateStateMachine()
   }
 
   CurrentInput = INPUT_NONE;
+
+
+	// TODO: MOVEMENT
 }
 
 void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -519,9 +554,11 @@ void AMinecraftCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	//PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Turn", this, &AMinecraftCharacter::TurnAtBefore);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AMinecraftCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	//PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &AMinecraftCharacter::LookUpAtBefore);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AMinecraftCharacter::LookUpAtRate);
 }
 
@@ -650,7 +687,6 @@ void AMinecraftCharacter::ItemBarMove(float Val)
 		HUDSlotActive += Val + 9;
 		HUDSlotActive %= 9;
 		HUDWidget->SetSelected(HUDSlotActive);
-		HandedItem = (*HUD)[HUDSlotActive];
 	}
 }
 
@@ -660,20 +696,33 @@ void AMinecraftCharacter::ItemBarMoveNumeric(float Val)
 	{
 		HUDSlotActive = Val - 1;
 		HUDWidget->SetSelected(HUDSlotActive);
-		HandedItem = (*HUD)[HUDSlotActive];
 	}
 }
 
 void AMinecraftCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	if (CurrentState == eSTATE::HUD)
+	  AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AMinecraftCharacter::LookUpAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+  // calculate delta for this frame from the rate information
+  if (CurrentState == eSTATE::HUD)
+	  AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AMinecraftCharacter::TurnAtBefore(float Rate)
+{
+	if (CurrentState == eSTATE::HUD)
+	  AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AMinecraftCharacter::LookUpAtBefore(float Rate)
+{
+  if (CurrentState == eSTATE::HUD)
+    AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 bool AMinecraftCharacter::EnableTouchscreenMovement(class UInputComponent* PlayerInputComponent)

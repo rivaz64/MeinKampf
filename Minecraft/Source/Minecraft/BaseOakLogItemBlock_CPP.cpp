@@ -10,5 +10,11 @@ ABaseOakLogItemBlock_CPP::ABaseOakLogItemBlock_CPP()
 	if (BlockAsset.Succeeded())
 	{
 		ItemMesh = BlockAsset.Object;
-	}
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/OakLog_image.OakLog_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }

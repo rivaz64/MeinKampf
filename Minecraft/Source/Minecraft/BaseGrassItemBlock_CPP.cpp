@@ -10,5 +10,11 @@ ABaseGrassItemBlock_CPP::ABaseGrassItemBlock_CPP()
 	if (BlockAsset.Succeeded())
 	{
 		ItemMesh = BlockAsset.Object;
-	}
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/GrassBlock_image.GrassBlock_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }

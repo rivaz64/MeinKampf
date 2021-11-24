@@ -12,7 +12,7 @@ ABaseDirtItemBlock_CPP::ABaseDirtItemBlock_CPP()
 		ItemMesh = BlockAsset.Object;
 	}
 
-  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Dirt.Dirt"));
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/Dirt_image.Dirt_image"));
   if (ImageAsset.Succeeded())
   {
     Image = ImageAsset.Object;

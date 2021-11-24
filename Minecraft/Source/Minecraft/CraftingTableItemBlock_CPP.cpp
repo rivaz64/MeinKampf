@@ -10,5 +10,11 @@ ACraftingTableItemBlock_CPP::ACraftingTableItemBlock_CPP()
 	if (BlockAsset.Succeeded())
 	{
 		ItemMesh = BlockAsset.Object;
-	}
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/CraftingTable_image.CraftingTable_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }

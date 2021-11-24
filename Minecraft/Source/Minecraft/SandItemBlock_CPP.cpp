@@ -11,5 +11,11 @@ ASandItemBlock_CPP::ASandItemBlock_CPP()
   {
     ItemMesh = BlockAsset.Object;
   }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Blocks/Sand_image.Sand_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
 }
 
