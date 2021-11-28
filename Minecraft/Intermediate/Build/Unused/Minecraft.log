@@ -1,0 +1,17 @@
+﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Users\roriv\Documents\GitHub\minecra).
+  Building MinecraftEditor...
+  Using Visual Studio 2019 14.28.29334 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Building 4 actions with 8 processes...
+    [1/4] Module.Minecraft.cpp
+C:/Users/roriv/Documents/GitHub/minecra/Minecraft/Source/Minecraft/mundo.cpp(245): warning C4457: declaration of 'x' hides function parameter
+    C:/Users/roriv/Documents/GitHub/minecra/Minecraft/Source/Minecraft/mundo.cpp(224): note: see declaration of 'x'
+C:/Users/roriv/Documents/GitHub/minecra/Minecraft/Source/Minecraft/mundo.cpp(247): warning C4457: declaration of 'y' hides function parameter
+    C:/Users/roriv/Documents/GitHub/minecra/Minecraft/Source/Minecraft/mundo.cpp(224): note: see declaration of 'y'
+C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Source\Minecraft\ChunckMesh.cpp(176): warning C4701: potentially uninitialized local variable 'dir' used
+    [2/4] UE4Editor-Minecraft-Win64-DebugGame.lib
+       Creating library C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\UE4Editor-Minecraft-Win64-DebugGame.lib and object C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\UE4Editor-Minecraft-Win64-DebugGame.exp
+    [3/4] UE4Editor-Minecraft-Win64-DebugGame.dll
+       Creating library C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\UE4Editor-Minecraft-Win64-DebugGame.suppressed.lib and object C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\UE4Editor-Minecraft-Win64-DebugGame.suppressed.exp
+    [4/4] MinecraftEditor-Win64-DebugGame.target
+  Total time in Parallel executor: 17.01 seconds
+  Total execution time: 18.15 seconds

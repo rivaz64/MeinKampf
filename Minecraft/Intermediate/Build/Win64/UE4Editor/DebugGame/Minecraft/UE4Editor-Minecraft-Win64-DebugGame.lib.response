@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-Minecraft-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\MinecraftEditor\DebugGame\Engine\SharedPCH.Engine.NonOptimized.ShadowErrors.h.obj"
+"C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\Module.Minecraft.cpp.obj"
+"C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\Module.Minecraft.gen.cpp.obj"
+"C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\Default.rc2.res"
+/OUT:"C:\Users\roriv\Documents\GitHub\minecra\Minecraft\Intermediate\Build\Win64\UE4Editor\DebugGame\Minecraft\UE4Editor-Minecraft-Win64-DebugGame.lib"
+/INCLUDE:IMPLEMENT_MODULE_Minecraft

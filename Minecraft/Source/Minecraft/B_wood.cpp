@@ -14,6 +14,7 @@ B_wood::B_wood()
   life = .5;
   breaked = 5;
   type = TYPE::BLOCK;
+  breaked = (char)CHUNK_BLOCK::WOOD;
 }
 
 B_wood::~B_wood()
