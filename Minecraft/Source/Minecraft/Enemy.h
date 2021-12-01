@@ -19,5 +19,5 @@ class MINECRAFT_API AEnemy : public Amob
 	void 
 	newPoint() override;
 
-	
+	bool detected = false;
 };
