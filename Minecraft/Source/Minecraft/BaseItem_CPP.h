@@ -39,6 +39,17 @@ enum eMATERIAL_TYPE
 	DIAMOND   UMETA(DisplayName = "DIAMOND")
 };
 
+USTRUCT(BlueprintType)
+struct FItemText
+{
+  GENERATED_BODY()
+public:
+  UPROPERTY(BlueprintReadWrite)
+    FString text;
+  UPROPERTY(BlueprintReadWrite)
+    FColor color;
+};
+
 UCLASS()
 class MINECRAFT_API ABaseItem_CPP : public AActor
 {
@@ -80,6 +91,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool Singled;
 
-	
+
+  UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    FItemText ItemName;
+  UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TArray<FItemText> ItemDesc;
 
 };
