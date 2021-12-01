@@ -27,7 +27,7 @@ void Amob::BeginPlay()
 void Amob::Tick(float DeltaTime)
 {
 	timerPoint+=DeltaTime;
-	if(timerPoint>6){
+	if(timerPoint>searchPerTime){
 		newPoint();
 	}
 	go();

@@ -28,6 +28,9 @@ public:
 	int distrecor = 0;
 	float timer=0; 
 	float timerPoint=7;
+
+	float searchPerTime = 6;
+
 	FVector2D velocity = FVector2D(1,0);
 
 	FVector2D aceleration = FVector2D(0,0);
@@ -43,7 +46,7 @@ public:
 	FRotator rots[4]= { FRotator(0, 0, 0),FRotator(0, -90, 0),FRotator(0, 180, 0),FRotator(0, 90, 0) };
 
 	int ndir=0;
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime);
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* m_mesh;
 	
@@ -57,7 +60,8 @@ public:
 
 	void go();
 
-	void newPoint();
+	virtual void 
+	newPoint();
 
 	virtual void choiserotation();
 	virtual void choiseaction();

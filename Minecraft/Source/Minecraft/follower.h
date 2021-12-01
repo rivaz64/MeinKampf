@@ -13,13 +13,23 @@ UCLASS()
 class MINECRAFT_API Afollower : public Amob
 {
 	GENERATED_BODY()
+	public:
+	Afollower();
+
+	virtual void 
+	BeginPlay() override;
+
+	virtual void 
+	Tick(float DeltaTime) override;
+
+	void 
+	newPoint();
+
 		UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> ClassToFind;
 	UPROPERTY(EditAnywhere)
 		float separation;
 	UPROPERTY(EditAnywhere)
 		bool tevio = false;
-	virtual void choiserotation();
-	virtual void choka();
 	//virtual void choiseaction();
 };
