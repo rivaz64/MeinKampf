@@ -718,18 +718,207 @@
         }
       ]
     },
+
+
+
+
     {
-      "Result": "OakPlank",
-      "Count": 4,
+      "Result": "BlockOfCoal",
+      "Count": 1,
       "Recipes": [
         {
           "Recipe": [
             {
-              "Item": "OakLog",
+              "Item": "Coal",
               "Places": [
                 {
                   "x": 0,
                   "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "BlockOfDiamond",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "BlockOfGold",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "BlockOfIron",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
                 }
               ]
             }
@@ -761,6 +950,1596 @@
                 {
                   "x": 1,
                   "y": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "HayBale",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Wheat",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "Melon",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "MelonSlice",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "MelonSeeds",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "MelonSlice",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "OakDoor",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "OakPlank",
+      "Count": 4,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakLog",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "OrangeWool",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OrangeDye",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "OrangeDye",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "RedWool",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "RedDye",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "RedDye",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "Torch",
+      "Count": 4,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Coal",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "YellowWool",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "YellowDye",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "WhiteWool",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "YellowDye",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+
+
+
+    {
+      "Result": "WoodenAxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "WoodenHoe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "WoodenPickaxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "WoodenShovel",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "WoodenSword",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakPlank",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+    {
+      "Result": "StoneAxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "StoneHoe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "StonePickaxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "StoneShovel",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "StoneSword",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Cobblestone",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+    {
+      "Result": "GoldenAxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenHoe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenPickaxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenShovel",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenSword",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+    {
+      "Result": "IronAxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "IronHoe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "IronPickaxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "IronShovel",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "IronSword",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "IronIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+    {
+      "Result": "DiamondAxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "DiamondHoe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "DiamondPickaxe",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "DiamondShovel",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "DiamondSword",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Diamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "Stick",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 2
                 }
               ]
             }
