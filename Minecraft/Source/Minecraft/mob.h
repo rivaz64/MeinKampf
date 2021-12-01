@@ -26,6 +26,17 @@ public:
 	float* actual,*velmov;
 	int distrec = 0;
 	int distrecor = 0;
+	float timer=0; 
+	float timerPoint=7;
+	FVector2D velocity = FVector2D(1,0);
+
+	FVector2D aceleration = FVector2D(0,0);
+	
+	FVector2D pointToGo = FVector2D(10000,-10000);
+
+	float maxVel = 72.f;
+
+
 	FVector dir = FVector(0, 0, 0);
 	FRotator rot;
 	FVector dirs[4] = { FVector(0, 1, 0),FVector(1, 0, 0),FVector(0, -1, 0),FVector(-1, 0, 0) };
@@ -34,37 +45,20 @@ public:
 	int ndir=0;
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere)
-		float gravity = 216;
-	UPROPERTY(EditAnywhere)
-		float velcam = 36;
-	UPROPERTY(EditAnywhere)
-		float camdist = 6;
-	UPROPERTY(EditAnywhere)
-		float waitime = 3;
-	UPROPERTY(EditAnywhere)
-		float velcor = 432;
-	UPROPERTY(EditAnywhere)
-		float cordist = 36;
-	UPROPERTY(EditAnywhere)
-		float vidas = 3;
-	UPROPERTY(EditAnywhere)
-		bool uyendo = false;
-	UPROPERTY(EditAnywhere)
-		bool hit = false;
-	UPROPERTY(EditAnywhere)
-		float dondedetecta = 0;
-	UPROPERTY(EditAnywhere)
-		float plusangl = 0;
-	UPROPERTY(EditAnywhere)
-		float distfromtree = 0;
+	UStaticMeshComponent* m_mesh;
+	
 	float noise;
 	bool eating = true;
 	bool caminando;
-	float timer = 0;
 	float fintime = 0;
 	float vel;
 	float delta;
 	float alt;
+
+	void go();
+
+	void newPoint();
+
 	virtual void choiserotation();
 	virtual void choiseaction();
 	virtual void choka();
@@ -72,4 +66,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	void
+	OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

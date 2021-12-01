@@ -749,7 +749,7 @@ void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	auto pos = Hit.ImpactPoint + Hit.ImpactNormal;
 	pos = FVector(floor(pos.X / 100.f),floor(pos.Y / 100.f),floor(pos.Z / 100.f));
 	auto blok = Chunk::getBlockAt(pos);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
 
 	if (blok == (int)CHUNK_BLOCK::FARMLAND_DRY || blok == (int)CHUNK_BLOCK::FARMLAND_WET) {
 		Chunk::spawnBlockAt(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::DIRT);

@@ -555,6 +555,9 @@ void AChunkRenderer::Tick(float DeltaTime)
 
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {
+			
+			GetWorld()->SpawnActor<AActor>(sheep, FTransform(FoundActors[0]->GetActorLocation()+FVector(600,0,0)));
+
 			float antex = isinchunckx;
 			float antey = isinchuncky;
 			isinchunckx = floor(FoundActors[0]->GetActorLocation().X / 1600);
