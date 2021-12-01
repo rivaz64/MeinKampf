@@ -52,6 +52,7 @@ void Amob::newPoint()
 	timerPoint = 0;
 	float angle = FMath::SRand()*2.f-1.f+atan2(-velocity.X,velocity.Y);
 	pointToGo = FVector2D(3600.f*FMath::Cos(angle)+GetActorLocation().X,3600.f*FMath::Sin(angle)+GetActorLocation().Y);
+	maxVel = 72.f;
 }
 
 void Amob::choiserotation()
@@ -69,6 +70,19 @@ void Amob::choka()
 
 void Amob::hitted()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("lepege"));
+	m_mesh->AddImpulse(FVector(0,0,impulse));
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+	if (FoundActors.Num() == 0) {
+		return;
+	}
+	
+	FVector2D pos(GetActorLocation().X,GetActorLocation().Y);
+	FVector2D other(FoundActors[0]->GetActorLocation().X,FoundActors[0]->GetActorLocation().Y);
+	pointToGo = (pos-other).GetSafeNormal()*3600.f;
+	maxVel = 216.f;
+	timerPoint = 0;
 }
 
 void
@@ -77,7 +91,6 @@ Amob::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponen
 		return;
 	}
 	timer=0;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 	if(abs(NormalImpulse.Z)<.01){
 		SetActorLocation(GetActorLocation()+FVector(0,0,100));
 	}

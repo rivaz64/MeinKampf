@@ -19,6 +19,5 @@ class MINECRAFT_API AEnemy : public Amob
 	void 
 	newPoint() override;
 
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<AActor> ClassToFind;
+	
 };

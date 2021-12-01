@@ -15,6 +15,8 @@
 #include "DrawDebugHelpers.h"
 #include "Components/StaticMeshComponent.h"
 
+#include "mob.h"
+
 #include <string>
 #include "ChunckMesh.h"
 #include "HUD_W_CPP.h"
@@ -220,6 +222,11 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 			timeSinceLast = 0;
 			m_world->placeBlock(Hit.Location,Hit.Normal);
 		}
+	}
+	auto mob = Cast< Amob>(Hit.Actor);
+	if (mob != NULL){
+		if (Hitting)
+		mob->hitted();
 	}
 	/*
 	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);

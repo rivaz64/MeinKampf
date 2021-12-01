@@ -25,8 +25,6 @@ class MINECRAFT_API Afollower : public Amob
 	void 
 	newPoint();
 
-		UPROPERTY(EditAnywhere)
-		TSubclassOf<AActor> ClassToFind;
 	UPROPERTY(EditAnywhere)
 		float separation;
 	UPROPERTY(EditAnywhere)

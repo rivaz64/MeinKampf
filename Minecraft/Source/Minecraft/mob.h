@@ -53,10 +53,17 @@ public:
 	float noise;
 	bool eating = true;
 	bool caminando;
+	bool uyendo;
 	float fintime = 0;
 	float vel;
 	float delta;
 	float alt;
+
+	UPROPERTY(EditAnywhere)
+	float impulse;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> ClassToFind;
 
 	void go();
 
