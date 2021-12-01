@@ -25,6 +25,7 @@ enum eTOOL_TYPE
 	AXE   UMETA(DisplayName = "AXE"),
 	PICKAXE   UMETA(DisplayName = "PICKAXE"),
 	SHOVEL   UMETA(DisplayName = "SHOVEL"),
+	SHEARS   UMETA(DisplayName = "SHEARS"),
 	HOE   UMETA(DisplayName = "HOE")
 };
 

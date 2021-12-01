@@ -1,46 +1,633 @@
 {
-  "Defines":
-  [
+  "Defines": [
     {
       "Name": "None",
       "Value": -1
     },
     {
-      "Name": "OakLog",
+      "Name": "Apple",
       "Value": 0
     },
     {
-      "Name": "OakPlank",
+      "Name": "Bread",
       "Value": 1
     },
     {
-      "Name": "Stick",
+      "Name": "Carrot",
       "Value": 2
     },
     {
-      "Name": "CraftingTable",
+      "Name": "Charcoal",
       "Value": 3
     },
     {
-      "Name": "Dirt",
+      "Name": "Coal",
       "Value": 4
+    },
+    {
+      "Name": "CookedMutton",
+      "Value": 5
+    },
+    {
+      "Name": "CookedPorkchop",
+      "Value": 6
+    },
+    {
+      "Name": "Diamond",
+      "Value": 7
+    },
+    {
+      "Name": "GoldenApple",
+      "Value": 8
+    },
+    {
+      "Name": "GoldenCarrot",
+      "Value": 9
+    },
+    {
+      "Name": "GoldIngot",
+      "Value": 10
+    },
+    {
+      "Name": "GoldNugget",
+      "Value": 11
+    },
+    {
+      "Name": "GunPowder",
+      "Value": 12
+    },
+    {
+      "Name": "IronIngot",
+      "Value": 13
+    },
+    {
+      "Name": "MelonSlice",
+      "Value": 14
+    },
+    {
+      "Name": "OrangeDye",
+      "Value": 15
+    },
+    {
+      "Name": "RawMutton",
+      "Value": 16
+    },
+    {
+      "Name": "RawPorkchop",
+      "Value": 17
+    },
+    {
+      "Name": "RedDye",
+      "Value": 18
+    },
+    {
+      "Name": "RottenFlesh",
+      "Value": 19
+    },
+    {
+      "Name": "Stick",
+      "Value": 20
+    },
+    {
+      "Name": "Sugar",
+      "Value": 21
+    },
+    {
+      "Name": "Wheat",
+      "Value": 22
+    },
+    {
+      "Name": "YellowDye",
+      "Value": 23
+    },
+
+
+    {
+      "Name": "BlockOfCoal",
+      "Value": 24
+    },
+    {
+      "Name": "BlockOfDiamond",
+      "Value": 25
+    },
+    {
+      "Name": "BlockOfGold",
+      "Value": 26
+    },
+    {
+      "Name": "BlockOfIron",
+      "Value": 27
+    },
+    {
+      "Name": "CoalOre",
+      "Value": 28
+    },
+    {
+      "Name": "Cobblestone",
+      "Value": 29
+    },
+    {
+      "Name": "CraftingTable",
+      "Value": 30
+    },
+    {
+      "Name": "Dandelion",
+      "Value": 31
+    },
+    {
+      "Name": "DiamondOre",
+      "Value": 32
+    },
+    {
+      "Name": "Dirt",
+      "Value": 33
+    },
+    {
+      "Name": "GoldOre",
+      "Value": 34
+    },
+    {
+      "Name": "GrassBlock",
+      "Value": 35
+    },
+    {
+      "Name": "HayBale",
+      "Value": 36
+    },
+    {
+      "Name": "IronOre",
+      "Value": 37
+    },
+    {
+      "Name": "Melon",
+      "Value": 38
+    },
+    {
+      "Name": "MelonSeeds",
+      "Value": 39
+    },
+    {
+      "Name": "OakDoor",
+      "Value": 40
+    },
+    {
+      "Name": "OakLeaves",
+      "Value": 41
+    },
+    {
+      "Name": "OakLog",
+      "Value": 42
+    },
+    {
+      "Name": "OakPlank",
+      "Value": 43
+    },
+    {
+      "Name": "OakSapling",
+      "Value": 44
+    },
+    {
+      "Name": "OrangeWool",
+      "Value": 45
+    },
+    {
+      "Name": "Poppy",
+      "Value": 46
+    },
+    {
+      "Name": "RedWool",
+      "Value": 47
+    },
+    {
+      "Name": "Sand",
+      "Value": 48
+    },
+    {
+      "Name": "Stone",
+      "Value": 49
+    },
+    {
+      "Name": "SugarCane",
+      "Value": 50
+    },
+    {
+      "Name": "Torch",
+      "Value": 51
+    },
+    {
+      "Name": "WheatSeeds",
+      "Value": 52
+    },
+    {
+      "Name": "WhiteWool",
+      "Value": 53
+    },
+    {
+      "Name": "YellowWool",
+      "Value": 54
+    },
+
+
+    {
+      "Name": "WoodenAxe",
+      "Value": 55
+    },
+    {
+      "Name": "WoodenHoe",
+      "Value": 56
+    },
+    {
+      "Name": "WoodenPickaxe",
+      "Value": 57
+    },
+    {
+      "Name": "WoodenShovel",
+      "Value": 58
+    },
+    {
+      "Name": "WoodenSword",
+      "Value": 59
+    },
+    {
+      "Name": "StoneAxe",
+      "Value": 60
+    },
+    {
+      "Name": "StoneHoe",
+      "Value": 61
+    },
+    {
+      "Name": "StonePickaxe",
+      "Value": 62
+    },
+    {
+      "Name": "StoneShovel",
+      "Value": 63
+    },
+    {
+      "Name": "StoneSword",
+      "Value": 64
+    },
+    {
+      "Name": "GoldenAxe",
+      "Value": 65
+    },
+    {
+      "Name": "GoldenHoe",
+      "Value": 66
+    },
+    {
+      "Name": "GoldenPickaxe",
+      "Value": 67
+    },
+    {
+      "Name": "GoldenShovel",
+      "Value": 68
+    },
+    {
+      "Name": "GoldenSword",
+      "Value": 69
+    },
+    {
+      "Name": "IronAxe",
+      "Value": 70
+    },
+    {
+      "Name": "IronHoe",
+      "Value": 71
+    },
+    {
+      "Name": "IronPickaxe",
+      "Value": 72
+    },
+    {
+      "Name": "IronShovel",
+      "Value": 73
+    },
+    {
+      "Name": "IronSword",
+      "Value": 74
+    },
+    {
+      "Name": "DiamondAxe",
+      "Value": 75
+    },
+    {
+      "Name": "DiamondHoe",
+      "Value": 76
+    },
+    {
+      "Name": "DiamondPickaxe",
+      "Value": 77
+    },
+    {
+      "Name": "DiamondShovel",
+      "Value": 78
+    },
+    {
+      "Name": "DiamondSword",
+      "Value": 79
+    },
+    {
+      "Name": "Shears",
+      "Value": 80
     }
   ],
 
-  "Crafts":
-  [
+  "Crafts": [
     {
-      "Result": "OakPlank",
-      "Count": 4,
-      "Recipes":
-      [
+      "Result": "Bread",
+      "Count": 1,
+      "Recipes": [
         {
-          "Recipe":
-          [
+          "Recipe": [
             {
-              "Item": "OakLog",
-              "Places":
-              [
+              "Item": "Wheat",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "Coal",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "BlockOfCoal",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "Diamond",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "BlockOfDiamond",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenApple",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Apple",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldenCarrot",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Carrot",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 1
+                }
+              ]
+            },
+            {
+              "Item": "GoldNugget",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldIngot",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "BlockOfGold",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "GoldNugget",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "GoldIngot",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "IronIngot",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "BlockOfIron",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "OrangeDye",
+      "Count": 2,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "RedDye",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "YellowDye",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Recipe": [
+            {
+              "Item": "YellowDye",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "Item": "RedDye",
+              "Places": [
+                {
+                  "x": 1,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "RedDye",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Poppy",
+              "Places": [
                 {
                   "x": 0,
                   "y": 0
@@ -54,15 +641,12 @@
     {
       "Result": "Stick",
       "Count": 4,
-      "Recipes":
-      [
+      "Recipes": [
         {
-          "Recipe":
-          [
+          "Recipe": [
             {
               "Item": "OakPlank",
-              "Places":
-              [
+              "Places": [
                 {
                   "x": 0,
                   "y": 0
@@ -78,17 +662,90 @@
       ]
     },
     {
+      "Result": "Sugar",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "SugarCane",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "Wheat",
+      "Count": 9,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "HayBale",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "YellowDye",
+      "Count": 1,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "Dandelion",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Result": "OakPlank",
+      "Count": 4,
+      "Recipes": [
+        {
+          "Recipe": [
+            {
+              "Item": "OakLog",
+              "Places": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "Result": "CraftingTable",
       "Count": 1,
-      "Recipes":
-      [
+      "Recipes": [
         {
-          "Recipe": 
-          [
+          "Recipe": [
             {
               "Item": "OakPlank",
-              "Places":
-              [
+              "Places": [
                 {
                   "x": 0,
                   "y": 0

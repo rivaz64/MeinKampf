@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ADiamondItemMsc_CPP : public ABaseItemMsc_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ADiamondItemMsc_CPP();
 	
 };

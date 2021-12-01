@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AGoldenPickaxeItemTool_CPP : public ABaseItemTool_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AGoldenPickaxeItemTool_CPP();
 	
 };

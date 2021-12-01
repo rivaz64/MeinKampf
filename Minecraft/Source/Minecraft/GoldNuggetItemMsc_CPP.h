@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AGoldNuggetItemMsc_CPP : public ABaseItemMsc_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AGoldNuggetItemMsc_CPP();
 	
 };

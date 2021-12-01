@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AMelonItemBlock_CPP : public ABaseItemBlock_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AMelonItemBlock_CPP();
 	
 };

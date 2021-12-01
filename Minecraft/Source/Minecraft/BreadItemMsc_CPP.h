@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ABreadItemMsc_CPP : public ABaseItemMsc_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ABreadItemMsc_CPP();
 	
 };

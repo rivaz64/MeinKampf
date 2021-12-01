@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AGoldenCarrotItemMsc_CPP : public ABaseItemMsc_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AGoldenCarrotItemMsc_CPP();
 	
 };

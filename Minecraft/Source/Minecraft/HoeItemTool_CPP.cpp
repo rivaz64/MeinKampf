@@ -6,6 +6,9 @@
 AHoeItemTool_CPP::AHoeItemTool_CPP()
 {
   eToolType = HOE;
+  eMaterialType = WOOD;
+  MaxDurablity = 59;
+  Durablity = MaxDurablity;
 
   static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_HoeItem_SM.Wooden_HoeItem_SM"));
 
