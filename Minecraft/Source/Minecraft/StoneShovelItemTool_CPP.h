@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AStoneShovelItemTool_CPP : public ABaseItemTool_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AStoneShovelItemTool_CPP();
 	
 };

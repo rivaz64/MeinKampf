@@ -6,9 +6,11 @@
 AAxeItemTool_CPP::AAxeItemTool_CPP()
 {
   eToolType = AXE;
+  eMaterialType = WOOD;
+  MaxDurablity = 59;
+  Durablity = MaxDurablity;
 
   static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_AxeItem_SM.Wooden_AxeItem_SM"));
-
   if (BlockAsset.Succeeded())
   {
     ItemMesh = BlockAsset.Object;

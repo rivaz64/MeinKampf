@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ARedWoolItemBlock_CPP : public ABaseItemBlock_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ARedWoolItemBlock_CPP();
 	
 };

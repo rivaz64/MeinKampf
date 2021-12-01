@@ -6,6 +6,9 @@
 ASwordItemTool_CPP::ASwordItemTool_CPP()
 {
   eToolType = SWORD;
+  eMaterialType = WOOD;
+  MaxDurablity = 59;
+  Durablity = MaxDurablity;
 
   static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_SwordItem_SM.Wooden_SwordItem_SM"));
 

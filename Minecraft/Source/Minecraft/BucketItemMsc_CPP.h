@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ABucketItemMsc_CPP : public ABaseItemMsc_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ABucketItemMsc_CPP();
 	
 };

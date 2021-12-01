@@ -6,6 +6,9 @@
 APickaxeItemTool_CPP::APickaxeItemTool_CPP()
 {
   eToolType = PICKAXE;
+  eMaterialType = WOOD;
+  MaxDurablity = 59;
+  Durablity = MaxDurablity;
 
   static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_PickaxeItem_SM.Wooden_PickaxeItem_SM"));
 

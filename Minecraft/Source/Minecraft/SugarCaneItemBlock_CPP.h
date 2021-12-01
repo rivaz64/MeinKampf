@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ASugarCaneItemBlock_CPP : public ABaseItemBlock_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ASugarCaneItemBlock_CPP();
 	
 };

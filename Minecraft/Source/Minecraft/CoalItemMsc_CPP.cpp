@@ -3,3 +3,18 @@
 
 #include "CoalItemMsc_CPP.h"
 
+ACoalItemMsc_CPP::ACoalItemMsc_CPP()
+{
+  static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Misc/Coal_SM.Coal_SM"));
+  if (BlockAsset.Succeeded())
+  {
+    ItemMesh = BlockAsset.Object;
+  }
+
+  static ConstructorHelpers::FObjectFinder<UTexture2D> ImageAsset(TEXT("/Game/Mara/Materials/Images/Items/Misc/Coal_image.Coal_image"));
+  if (ImageAsset.Succeeded())
+  {
+    Image = ImageAsset.Object;
+  }
+}
+

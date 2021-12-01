@@ -13,5 +13,8 @@ UCLASS()
 class MINECRAFT_API AAppleItemMsc_CPP : public ABaseItemMsc_CPP
 {
   GENERATED_BODY()
+
+public:
+  AAppleItemMsc_CPP();
 	
 };

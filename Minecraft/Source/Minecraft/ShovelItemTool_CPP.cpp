@@ -6,6 +6,9 @@
 AShovelItemTool_CPP::AShovelItemTool_CPP()
 {
   eToolType = SHOVEL;
+  eMaterialType = WOOD;
+  MaxDurablity = 59;
+  Durablity = MaxDurablity;
 
   static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_ShovelItem_SM.Wooden_ShovelItem_SM"));
 

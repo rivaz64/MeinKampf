@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ADiamondHoeItemTool_CPP : public ABaseItemTool_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ADiamondHoeItemTool_CPP();
 	
 };

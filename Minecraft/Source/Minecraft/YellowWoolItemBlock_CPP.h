@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API AYellowWoolItemBlock_CPP : public ABaseItemBlock_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  AYellowWoolItemBlock_CPP();
 	
 };

@@ -12,6 +12,9 @@
 UCLASS()
 class MINECRAFT_API ADoorItemBlock_CPP : public ABaseItemBlock_CPP
 {
-	GENERATED_BODY()
+  GENERATED_BODY()
+
+public:
+  ADoorItemBlock_CPP();
 	
 };

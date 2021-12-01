@@ -13,5 +13,8 @@ UCLASS()
 class MINECRAFT_API ABlockOfGoldItemBlock_CPP : public ABaseItemBlock_CPP
 {
   GENERATED_BODY()
+
+public:
+  ABlockOfGoldItemBlock_CPP();
 	
 };

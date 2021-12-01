@@ -13,5 +13,8 @@ UCLASS()
 class MINECRAFT_API ABlockOfDiamondItemBlock_CPP : public ABaseItemBlock_CPP
 {
   GENERATED_BODY()
+
+public:
+  ABlockOfDiamondItemBlock_CPP();
 	
 };

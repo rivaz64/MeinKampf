@@ -5,8 +5,7 @@
 
 AStickItem_CPP::AStickItem_CPP()
 {
-  static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Tools/Wooden_AxeItem_SM.Wooden_AxeItem_SM"));
-
+  static ConstructorHelpers::FObjectFinder<UStaticMesh> BlockAsset(TEXT("/Game/Mara/Meshes/Items/Misc/StickItem_SM.StickItem_SM"));
   if (BlockAsset.Succeeded())
   {
     ItemMesh = BlockAsset.Object;
