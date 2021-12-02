@@ -27,6 +27,7 @@ void Amob::BeginPlay()
 void Amob::Tick(float DeltaTime)
 {
 	timerPoint+=DeltaTime;
+	vision();
 	if(timerPoint>searchPerTime){
 		newPoint();
 	}
@@ -53,6 +54,11 @@ void Amob::newPoint()
 	float angle = FMath::SRand()*2.f-1.f+atan2(-velocity.X,velocity.Y);
 	pointToGo = FVector2D(3600.f*FMath::Cos(angle)+GetActorLocation().X,3600.f*FMath::Sin(angle)+GetActorLocation().Y);
 	maxVel = 72.f;
+}
+
+void Amob::vision()
+{
+
 }
 
 void Amob::choiserotation()

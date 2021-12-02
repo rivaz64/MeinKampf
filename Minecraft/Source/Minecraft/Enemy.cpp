@@ -2,10 +2,11 @@
 
 
 #include "Enemy.h"
+#include "Kismet/GameplayStatics.h"
 
 void AEnemy::newPoint()
 {
-		if(detected){
+	if(detected){
 		timerPoint = 0;
 		searchPerTime = .1;
 		TArray<AActor*> FoundActors;
@@ -18,4 +19,19 @@ void AEnemy::newPoint()
 	else{
 		Super::newPoint();
 	}
+}
+
+void AEnemy::vision()
+{
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+	if (FoundActors.Num() == 0) {
+		return;
+	}
+	FVector2D vec(FoundActors[0]->GetActorLocation().X-GetActorLocation().X,FoundActors[0]->GetActorLocation().Y-GetActorLocation().Y);
+	
+	if(vec.Size()<1200){
+		detected = true;
+	}
+
 }
