@@ -425,6 +425,32 @@ bool AChunkRenderer::checkForSpawn(FVector& v)
 	AChunckMesh::bloks[down]->type == TYPE::BLOCK;
 }
 
+void 
+AChunkRenderer::explodeAt(const FVector& place, float radius)
+{
+	FVector local;
+	
+	for(local.X = place.X-radius; local.X<place.X+radius+1;local.X+=1){
+		for(local.Y = place.Y-radius; local.Y<place.Y+radius+1;local.Y+=1){
+			for(local.Z = place.Z-radius; local.Z<place.Z+radius+1;local.Z+=1){
+				if(FVector::Distance(local,place)<= radius){
+					Chunk::setBlockAt(local,(char)CHUNK_BLOCK::AIR);
+				}
+			}
+		}
+	}
+	regenerate(FVector2D(floor(place.X/16.f),floor(place.Y/16.f)));
+}
+
+void AChunkRenderer::regenerate(const FVector2D& place)
+{
+	auto actualChunk = ((AChunckMesh*)world->getNodeAt(place.X,place.Y));
+	world->eraseAt(place.X,place.Y);
+	actualChunk->Destroy();
+	FTransform trans = FTransform(FVector(place.X * 1600, place.Y * 1600, 0));
+	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), place.X,place.X);
+}
+
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)
 {

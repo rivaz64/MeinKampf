@@ -95,4 +95,10 @@ public:
   bool watterCheck(FVector& v);
 
 	bool checkForSpawn(FVector& v);
+
+	void 
+	explodeAt(const FVector& place, float radius);
+
+	void 
+	regenerate(const FVector2D& place);
 };
