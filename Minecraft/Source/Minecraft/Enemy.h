@@ -22,5 +22,8 @@ class MINECRAFT_API AEnemy : public Amob
 	void
 	vision() override;
 
+	virtual void
+	attack();
+
 	bool detected = false;
 };

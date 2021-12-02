@@ -29,9 +29,22 @@ void AEnemy::vision()
 		return;
 	}
 	FVector2D vec(FoundActors[0]->GetActorLocation().X-GetActorLocation().X,FoundActors[0]->GetActorLocation().Y-GetActorLocation().Y);
-	
-	if(vec.Size()<1200){
+	float angle = fmodf(fmodf(atan2(vec.X,vec.Y)-atan2(velocity.X,velocity.Y),PI*2.f)+PI*2.f,PI*2.f);
+	if(!detected){
+		if(vec.Size()<1200 && (angle < .75f || PI*2.f-angle <  .75f)){
 		detected = true;
+		searchPerTime = .1;
+		}
+	}
+	else{
+		if(vec.Size()<200){
+			attack();
+		}
 	}
 
+
+}
+
+void AEnemy::attack()
+{
 }
