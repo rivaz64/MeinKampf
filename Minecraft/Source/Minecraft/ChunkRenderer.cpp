@@ -36,8 +36,7 @@ AChunkRenderer::~AChunkRenderer()
 void AChunkRenderer::BeginPlay()
 {
 	Super::BeginPlay();
-	world = new HashTable2d(512);
-	Chunk::savedData = new HashTable2d(512);
+	//Chunk::savedData = new HashTable2d(512);
 	//((AChunckMesh*)me)->c.generate(0, 0);
 	spawnChuncks(0, 0, 3);
 	//AChunckMesh::item = item;
@@ -50,9 +49,7 @@ void AChunkRenderer::spawnChuncks(int x,int y, int dis)
 	for (int i = x - dis; i < x + dis + 1; ++i) {
 		for (int o = y - dis; o < y + dis + 1; ++o) {
 			if (!Chunk::getChunkAt(i, o)->spawned) {
-				FTransform trans = FTransform(FVector(i * 1600, o * 1600, 0));
-				world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), i, o);
-				Chunk::getChunkAt(i, o)->spawned = true;
+				spawnChunkAt(i,o);
 			}
 			
 		}
@@ -61,41 +58,64 @@ void AChunkRenderer::spawnChuncks(int x,int y, int dis)
 
 void AChunkRenderer::despawnChunks(int x, int y, int dis,int dir)
 {
-	if(dir == 0){
-		for (int i = x - dis; i < x + dis + 1; ++i){
-			auto actual = (AChunckMesh*)world->getNodeAt(i, y+dis);
-			if (actual && actual->c) {
-				actual->c->spawned = false;
-				actual->Destroy();
-			}
+	/*float here;
+	if(dir<2){
+		if(dir==0){
+			here = y+dis;
+		}
+		else{
+			here = y-dis;
+		}
+		for(auto pai : world){
+			pai.second->erase(pai.second->find(here));
 		}
 	}
-	if(dir == 1){
-		for (int i = x - dis; i < x + dis + 1; ++i){
-			auto actual = (AChunckMesh*)world->getNodeAt(i, y-dis);
-			if (actual&& actual->c) {
-				actual->c->spawned = false;
-				actual->Destroy();
-			}
+	else{
+		if(dir==2){
+			here = x+dis;
 		}
+		else{
+			here = x-dis;
+		}
+		world.erase(world.find(here));
+	}*/
+}
+
+void
+AChunkRenderer::spawnChunkAt(int x, int y)
+{
+	if(world.find(x)!=world.end()){
+		world.insert({x,std::make_shared<std::map<int,AChunckMesh*>>()});
 	}
-	if(dir == 2){
-		for (int i = y - dis; i < y + dis + 1; ++i){
-			auto actual = (AChunckMesh*)world->getNodeAt(x+dis,i);
-			if (actual&& actual->c) {
-				actual->c->spawned = false;
-				actual->Destroy();
-			}
-		}
+	auto row = world[x];
+	if(!row.get()){
+		world[x] = std::make_shared<std::map<int,AChunckMesh*>>();
+		row = world[x];
 	}
-	if(dir == 3){
-		for (int i = y - dis; i < y + dis + 1; ++i){
-			auto actual = (AChunckMesh*)world->getNodeAt(x-dis,i);
-			if (actual&& actual->c) {
-				actual->c->spawned = false;
-				actual->Destroy();
-			}
-		}
+	FTransform trans = FTransform(FVector(x * 1600, y * 1600, 0));
+	AChunckMesh* actChnk = Cast<AChunckMesh>(GetWorld()->SpawnActor<AActor>(mesh, trans));
+	if(row->size()!=0 && row->find(y)!=row->end())
+		(*row.get())[y] = actChnk;
+	else{
+		row->insert({y,actChnk});
+	}
+	
+	Chunk::getChunkAt(x,y)->spawned = true;
+
+}
+
+AChunckMesh*
+AChunkRenderer::getChunkAt(int x, int y){
+	
+	return (*world[x])[y];
+}
+
+void 
+AChunkRenderer::despawnChunk(int x, int y){
+	(*world[x])[y]->Destroy();
+	world[x]->erase(world[x]->find(y));
+	if(world[x]->size() == 0){
+		world.erase(world.find(x));
 	}
 }
 
@@ -114,7 +134,7 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 		step = 0;
 		life = 0;
 		PointingBlock = pos;
-		auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
+		auto actualChunk = getChunkAt(floor(pos.X / 16), floor(pos.Y / 16));
 		blockLife = actualChunk->lifeOf(pos.X, pos.Y, pos.Z);
 	}
 
@@ -138,6 +158,17 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 	}
 }
 
+void AChunkRenderer::regenerate(const FVector2D& place)
+{
+	despawnChunk(place.X,place.Y);
+	spawnChunkAt(place.X,place.Y);
+}
+
+void AChunkRenderer::regenerate(int x,int y)
+{
+	despawnChunk(x,y);
+	spawnChunkAt(x,y);
+}
 
 void AChunkRenderer::destroyBlock(FVector pos)
 {
@@ -173,57 +204,31 @@ void AChunkRenderer::destroyBlock(FVector pos)
 		}
 	}
 
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-	world->eraseAt(wx,wy);
-	actualChunk->item = item;
-	actualBlock = actualChunk->destroyBlock(pos.X,pos.Y,pos.Z);
 
-	
-	TArray<AActor*> dropman;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADropManager_CPP::StaticClass(), dropman);
-	if(dropman.Num()>0)
-	((ADropManager_CPP*)dropman[0])->SpawnItemFromType(pos * 100 + FVector(50, 50, 50), eSPAWN_ITEM_TYPE::SPAWN_BLOCK, actualBlock, 1);
-
-	volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
-	volatile char ans = actualChunk->c->data[location];
-	actualChunk->c->data[location] = (int)CHUNK_BLOCK::AIR;
+	//volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
+	char ans = Chunk::getBlockAt(pos);
+	Chunk::setBlockAt(pos, (int)CHUNK_BLOCK::AIR);
 	//actualBlock =  bloks[ans-1]->breaked;
 
-	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector(wx * 1600, wy * 1600, 0));
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
+	regenerate(wx,wy);
+
+
 	if((int(pos.X)%16+16)%16==0){
-		actualChunk = ((AChunckMesh*)world->getNodeAt(wx-1,wy));
-		world->eraseAt(wx-1,wy);
-		actualChunk->Destroy();
-		trans = FTransform(FVector((wx-1) * 1600, wy * 1600, 0));
-		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx-1,wy);
+		regenerate(wx-1,wy);
 	}
 	else if((int(pos.Y)%16+16)%16==0){
-		actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy-1));
-		world->eraseAt(wx,wy-1);
-		actualChunk->Destroy();
-		trans = FTransform(FVector((wx) * 1600, (wy-1) * 1600, 0));
-		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans),wx,wy-1);
+		regenerate(wx,wy-1);
 	}
 	else if((int(pos.X)%16+16)%16==15){
-		actualChunk = ((AChunckMesh*)world->getNodeAt(wx+1,wy));
-		world->eraseAt(wx+1,wy);
-		actualChunk->Destroy();
-		trans = FTransform(FVector((wx+1) * 1600, wy * 1600, 0));
-		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx+1,wy);
+		regenerate(wx+1,wy);
 	}
 	else if((int(pos.Y)%16+16)%16==15){
-		actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy+1));
-		world->eraseAt(wx,wy+1);
-		actualChunk->Destroy();
-		trans = FTransform(FVector((wx) * 1600, (wy+1) * 1600, 0));
-		world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy+1);
+		regenerate(wx,wy+1);
 	}
 	
 	pos.Z += 1;
 
-	auto upBlock =  actualChunk->c->getAt(pos.X,pos.Y,pos.Z);
+	auto upBlock =  Chunk::getBlockAt(pos);
 
 	if(upBlock == (int)CHUNK_BLOCK::SAND){
 		sandFall = true;
@@ -245,8 +250,8 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 	if(actualBlock == -1){
 		int wx = floor(inerpos.X / 16.f);
 		int wy = floor(inerpos.Y / 16.f);
-		auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-		auto block = actualChunk->c->getAt(inerpos.X,inerpos.Y,inerpos.Z);
+		//auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
+		auto block = Chunk::getBlockAt(inerpos);
 
 		if(FoundActors.Num()>0){
 			auto player = (AMinecraftCharacter*)FoundActors[0];
@@ -256,7 +261,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == HOE &&
 			block==(int)CHUNK_BLOCK::GRASS){
 			
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::FARMLAND_DRY);
+				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::FARMLAND_DRY);
 				regenerate(inerpos.X,inerpos.Y);
 				farmlands.push_back(inerpos);
 
@@ -265,30 +270,30 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 
 		if(cual == 2 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CROP);
+			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::CROP);
 			regenerate(inerpos.X,inerpos.Y);
 			//crops.push_back(inerpos);
 			updates.push_back(inerpos);
 		}
 
 		else if(cual == 3 && block != (int)CHUNK_BLOCK::DOOR_DOWN){
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN);
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP);
+			Chunk::setBlockAt(outpos,(int)CHUNK_BLOCK::DOOR_DOWN);
+			Chunk::setBlockAt(outpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
 			regenerate(outpos.X,outpos.Y);
 		}
 		else if(cual == 4 && block != (int)CHUNK_BLOCK::CRAFTING_TABLE){
-			actualChunk->placeBlock(outpos.X,outpos.Y,outpos.Z,(int)CHUNK_BLOCK::CRAFTING_TABLE);
+			Chunk::setBlockAt(outpos,(int)CHUNK_BLOCK::CRAFTING_TABLE);
 			regenerate(outpos.X,outpos.Y);
 		}
 		else if(cual == 5 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::CARROT);
+			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::CARROT);
 			regenerate(inerpos.X,inerpos.Y);
 			updates.push_back(inerpos);
 		}
 		else if(cual == 6 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::MELON_STEM);
+			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::MELON_STEM);
 			regenerate(inerpos.X,inerpos.Y);
 			updates.push_back(inerpos);
 		}
@@ -302,13 +307,13 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 				inerpos.Z-=1;
 			}
 			if (block <= (int)CHUNK_BLOCK::DOOR_DOWN) {
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN_OPEN);
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP_OPEN);
+				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN_OPEN);
+				Chunk::setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP_OPEN);
 			}
 			else
 			{
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z,(int)CHUNK_BLOCK::DOOR_DOWN);
-				actualChunk->placeBlock(inerpos.X,inerpos.Y,inerpos.Z+1,(int)CHUNK_BLOCK::DOOR_UP);
+				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN);
+				Chunk::setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
 			}
 			regenerate(inerpos.X,inerpos.Y);
 		}
@@ -357,58 +362,20 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 		}
 	}
 
-	int wx = floor(pos.X / 16.f);
-	int wy = floor(pos.Y / 16.f);
-
-
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-
-	actualChunk->placeBlock(pos.X,pos.Y,pos.Z,type);
+	Chunk::setBlockAt(pos,type);
 	
 }
 
-void AChunkRenderer::remake(FVector pos)
-{
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
-	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
-	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
-}
 
 void AChunkRenderer::placeSand(FVector pos)
 {
 	pos.X = int((pos.X + 1) / 100.f);
 	pos.Y = int((pos.Y + 1) / 100.f);
 	pos.Z = int((pos.Z + 1) / 100.f);
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(floor(pos.X / 16), floor(pos.Y / 16)));
-	world->eraseAt(floor(pos.X / 16), floor(pos.Y / 16));
-	actualChunk->item = item;
-	actualBlock = actualChunk->placeBlock(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::SAND);
-	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector((int)floor(pos.X / 16) * 1600, (int)floor(pos.Y / 16) * 1600, 0));
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), floor(pos.X / 16), floor(pos.Y / 16));
+	Chunk::setBlockAt(pos,(int)CHUNK_BLOCK::SAND );
+	regenerate( floor(pos.X / 16), floor(pos.Y / 16));
 }
 
-void AChunkRenderer::regenerate(float x,float y)
-{
-	int wx = floor(x / 16.f);
-	int wy = floor(y / 16.f);
-
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-
-	world->eraseAt(wx,wy);
-
-	actualChunk->item = item;
-
-	
-
-	actualChunk->Destroy();
-
-	FTransform trans = FTransform(FVector(wx * 1600, wy * 1600, 0));
-
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), wx,wy);
-}
 
 bool AChunkRenderer::watterCheck(FVector& v)
 {
@@ -442,14 +409,7 @@ AChunkRenderer::explodeAt(const FVector& place, float radius)
 	regenerate(FVector2D(floor(place.X/16.f),floor(place.Y/16.f)));
 }
 
-void AChunkRenderer::regenerate(const FVector2D& place)
-{
-	auto actualChunk = ((AChunckMesh*)world->getNodeAt(place.X,place.Y));
-	world->eraseAt(place.X,place.Y);
-	actualChunk->Destroy();
-	FTransform trans = FTransform(FVector(place.X * 1600, place.Y * 1600, 0));
-	world->insert(GetWorld()->SpawnActor<AActor>(mesh, trans), place.X,place.X);
-}
+
 
 // Called every frame
 void AChunkRenderer::Tick(float DeltaTime)

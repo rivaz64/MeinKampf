@@ -7,7 +7,7 @@
 unsigned int Chunk::size = 16;
 unsigned int Chunk::height = 64;
 unsigned int Chunk::len = size * size * height;
-HashTable2d* Chunk::savedData = nullptr;
+std::map<int,std::shared_ptr<std::map<int,std::shared_ptr<Chunk>>>> Chunk::savedData;
 
 std::vector<FVector2D> vecs = { FVector2D(1,0),FVector2D(0,1) ,FVector2D(-1,0) ,FVector2D(0,-1),FVector2D(1.f/sqrt(2),1.f / sqrt(2)),FVector2D(1.f / sqrt(2),-1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),-1.f / sqrt(2)) };
 
@@ -66,6 +66,7 @@ float Chunk::valueAt(float x, float y)
 
 Chunk::~Chunk()
 {
+	
 	delete data;
 }
 
@@ -153,19 +154,26 @@ void Chunk::generate(int x,int y)
 		}
 	}//*/
 	
-	//spawnTreeAt(posx,posy,posy+y*16);
-	
 	generated = true;
 
 }
 
-void Chunk::createChunkAt(int x, int y)
+
+
+std::shared_ptr<Chunk> 
+Chunk::getChunkAt(int x, int y)
 {
-	auto* data = savedData->getNodeAt(x, y);
-	if (!data) {
-		auto* ch = new Chunk;
-		savedData->insert(ch, x, y);
+	auto row = savedData[x];
+	if(!row){
+		savedData[x] = std::make_shared<std::map<int,std::shared_ptr<Chunk>>>();
+		row = savedData[x];
 	}
+	auto data = (*row.get())[y];
+	if (!data) {
+		(*row.get())[y] = std::make_shared<Chunk>();
+		 data = (*row.get())[y];
+	}
+	return data;
 }
 
 FVector2D Chunk::randomGradient(int x, int y)
@@ -182,21 +190,17 @@ FVector2D Chunk::randomGradient(int x, int y)
 
 void Chunk::generateChunkAt(int x, int y)
 {
-	createChunkAt(x, y);
+	/*createChunkAt(x, y);
 	createChunkAt(x+1, y);
 	createChunkAt(x-1, y);
 	createChunkAt(x, y+1);
-	createChunkAt(x, y-1);
-	auto* data = (Chunk*)savedData->getNodeAt(x, y);
+	createChunkAt(x, y-1);*/
+	auto data = getChunkAt(x,y);
 	if (!data->generated) {
 		data->generate(x, y);
-		/*int pos = abs(rand2d(x,y))*25;
-		int posx = pos/5-2;
-		int posy = pos%5-2;
-		spawnTreeAt(x*16+posx,y*16+posy);*/
 	}
 }
-
+/*
 Chunk* Chunk::getChunkAt(int x, int y)
 {
 	generateChunkAt(x, y);
@@ -205,7 +209,7 @@ Chunk* Chunk::getChunkAt(int x, int y)
 	generateChunkAt(x, y+1);
 	generateChunkAt(x, y-1);
 	return (Chunk*)savedData->getNodeAt(x, y);
-}
+}*/
 
 void Chunk::spawnTreeAt(int x, int y)
 {
@@ -235,39 +239,15 @@ void Chunk::spawnTreeAt(int x, int y)
 	}*/
 }
 
-void Chunk::spawnBlockAt(int x,int y,int z, char type){
-	createChunkAt(floor(float(x)/16.f),floor(float(y)/16.f));
-	Chunk* actual = (Chunk*)savedData->getNodeAt(floor(float(x)/16.f),floor(float(y)/16.f));
-	
-	if(actual){
-		actual->spawnBlock(mod(x,16),mod(y,16),z,type);
-	}
-	
-}
-
-void Chunk::spawnBlock(int x,int y,int z, char type)
-{
-	data[x *height*size + y * height + z] = type;
-}
-
-inline char Chunk::getAt(int x,int y,int z)
-{
-	return data[mod(x,16) *height*size + mod(y,16) * height + z];
-}
-
-void Chunk::setAt(int x, int y, int z,char b)
-{
-	data[mod(x,16) *height*size + mod(y,16) * height + z]=b;
-}
 
 char Chunk::getBlockAt(FVector p)
 {
-	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->getAt(p.X,p.Y,p.Z);
+	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->data[mod(int(p.X),16) *height*size + mod(int(p.Y),16) * height + int(p.Z)];
 }
 
 void Chunk::setBlockAt(FVector p, char b)
 {
-	getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->setAt(p.X,p.Y,p.Z,b);
+	getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->data[mod(int(p.X),16) *height*size + mod(int(p.Y),16) * height + int(p.Z)] = b;
 }
 
 

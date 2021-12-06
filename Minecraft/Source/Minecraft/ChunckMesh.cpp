@@ -659,27 +659,18 @@ void AChunckMesh::addHalfQuad(FVector pos, char blockType, int dir)
 bool AChunckMesh::checkFace(FVector& pos, FVector f)
 {
 	FVector checkPos = pos + f;
+
+	checkPos.X += x*16;
+	checkPos.Y += y*16;
 	
 	if (checkPos.Z < 0 || checkPos.Z > 31) {
 		return false;
 	}
 
+
+
 	char data;
-	if (checkPos.X < 0 ) {
-		data = ((Chunk*)Chunk::savedData->getNodeAt(x-1,y))->getAt(15,checkPos.Y,checkPos.Z);
-	}
-	else if (checkPos.X > 15) {
-		data = ((Chunk*)Chunk::savedData->getNodeAt(x +1, y))->getAt(0,checkPos.Y,checkPos.Z);
-	}
-	else if (checkPos.Y < 0) {
-		data = ((Chunk*)Chunk::savedData->getNodeAt(x, y-1))->getAt(checkPos.X,15,checkPos.Z);
-	}
-	else if (checkPos.Y > 15) {
-		data = ((Chunk*)Chunk::savedData->getNodeAt(x, y+1))->getAt(checkPos.X,0,checkPos.Z);
-	}
-	else{
-		data = ((Chunk*)Chunk::savedData->getNodeAt(x,y))->getAt(checkPos.X,checkPos.Y,checkPos.Z);
-	} 
+	data = Chunk::getBlockAt(checkPos);
 	return data == (int)CHUNK_BLOCK::AIR || data == (int)CHUNK_BLOCK::LEAVES || data >= (int)CHUNK_BLOCK::WATTER || data >= (int)CHUNK_BLOCK::RED_FLOWER;
 }
 
@@ -725,23 +716,18 @@ void AChunckMesh::Tick(float DeltaTime)
 
 }
 
-char AChunckMesh::destroyBlock(volatile int px, int py, int pz)
+char AChunckMesh::destroyBlock( int px, int py, int pz)
 {
+  char ans = Chunk::getBlockAt(FVector(px,py,pz));
+	Chunk::setBlockAt(FVector(px,py,pz),(int)CHUNK_BLOCK::AIR);
 	
-	volatile char ans = c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),pz);
-	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),pz,(int)CHUNK_BLOCK::AIR);
 	return bloks[ans-1]->breaked;
 }
 
-char AChunckMesh::placeBlock(int px, int py, int pz,char tipe)
-{
-	c->spawnBlock(Chunk::mod(px,16),Chunk::mod(py,16),pz,tipe);
-	return 0;
-}
 
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
-	return bloks[c->getAt(Chunk::mod(px,16),Chunk::mod(py,16),pz)-1]->life;
+	return bloks[Chunk::getBlockAt(FVector(px,py,pz))-1]->life;
 }
 
 void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -752,10 +738,10 @@ void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
 
 	if (blok == (int)CHUNK_BLOCK::FARMLAND_DRY || blok == (int)CHUNK_BLOCK::FARMLAND_WET) {
-		Chunk::spawnBlockAt(pos.X,pos.Y,pos.Z,(int)CHUNK_BLOCK::DIRT);
+		Chunk::setBlockAt(pos,(int)CHUNK_BLOCK::DIRT);
 		TArray<AActor*> renderer;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AChunkRenderer::StaticClass(), renderer);
-		((AChunkRenderer*)renderer[0])->remake(pos);
+		((AChunkRenderer*)renderer[0])->regenerate(FVector2D(floor(pos.X/16),floor(pos.Y/16)));
 	}
 	
 }

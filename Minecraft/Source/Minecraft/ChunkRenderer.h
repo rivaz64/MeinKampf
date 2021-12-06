@@ -50,7 +50,21 @@ protected:
 	//int actualStep = -1;
 	void spawnChuncks(int x, int y, int dis);
 	void despawnChunks(int x, int y, int dis,int dir);
-	HashTable2d* world=nullptr;
+
+	std::map<int,std::shared_ptr<std::map<int,AChunckMesh*>>> world;
+
+	void
+	spawnChunkAt(int x, int y);
+
+	void 
+	despawnChunk(int x, int y);
+
+	/**
+	 * @brief spawns the chunk
+	*/
+	AChunckMesh*
+	getChunkAt(int x, int y);
+
 	int step = 0;
 	AActor *actualQuad=nullptr;
 	FVector PointingBlock;
@@ -85,12 +99,11 @@ public:
 	void placeBlock(FVector pos, FVector nor);
 	void placeBlock(FVector pos, FVector nor,char type);
 
-	void remake(FVector pos);
+	
 	
 
 	UFUNCTION(BlueprintCallable)
 	void placeSand(FVector pos);
-	void regenerate(float x,float y);
 
   bool watterCheck(FVector& v);
 
@@ -101,4 +114,6 @@ public:
 
 	void 
 	regenerate(const FVector2D& place);
+	void 
+	regenerate(int x,int y);
 };

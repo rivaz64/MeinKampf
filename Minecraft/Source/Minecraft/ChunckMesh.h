@@ -7,6 +7,7 @@
 #include "ProceduralMeshComponent.h"
 #include "Chunk.h"
 #include "Materials/MaterialInterface.h"
+#include <vector>
 #include "ChunckMesh.generated.h"
 
 class Block;
@@ -29,7 +30,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		UProceduralMeshComponent* m_root;
 	void generateMesh();
-	Chunk* c = nullptr;
+	std::shared_ptr<Chunk> c;
 
 	TArray<FVector> vertices;
 	TArray<int32> Triangles;
@@ -70,11 +71,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	char destroyBlock( volatile int x,int y,int z);
-	char placeBlock(int x,int y,int z,char tipe);
 	void destroingAt(FVector pos, FVector nor);
 	float lifeOf(int x,int y,int z);
 
-	static vector<Block*> bloks;
+	static std::vector<Block*> bloks;
 
 	UFUNCTION()
 	void 
