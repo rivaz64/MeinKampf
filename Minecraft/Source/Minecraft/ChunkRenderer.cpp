@@ -26,8 +26,8 @@ AChunkRenderer::AChunkRenderer()
 AChunkRenderer::~AChunkRenderer()
 {
 	/*
-	if(Chunk::savedData)
-	delete Chunk::savedData;
+	if(manager->savedData)
+	delete manager->savedData;
 	if(world)
 	delete world;*/
 }
@@ -36,10 +36,9 @@ AChunkRenderer::~AChunkRenderer()
 void AChunkRenderer::BeginPlay()
 {
 	Super::BeginPlay();
-	//Chunk::savedData = new HashTable2d(512);
-	//((AChunckMesh*)me)->c.generate(0, 0);
+	manager = std::make_shared<ChunkManager>();
 	spawnChuncks(0, 0, 3);
-	//AChunckMesh::item = item;
+	
 }
 
 
@@ -48,7 +47,7 @@ void AChunkRenderer::spawnChuncks(int x,int y, int dis)
 	int rad = dis * 2 + 1;
 	for (int i = x - dis; i < x + dis + 1; ++i) {
 		for (int o = y - dis; o < y + dis + 1; ++o) {
-			if (!Chunk::getChunkAt(i, o)->spawned) {
+			if (!manager->getChunkAt(i, o)->spawned) {
 				spawnChunkAt(i,o);
 			}
 			
@@ -100,8 +99,8 @@ AChunkRenderer::spawnChunkAt(int x, int y)
 		row->insert({y,actChnk});
 	}
 	
-	Chunk::getChunkAt(x,y)->spawned = true;
-
+	manager->getChunkAt(x,y)->spawned = true;
+	getChunkAt(x,y)->renderer = this;
 }
 
 AChunckMesh*
@@ -175,39 +174,39 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	int wx = floor(pos.X / 16);
 	int wy = floor(pos.Y / 16);
 	//auto destroyedBlock = 
-	if(Chunk::getBlockAt(pos)==(int)CHUNK_BLOCK::MELON){
-		if(Chunk::getBlockAt(pos+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
-			Chunk::setBlockAt(pos+FVector(1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+	if(manager->getBlockAt(pos)==(int)CHUNK_BLOCK::MELON){
+		if(manager->getBlockAt(pos+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			manager->setBlockAt(pos+FVector(1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
 			updates.push_back(pos+FVector(1,0,0));
 		}
-		else if(Chunk::getBlockAt(pos+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
-			Chunk::setBlockAt(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
+		else if(manager->getBlockAt(pos+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			manager->setBlockAt(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::MELON_STEM);
 			updates.push_back(pos+FVector(-1,0,0));
 		}
-		else if(Chunk::getBlockAt(pos+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
-			Chunk::setBlockAt(pos+FVector(0,1,0),(int)CHUNK_BLOCK::MELON_STEM);
+		else if(manager->getBlockAt(pos+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			manager->setBlockAt(pos+FVector(0,1,0),(int)CHUNK_BLOCK::MELON_STEM);
 			updates.push_back(pos+FVector(0,1,0));
 		}
-		else if(Chunk::getBlockAt(pos+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
-			Chunk::setBlockAt(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::MELON_STEM);
+		else if(manager->getBlockAt(pos+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
+			manager->setBlockAt(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::MELON_STEM);
 			updates.push_back(pos+FVector(0,-1,0));
 		}
 	}
 
-	else if(Chunk::getBlockAt(pos)==(int)CHUNK_BLOCK::FARMLAND_WET){
+	else if(manager->getBlockAt(pos)==(int)CHUNK_BLOCK::FARMLAND_WET){
 		
 		
-		auto bloke = Chunk::getBlockAt(pos+FVector(0,0,1))-1;
+		auto bloke = manager->getBlockAt(pos+FVector(0,0,1))-1;
 		if(bloke>=0)
 		if(AChunckMesh::bloks[bloke]->type!=TYPE::BLOCK){
-			Chunk::setBlockAt(pos+FVector(0,0,1),(int)CHUNK_BLOCK::AIR);
+			manager->setBlockAt(pos+FVector(0,0,1),(int)CHUNK_BLOCK::AIR);
 		}
 	}
 
 
-	//volatile int location = Chunk::mod(pos.X,16) * 256 + Chunk::mod(pos.Y,16) * 16 + pos.Z;
-	char ans = Chunk::getBlockAt(pos);
-	Chunk::setBlockAt(pos, (int)CHUNK_BLOCK::AIR);
+	//volatile int location = manager->mod(pos.X,16) * 256 + manager->mod(pos.Y,16) * 16 + pos.Z;
+	char ans = manager->getBlockAt(pos);
+	manager->setBlockAt(pos, (int)CHUNK_BLOCK::AIR);
 	//actualBlock =  bloks[ans-1]->breaked;
 
 	regenerate(wx,wy);
@@ -228,7 +227,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	
 	pos.Z += 1;
 
-	auto upBlock =  Chunk::getBlockAt(pos);
+	auto upBlock =  manager->getBlockAt(pos);
 
 	if(upBlock == (int)CHUNK_BLOCK::SAND){
 		sandFall = true;
@@ -251,7 +250,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 		int wx = floor(inerpos.X / 16.f);
 		int wy = floor(inerpos.Y / 16.f);
 		//auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
-		auto block = Chunk::getBlockAt(inerpos);
+		auto block = manager->getBlockAt(inerpos);
 
 		if(FoundActors.Num()>0){
 			auto player = (AMinecraftCharacter*)FoundActors[0];
@@ -261,7 +260,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == HOE &&
 			block==(int)CHUNK_BLOCK::GRASS){
 			
-				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::FARMLAND_DRY);
+				manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::FARMLAND_DRY);
 				regenerate(inerpos.X,inerpos.Y);
 				farmlands.push_back(inerpos);
 
@@ -270,30 +269,30 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 
 		if(cual == 2 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::CROP);
+			manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::CROP);
 			regenerate(inerpos.X,inerpos.Y);
 			//crops.push_back(inerpos);
 			updates.push_back(inerpos);
 		}
 
 		else if(cual == 3 && block != (int)CHUNK_BLOCK::DOOR_DOWN){
-			Chunk::setBlockAt(outpos,(int)CHUNK_BLOCK::DOOR_DOWN);
-			Chunk::setBlockAt(outpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
+			manager->setBlockAt(outpos,(int)CHUNK_BLOCK::DOOR_DOWN);
+			manager->setBlockAt(outpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
 			regenerate(outpos.X,outpos.Y);
 		}
 		else if(cual == 4 && block != (int)CHUNK_BLOCK::CRAFTING_TABLE){
-			Chunk::setBlockAt(outpos,(int)CHUNK_BLOCK::CRAFTING_TABLE);
+			manager->setBlockAt(outpos,(int)CHUNK_BLOCK::CRAFTING_TABLE);
 			regenerate(outpos.X,outpos.Y);
 		}
 		else if(cual == 5 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::CARROT);
+			manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::CARROT);
 			regenerate(inerpos.X,inerpos.Y);
 			updates.push_back(inerpos);
 		}
 		else if(cual == 6 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){
 			inerpos.Z++;
-			Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::MELON_STEM);
+			manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::MELON_STEM);
 			regenerate(inerpos.X,inerpos.Y);
 			updates.push_back(inerpos);
 		}
@@ -307,13 +306,13 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 				inerpos.Z-=1;
 			}
 			if (block <= (int)CHUNK_BLOCK::DOOR_DOWN) {
-				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN_OPEN);
-				Chunk::setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP_OPEN);
+				manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN_OPEN);
+				manager->setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP_OPEN);
 			}
 			else
 			{
-				Chunk::setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN);
-				Chunk::setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
+				manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::DOOR_DOWN);
+				manager->setBlockAt(inerpos+FVector(0,0,1),(int)CHUNK_BLOCK::DOOR_UP);
 			}
 			regenerate(inerpos.X,inerpos.Y);
 		}
@@ -348,21 +347,21 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor, char type)
 
 	//cordenadas grid
 	if(type >= (int)CHUNK_BLOCK::WATTER && (int)CHUNK_BLOCK::WATTER+8>type){
-		if(Chunk::getBlockAt(pos+FVector(1,0,0)) == 0){
+		if(manager->getBlockAt(pos+FVector(1,0,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(1,0,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
-		if(Chunk::getBlockAt(pos+FVector(0,1,0)) == 0){
+		if(manager->getBlockAt(pos+FVector(0,1,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(0,1,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
-	  if(Chunk::getBlockAt(pos+FVector(-1,0,0)) == 0){
+	  if(manager->getBlockAt(pos+FVector(-1,0,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(-1,0,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
-		if(Chunk::getBlockAt(pos+FVector(0,-1,0)) == 0){
+		if(manager->getBlockAt(pos+FVector(0,-1,0)) == 0){
 			watterAt.push_back(FVector4(pos+FVector(0,-1,0),(int)CHUNK_BLOCK::WATTER+7-type));
 		}
 	}
 
-	Chunk::setBlockAt(pos,type);
+	manager->setBlockAt(pos,type);
 	
 }
 
@@ -372,7 +371,7 @@ void AChunkRenderer::placeSand(FVector pos)
 	pos.X = int((pos.X + 1) / 100.f);
 	pos.Y = int((pos.Y + 1) / 100.f);
 	pos.Z = int((pos.Z + 1) / 100.f);
-	Chunk::setBlockAt(pos,(int)CHUNK_BLOCK::SAND );
+	manager->setBlockAt(pos,(int)CHUNK_BLOCK::SAND );
 	regenerate( floor(pos.X / 16), floor(pos.Y / 16));
 }
 
@@ -380,14 +379,14 @@ void AChunkRenderer::placeSand(FVector pos)
 bool AChunkRenderer::watterCheck(FVector& v)
 {
 	auto newPos = v+FVector(rand()%11-5,rand()%11-5,0);
-	return Chunk::getBlockAt(newPos) == (int)CHUNK_BLOCK::WATTER;
+	return manager->getBlockAt(newPos) == (int)CHUNK_BLOCK::WATTER;
 }
 
 bool AChunkRenderer::checkForSpawn(FVector& v)
 {
-	auto down = Chunk::getBlockAt(v-FVector(0,0,-1));
+	auto down = manager->getBlockAt(v-FVector(0,0,-1));
 	return 
-	Chunk::getBlockAt(v)==(int)CHUNK_BLOCK::AIR &&
+	manager->getBlockAt(v)==(int)CHUNK_BLOCK::AIR &&
 	down != (int)CHUNK_BLOCK::WATTER &&
 	AChunckMesh::bloks[down]->type == TYPE::BLOCK;
 }
@@ -401,7 +400,7 @@ AChunkRenderer::explodeAt(const FVector& place, float radius)
 		for(local.Y = place.Y-radius; local.Y<place.Y+radius+1;local.Y+=1){
 			for(local.Z = place.Z-radius; local.Z<place.Z+radius+1;local.Z+=1){
 				if(FVector::Distance(local,place)<= radius){
-					Chunk::setBlockAt(local,(char)CHUNK_BLOCK::AIR);
+					manager->setBlockAt(local,(char)CHUNK_BLOCK::AIR);
 				}
 			}
 		}
@@ -474,9 +473,9 @@ void AChunkRenderer::Tick(float DeltaTime)
 		FVector actual;
 		for(auto it = crops.begin();it!=crops.end();++it){
 			actual = *it;
-			auto block = Chunk::getBlockAt(actual);
+			auto block = manager->getBlockAt(actual);
 			if(block<(int)CHUNK_BLOCK::CROP+8 && block>= (int)CHUNK_BLOCK::CROP){
-				if (Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET) {
+				if (manager->getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET) {
 					placeBlock(actual*100.f,FVector(1,1,1),block+1);
 				}
 				else {
@@ -498,9 +497,9 @@ void AChunkRenderer::Tick(float DeltaTime)
 		FVector actual;
 		for(auto it = updates.begin();it!=updates.end();++it){
 			actual = *it;
-			auto block = Chunk::getBlockAt(actual);
+			auto block = manager->getBlockAt(actual);
 			if(block != (int)CHUNK_BLOCK::AIR && AChunckMesh::bloks[block-1]->update){
-				if ((Chunk::getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET)) {
+				if ((manager->getBlockAt(actual - FVector(0, 0, 1)) == (int)CHUNK_BLOCK::FARMLAND_WET)) {
 					if(FMath::Rand()%8==0){
 						if(AChunckMesh::bloks[block]->needSpace){
 						float dx;

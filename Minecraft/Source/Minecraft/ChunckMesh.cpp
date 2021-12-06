@@ -107,6 +107,11 @@ void AChunckMesh::BeginPlay()
 void AChunckMesh::PostActorCreated()
 {
 	Super::PostActorCreated();
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AChunkRenderer::StaticClass(), FoundActors);
+	if(FoundActors.Num()==0) return;
+	renderer = (AChunkRenderer*)FoundActors[0];
 	generateMesh();
 }
 
@@ -121,8 +126,8 @@ void AChunckMesh::generateMesh()
 	
 	x = GetActorLocation().X / 1600;
 	y = GetActorLocation().Y / 1600;
-	Chunk::generateChunkAt(x,y);
-	c=Chunk::getChunkAt(x,y);
+	renderer->manager->generateChunkAt(x,y);
+	c= renderer->manager->getChunkAt(x,y);
 
 	
 
@@ -157,19 +162,19 @@ void AChunckMesh::generateMesh()
 
 				int dir;
 
-				if(Chunk::getBlockAt(place+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON){
+				if(renderer->manager->getBlockAt(place+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON){
 					dir =0;
 				}
 
-				else if(Chunk::getBlockAt(place+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON){
+				else if(renderer->manager->getBlockAt(place+FVector(-1,0,0))==(int)CHUNK_BLOCK::MELON){
 					dir =1;
 				}
 
-				else if(Chunk::getBlockAt(place+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON){
+				else if(renderer->manager->getBlockAt(place+FVector(0,1,0))==(int)CHUNK_BLOCK::MELON){
 					dir =2;
 				}
 
-				else if(Chunk::getBlockAt(place+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON){
+				else if(renderer->manager->getBlockAt(place+FVector(0,-1,0))==(int)CHUNK_BLOCK::MELON){
 					dir =3;
 				}
 
@@ -395,24 +400,28 @@ void AChunckMesh::addWater(FVector pos, int alt)
 	int ec=0;
 	int ed=0;
 
-	char actual = Chunk::getBlockAt(Rpos);
+	char actual = renderer->manager->getBlockAt(Rpos);
 
-	if(Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(1,0,0)+Wpos) < actual){
+	if(renderer->manager->getBlockAt(Rpos-FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && 
+	renderer->manager->getBlockAt(Rpos-FVector(1,0,0)+Wpos) < actual){
 		++ea;
 		++ed;
 	}
-	if(Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(1,0,0)+Wpos) < actual){
+	if(renderer->manager->getBlockAt(Rpos+FVector(1,0,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && 
+	renderer->manager->getBlockAt(Rpos+FVector(1,0,0)+Wpos) < actual){
 		++eb;
 		++ec;
 	}
 
 
-	if(Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos-FVector(0,1,0)+Wpos) < actual){
+	if(renderer->manager->getBlockAt(Rpos-FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && 
+	renderer->manager->getBlockAt(Rpos-FVector(0,1,0)+Wpos) < actual){
 		++eb;
 		++ed;
 	}
 
-	if(Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && Chunk::getBlockAt(Rpos+FVector(0,1,0)+Wpos) < actual){
+	if(renderer->manager->getBlockAt(Rpos+FVector(0,1,0)+Wpos)>=(int)CHUNK_BLOCK::WATTER && 
+	renderer->manager->getBlockAt(Rpos+FVector(0,1,0)+Wpos) < actual){
 		++ea;
 		++ec;
 	}
@@ -670,7 +679,7 @@ bool AChunckMesh::checkFace(FVector& pos, FVector f)
 
 
 	char data;
-	data = Chunk::getBlockAt(checkPos);
+	data = renderer->manager->getBlockAt(checkPos);
 	return data == (int)CHUNK_BLOCK::AIR || data == (int)CHUNK_BLOCK::LEAVES || data >= (int)CHUNK_BLOCK::WATTER || data >= (int)CHUNK_BLOCK::RED_FLOWER;
 }
 
@@ -718,8 +727,8 @@ void AChunckMesh::Tick(float DeltaTime)
 
 char AChunckMesh::destroyBlock( int px, int py, int pz)
 {
-  char ans = Chunk::getBlockAt(FVector(px,py,pz));
-	Chunk::setBlockAt(FVector(px,py,pz),(int)CHUNK_BLOCK::AIR);
+  char ans = renderer->manager->getBlockAt(FVector(px,py,pz));
+	renderer->manager->setBlockAt(FVector(px,py,pz),(int)CHUNK_BLOCK::AIR);
 	
 	return bloks[ans-1]->breaked;
 }
@@ -727,21 +736,19 @@ char AChunckMesh::destroyBlock( int px, int py, int pz)
 
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
-	return bloks[Chunk::getBlockAt(FVector(px,py,pz))-1]->life;
+	return bloks[renderer->manager->getBlockAt(FVector(px,py,pz))-1]->life;
 }
 
 void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	auto pos = Hit.ImpactPoint + Hit.ImpactNormal;
 	pos = FVector(floor(pos.X / 100.f),floor(pos.Y / 100.f),floor(pos.Z / 100.f));
-	auto blok = Chunk::getBlockAt(pos);
+	auto blok = renderer->manager->getBlockAt(pos);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %f, y: %f, z: %f"), pos.X, pos.Y, pos.Z));
 
 	if (blok == (int)CHUNK_BLOCK::FARMLAND_DRY || blok == (int)CHUNK_BLOCK::FARMLAND_WET) {
-		Chunk::setBlockAt(pos,(int)CHUNK_BLOCK::DIRT);
-		TArray<AActor*> renderer;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AChunkRenderer::StaticClass(), renderer);
-		((AChunkRenderer*)renderer[0])->regenerate(FVector2D(floor(pos.X/16),floor(pos.Y/16)));
+		renderer->manager->setBlockAt(pos,(int)CHUNK_BLOCK::DIRT);
+		renderer->regenerate(FVector2D(floor(pos.X/16),floor(pos.Y/16)));
 	}
 	
 }

@@ -9,6 +9,7 @@
 #include "HashTable2d.h"
 #include <list>
 #include <vector>
+#include "ChunkManager.h"
 #include "ChunkRenderer.generated.h"
 
 UCLASS()
@@ -116,4 +117,6 @@ public:
 	regenerate(const FVector2D& place);
 	void 
 	regenerate(int x,int y);
+
+	std::shared_ptr<ChunkManager> manager;
 };

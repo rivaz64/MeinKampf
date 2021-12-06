@@ -7,7 +7,6 @@
 unsigned int Chunk::size = 16;
 unsigned int Chunk::height = 64;
 unsigned int Chunk::len = size * size * height;
-std::map<int,std::shared_ptr<std::map<int,std::shared_ptr<Chunk>>>> Chunk::savedData;
 
 std::vector<FVector2D> vecs = { FVector2D(1,0),FVector2D(0,1) ,FVector2D(-1,0) ,FVector2D(0,-1),FVector2D(1.f/sqrt(2),1.f / sqrt(2)),FVector2D(1.f / sqrt(2),-1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),1.f / sqrt(2)),FVector2D(-1.f / sqrt(2),-1.f / sqrt(2)) };
 
@@ -160,21 +159,7 @@ void Chunk::generate(int x,int y)
 
 
 
-std::shared_ptr<Chunk> 
-Chunk::getChunkAt(int x, int y)
-{
-	auto row = savedData[x];
-	if(!row){
-		savedData[x] = std::make_shared<std::map<int,std::shared_ptr<Chunk>>>();
-		row = savedData[x];
-	}
-	auto data = (*row.get())[y];
-	if (!data) {
-		(*row.get())[y] = std::make_shared<Chunk>();
-		 data = (*row.get())[y];
-	}
-	return data;
-}
+
 
 FVector2D Chunk::randomGradient(int x, int y)
 {
@@ -188,18 +173,6 @@ FVector2D Chunk::randomGradient(int x, int y)
 	return {sinf(random),cosf(random)};
 }
 
-void Chunk::generateChunkAt(int x, int y)
-{
-	/*createChunkAt(x, y);
-	createChunkAt(x+1, y);
-	createChunkAt(x-1, y);
-	createChunkAt(x, y+1);
-	createChunkAt(x, y-1);*/
-	auto data = getChunkAt(x,y);
-	if (!data->generated) {
-		data->generate(x, y);
-	}
-}
 /*
 Chunk* Chunk::getChunkAt(int x, int y)
 {
@@ -240,15 +213,7 @@ void Chunk::spawnTreeAt(int x, int y)
 }
 
 
-char Chunk::getBlockAt(FVector p)
-{
-	return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->data[mod(int(p.X),16) *height*size + mod(int(p.Y),16) * height + int(p.Z)];
-}
 
-void Chunk::setBlockAt(FVector p, char b)
-{
-	getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->data[mod(int(p.X),16) *height*size + mod(int(p.Y),16) * height + int(p.Z)] = b;
-}
 
 
 

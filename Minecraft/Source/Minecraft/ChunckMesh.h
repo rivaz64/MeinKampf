@@ -11,6 +11,7 @@
 #include "ChunckMesh.generated.h"
 
 class Block;
+class AChunkRenderer;
 
 UCLASS()
 class MINECRAFT_API AChunckMesh : public AActor
@@ -75,6 +76,8 @@ public:
 	float lifeOf(int x,int y,int z);
 
 	static std::vector<Block*> bloks;
+
+	AChunkRenderer* renderer;
 
 	UFUNCTION()
 	void 
