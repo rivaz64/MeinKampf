@@ -36,6 +36,9 @@ void AChunkRenderer::BeginPlay()
 	manager = std::make_shared<ChunkManager>();
 	srand(time(NULL));
 	manager->setSeed(rand());
+	if(load){
+	manager->load();
+	}
 	spawnChuncks(0, 0, 3);
 	
 }

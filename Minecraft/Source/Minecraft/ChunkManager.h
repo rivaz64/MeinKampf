@@ -29,6 +29,8 @@ public:
 
 	void save(FVector playerPos);
 
+	void load();
+
 	static int sx;
 
 	static int sy;

@@ -40,9 +40,11 @@ void ChunkManager::generateChunkAt(int x, int y)
 
 char ChunkManager::getBlockAt(FVector p)
 {
+	auto chnk = getChunkAt(floor(p.X/16.f),floor(p.Y/16.f));
+	if(chnk && chnk->data )
   return getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->
 	data[Chunk::mod(int(p.X),16) *Chunk::height*Chunk::size + Chunk::mod(int(p.Y),16) * Chunk::height + int(p.Z)];
-
+	return 0;
 }
 
 void ChunkManager::setBlockAt(FVector p, char b)
@@ -66,6 +68,10 @@ void ChunkManager::save(FVector playerPos)
 	file.open("D:/my_wordl.mc",std::ios::binary| std::ios::out);
 	file.write((char*)&seed,sizeof(int));
 	file.write((char*)&playerPos,sizeof(FVector));
+	int sizex = savedData.size();
+	int sizey = savedData.begin()->second->size();
+	file.write((char*)&sizex,sizeof(FVector));
+	file.write((char*)&sizey,sizeof(FVector));
 	for(auto row : savedData){
 		file.write((char*)&row.first,sizeof(int));
 		for(auto col : *row.second.get()){
@@ -75,6 +81,38 @@ void ChunkManager::save(FVector playerPos)
 	}
 	file.close();
 
+}
+
+void ChunkManager::load()
+{
+	FVector playerPos;
+	std::ifstream file;
+	file.open("D:/my_wordl.mc",std::ios::binary| std::ios::in);
+	file.read((char*)&seed,sizeof(int));
+	setSeed(seed);
+	file.read((char*)&playerPos,sizeof(FVector));
+
+	int sizex,sizey;
+
+	int actualx,actualy;
+
+	file.read((char*)&sizex,sizeof(int));
+	file.read((char*)&sizey,sizeof(int));
+	std::shared_ptr<std::map<int,std::shared_ptr<Chunk>>> row;
+	std::shared_ptr<Chunk> col;
+	for(int i = 0;i<sizex;i++){
+		file.read((char*)&actualx,sizeof(int));
+		savedData.insert({actualx,std::make_shared<std::map<int,std::shared_ptr<Chunk>>>()});
+	  row = savedData[actualx];
+		for(int o = 0;o<sizey;o++){
+			file.read((char*)&actualy,sizeof(int));
+			row->insert({actualy, std::make_shared<Chunk>()});
+		  col = (*row.get())[actualy];
+			file.read((char*)&col->data,sizeof(unsigned char)*Chunk::len);
+			col->generated = true;
+		}
+	}
+	file.close();
 }
 
 

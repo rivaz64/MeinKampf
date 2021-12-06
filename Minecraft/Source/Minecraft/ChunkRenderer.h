@@ -44,6 +44,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 		int cual;
 
+	UPROPERTY(EditAnywhere)
+	bool load = false;
+
 
 	int isinchunckx = 0;
 	int isinchuncky = 0;
@@ -123,4 +126,6 @@ public:
 	bool inPlay = false;
 	
 	FVector playerPos;
+
+
 };
