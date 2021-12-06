@@ -3,6 +3,9 @@
 
 #include "ChunkManager.h"
 
+int ChunkManager::sx ;
+int ChunkManager::sy ;
+
 ChunkManager::ChunkManager()
 {
 }
@@ -46,6 +49,13 @@ void ChunkManager::setBlockAt(FVector p, char b)
   getChunkAt(floor(p.X/16.f),floor(p.Y/16.f))->
 	data[Chunk::mod(int(p.X),16) *Chunk::height*Chunk::size + Chunk::mod(int(p.Y),16) * Chunk::height + int(p.Z)] = b;
 
+}
+
+void ChunkManager::setSeed(int s)
+{
+	FMath::RandInit(s);
+	sx = FMath::Rand()%216;
+	sy = FMath::Rand()%216;
 }
 
 

@@ -25,5 +25,11 @@ public:
 
 	void setBlockAt(FVector p, char b);
 
+	void setSeed(int s);
+
+	static int sx;
+
+	static int sy;
+
 };
 

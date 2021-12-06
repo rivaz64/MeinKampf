@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Chunk.h"
 #include"Block.h"
+#include "ChunkManager.h"
 #include <vector>
 #include <cmath>
 
@@ -56,7 +57,7 @@ float Chunk::valueAt(float x, float y)
 	float localScale =scale;
 	float localPersistence = 1;
 	for(int32 i=0; i<octaves;i++){
-		ans += perlinNoise2D(x,y,localScale)*localPersistence;
+		ans += perlinNoise2D(x+ChunkManager::sx*6,y+ChunkManager::sy*6,localScale)*localPersistence;
 		localScale*=lacunarity;
 		localPersistence*=persistence;
 	}
