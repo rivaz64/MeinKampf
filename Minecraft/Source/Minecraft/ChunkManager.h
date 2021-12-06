@@ -27,9 +27,13 @@ public:
 
 	void setSeed(int s);
 
+	void save(FVector playerPos);
+
 	static int sx;
 
 	static int sy;
+
+	int seed;
 
 };
 

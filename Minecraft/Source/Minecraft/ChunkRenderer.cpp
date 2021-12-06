@@ -25,11 +25,8 @@ AChunkRenderer::AChunkRenderer()
 
 AChunkRenderer::~AChunkRenderer()
 {
-	/*
-	if(manager->savedData)
-	delete manager->savedData;
-	if(world)
-	delete world;*/
+	if(inPlay)
+	manager->save(playerPos);
 }
 
 // Called when the game starts or when spawned
@@ -420,6 +417,13 @@ void AChunkRenderer::Tick(float DeltaTime)
 	cropUpdate += DeltaTime;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+
+	if(FoundActors.Num()!=0){
+		inPlay = true;
+
+		playerPos = FoundActors[0]->GetActorLocation();
+	}
+	
 
 	if(sandFall){
 		sandFall=false;

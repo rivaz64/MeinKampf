@@ -119,4 +119,8 @@ public:
 	regenerate(int x,int y);
 
 	std::shared_ptr<ChunkManager> manager;
+
+	bool inPlay = false;
+	
+	FVector playerPos;
 };

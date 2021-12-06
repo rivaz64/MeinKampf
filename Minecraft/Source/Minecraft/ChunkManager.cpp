@@ -2,6 +2,7 @@
 
 
 #include "ChunkManager.h"
+#include <fstream>
 
 int ChunkManager::sx ;
 int ChunkManager::sy ;
@@ -53,9 +54,27 @@ void ChunkManager::setBlockAt(FVector p, char b)
 
 void ChunkManager::setSeed(int s)
 {
+	seed = s;
 	FMath::RandInit(s);
 	sx = FMath::Rand()%216;
 	sy = FMath::Rand()%216;
+}
+
+void ChunkManager::save(FVector playerPos)
+{
+	std::ofstream file;
+	file.open("D:/my_wordl.mc",std::ios::binary| std::ios::out);
+	file.write((char*)&seed,sizeof(int));
+	file.write((char*)&playerPos,sizeof(FVector));
+	for(auto row : savedData){
+		file.write((char*)&row.first,sizeof(int));
+		for(auto col : *row.second.get()){
+			file.write((char*)&col.first,sizeof(int));
+			file.write((char*)col.second->data,sizeof(unsigned char)*Chunk::len);
+		}
+	}
+	file.close();
+
 }
 
 
