@@ -48,7 +48,52 @@ void AItemDroped_CPP::Tick(float DeltaTime)
 
 	TimeTillCollected -= DeltaTime;
 	if (Item->GetDefaultObject<ABaseItem_CPP>()->ItemMesh != NULL)
-		ItemMesh->SetStaticMesh(Item->GetDefaultObject<ABaseItem_CPP>()->ItemMesh); 
+		ItemMesh->SetStaticMesh(Item->GetDefaultObject<ABaseItem_CPP>()->ItemMesh);
+
+  TArray<AActor*> overlaps;
+  GetOverlappingActors(overlaps);
+
+  for (auto& ch : overlaps)
+  {
+    AMinecraftCharacter* OtherCharacter = Cast<AMinecraftCharacter>(ch);
+
+    if (OtherCharacter && TimeTillCollected <= 0.0f)
+    {
+      uint8 oCount = 0;
+      if (OtherCharacter->AddItemC(Item, Count, oCount))
+      {
+        Destroy();
+      }
+      else
+      {
+        Count = oCount;
+      }
+      return;
+    }
+    else
+    {
+      AItemDroped_CPP* OtherDropped = Cast<AItemDroped_CPP>(ch);
+
+      if (OtherDropped && OtherDropped != this)
+      {
+        if (Item == OtherDropped->Item)
+        {
+          if (Count + OtherDropped->Count <= Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack)
+          {
+            Count += OtherDropped->Count;
+            OtherDropped->Destroy();
+          }
+          else
+          {
+            OtherDropped->Count = (Count + OtherDropped->Count) - Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
+            Count += Item->GetDefaultObject<ABaseItem_CPP>()->MaxStack;
+          }
+        }
+
+        return;
+      }
+    }
+  }
 }
 
 void AItemDroped_CPP::BeginOverlap(UPrimitiveComponent * OverlappedComponent,

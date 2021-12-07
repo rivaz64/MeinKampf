@@ -223,6 +223,7 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		if(interacting && timeSinceLast>.2){
 			timeSinceLast = 0;
 			m_world->placeBlock(Hit.Location,Hit.Normal);
+			inventory_count[HUDSlotActive] -= 1;
 		}
 	}
 	auto mob = Cast< Amob>(Hit.Actor);

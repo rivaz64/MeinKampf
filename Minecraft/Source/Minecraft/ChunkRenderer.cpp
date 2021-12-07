@@ -220,7 +220,7 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(),itemManager, FoundActors);
 	if(FoundActors.Num()>0){
-		((ADropManager_CPP*)FoundActors[0])->SpawnItemFromType(pos*100+FVector(50,50,50),eSPAWN_ITEM_TYPE::SPAWN_BLOCK,actualBlock,1);
+		((ADropManager_CPP*)FoundActors[0])->SpawnItemFromType(pos*100+FVector(50,50,50),eSPAWN_ITEM_TYPE::SPAWN_BLOCK,actualBlock,1,0.0f);
 	}
 
 	regenerate(wx,wy);

@@ -46,7 +46,11 @@ void ADropManager_CPP::Tick(float DeltaTime)
 
 }
 
-void ADropManager_CPP::SpawnItemFromType(FVector pos, eSPAWN_ITEM_TYPE type, int subType, uint8 count)
+void ADropManager_CPP::SpawnItemFromType(FVector pos,
+                                         eSPAWN_ITEM_TYPE type,
+                                         int subType,
+                                         uint8 count,
+                                         float timeTillCollect)
 {
   TSubclassOf<class ABaseItem_CPP> item = NULL;
 	switch (type)
@@ -125,10 +129,13 @@ void ADropManager_CPP::SpawnItemFromType(FVector pos, eSPAWN_ITEM_TYPE type, int
     break;
   }
 
-  SpawnItemFromClass(pos, item, count);
+  SpawnItemFromClass(pos, item, count, timeTillCollect);
 }
 
-void ADropManager_CPP::SpawnItemFromClass(FVector pos, TSubclassOf<class ABaseItem_CPP> item, uint8 count)
+void ADropManager_CPP::SpawnItemFromClass(FVector pos,
+                                          TSubclassOf<class ABaseItem_CPP> item,
+                                          uint8 count,
+																          float timeTillCollect)
 {
   if (item != NULL && count > 0u)
   {
@@ -137,7 +144,7 @@ void ADropManager_CPP::SpawnItemFromClass(FVector pos, TSubclassOf<class ABaseIt
     {
       drop->Item = item;
       drop->Count = count;
-      drop->TimeTillCollected = 3.0f;
+      drop->TimeTillCollected = timeTillCollect;
     }
   }
 }

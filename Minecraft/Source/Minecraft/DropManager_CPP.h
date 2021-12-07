@@ -33,8 +33,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	virtual void SpawnItemFromType(FVector pos, eSPAWN_ITEM_TYPE type, int subType, uint8 count);
+	virtual void SpawnItemFromType(FVector pos,
+	                               eSPAWN_ITEM_TYPE type,
+																 int subType, uint8 count,
+																 float timeTillCollect);
 
 	UFUNCTION(BlueprintCallable)
-	virtual void SpawnItemFromClass(FVector pos, TSubclassOf<class ABaseItem_CPP> item, uint8 count);
+	virtual void SpawnItemFromClass(FVector pos,
+	                                TSubclassOf<class ABaseItem_CPP> item,
+																	uint8 count,
+																  float timeTillCollect);
 };
