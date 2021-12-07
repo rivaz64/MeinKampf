@@ -240,5 +240,7 @@ public:
 	bool interacting = false;
 
 	float timeSinceLast=0;
+
+	float timeAttack=0.2;
 };
 

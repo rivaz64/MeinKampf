@@ -39,6 +39,9 @@ void Amob::Tick(float DeltaTime)
 	}
 	SetActorLocation(GetActorLocation()+FVector(velocity.X,velocity.Y,0)*DeltaTime);
 	m_mesh->SetWorldRotation(FRotator(0,atan2(-velocity.X,velocity.Y)/PI*180,0));
+	if(life<=0){
+	Destroy();
+	}
 }
 
 void Amob::go()
@@ -89,6 +92,7 @@ void Amob::hitted()
 	pointToGo = (pos-other).GetSafeNormal()*3600.f;
 	maxVel = 216.f;
 	timerPoint = 0;
+	--life;
 }
 
 void

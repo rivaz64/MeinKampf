@@ -59,6 +59,8 @@ public:
 	float delta;
 	float alt;
 
+	int life = 8;
+
 	UPROPERTY(EditAnywhere)
 	float impulse;
 

@@ -11,6 +11,7 @@
 #include "Block.h"
 #include "MinecraftCharacter.h"
 #include "DropManager_CPP.h"
+#include "DropManager_CPP.h"
 //#include "ChunckMesh.h"
 //float TEXTURESIZE = 1.f/16.f;
 //std::vector<FVector2D> textcords = { FVector2D(0, 0),FVector2D(TEXTURESIZE, 0),FVector2D(0, TEXTURESIZE) };
@@ -103,6 +104,10 @@ AChunkRenderer::spawnChunkAt(int x, int y)
 	
 	manager->getChunkAt(x,y)->spawned = true;
 	getChunkAt(x,y)->renderer = this;
+
+	
+
+	GetWorld()->SpawnActor<AActor>(sheep,FTransform(manager->getPlaceToSpawn(x,y)*100));
 }
 
 AChunckMesh*
@@ -113,6 +118,7 @@ AChunkRenderer::getChunkAt(int x, int y){
 
 void 
 AChunkRenderer::despawnChunk(int x, int y){
+	if(world.find(x)==world.end()) return;
 	(*world[x])[y]->Destroy();
 	world[x]->erase(world[x]->find(y));
 	if(world[x]->size() == 0){
@@ -209,7 +215,13 @@ void AChunkRenderer::destroyBlock(FVector pos)
 	//volatile int location = manager->mod(pos.X,16) * 256 + manager->mod(pos.Y,16) * 16 + pos.Z;
 	char ans = manager->getBlockAt(pos);
 	manager->setBlockAt(pos, (int)CHUNK_BLOCK::AIR);
-	//actualBlock =  bloks[ans-1]->breaked;
+	actualBlock = AChunckMesh::bloks[ans-1]->breaked;
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),itemManager, FoundActors);
+	if(FoundActors.Num()>0){
+		((ADropManager_CPP*)FoundActors[0])->SpawnItemFromType(pos*100+FVector(50,50,50),eSPAWN_ITEM_TYPE::SPAWN_BLOCK,actualBlock,1);
+	}
 
 	regenerate(wx,wy);
 
@@ -321,7 +333,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 	}
 	else{
 		placeBlock(pos,nor,actualBlock);
-		regenerate(floor((pos.X+nor.X)/100.f),floor((pos.Y+nor.Y)/100.f));
+		regenerate(floor((pos.X+nor.X)/1600.f),floor((pos.Y+nor.Y)/1600.f));
 	}
 	
 	actualBlock = -1;
@@ -550,7 +562,7 @@ void AChunkRenderer::Tick(float DeltaTime)
 	if (FoundActors.Num()) {
 		if (floor(FoundActors[0]->GetActorLocation().X / 1600) != isinchunckx || floor(FoundActors[0]->GetActorLocation().Y / 1600) != isinchuncky) {
 			
-			GetWorld()->SpawnActor<AActor>(sheep, FTransform(FoundActors[0]->GetActorLocation()+FVector(600,0,0)));
+			
 
 			float antex = isinchunckx;
 			float antey = isinchuncky;

@@ -19,6 +19,9 @@ public:
 	std::shared_ptr<Chunk> 
 	getChunkAt(int x, int y);
 
+	FVector
+	getPlaceToSpawn(int x, int y);
+
 	void generateChunkAt(int x, int y);
 
 	char getBlockAt(FVector p);

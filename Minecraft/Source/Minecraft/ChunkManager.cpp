@@ -3,7 +3,7 @@
 
 #include "ChunkManager.h"
 #include <fstream>
-
+#include "Block.h"
 int ChunkManager::sx ;
 int ChunkManager::sy ;
 
@@ -28,6 +28,19 @@ std::shared_ptr<Chunk> ChunkManager::getChunkAt(int x, int y)
 		 data = (*row.get())[y];
 	}
 	return data;
+}
+
+FVector ChunkManager::getPlaceToSpawn(int x, int y)
+{
+	int lx,ly;
+	lx = FMath::Rand()%16;
+	ly = FMath::Rand()%16;
+	for(unsigned int i = 0;i<Chunk::height;++i){
+		if(getBlockAt(FVector(x*16+lx,y*16+ly,i))==(int)CHUNK_BLOCK::AIR){
+			return FVector(x*16+lx,y*16+ly,16);
+		}
+	}
+	return FVector(0,0,0);
 }
 
 void ChunkManager::generateChunkAt(int x, int y)

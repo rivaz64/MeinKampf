@@ -37,7 +37,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> ClassOfPlayer;
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<AActor> item;
+		TSubclassOf<AActor> itemManager;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> sheep;
 

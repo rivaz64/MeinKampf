@@ -179,6 +179,8 @@ void AMinecraftCharacter::BeginPlay()
 
 void AMinecraftCharacter::Tick(float DeltaTime)
 {
+	timeAttack+=DeltaTime;
+
 	FVector Loc = FirstPersonCameraComponent->GetComponentLocation();
 	FHitResult Hit;
 
@@ -225,8 +227,11 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 	}
 	auto mob = Cast< Amob>(Hit.Actor);
 	if (mob != NULL){
-		if (Hitting)
-		mob->hitted();
+		if (Hitting && timeAttack>.2){
+			mob->hitted();
+			timeAttack=0;
+		}
+		
 	}
 	/*
 	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);
