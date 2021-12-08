@@ -21,7 +21,7 @@ eSTATE UICraftingState_CPP::Update(eINPUT_TYPE input)
   {
     return eSTATE::HUD;
   }
-  return eSTATE::INVENTORY;
+  return eSTATE::CRAFTING;
 }
 
 void UICraftingState_CPP::End()

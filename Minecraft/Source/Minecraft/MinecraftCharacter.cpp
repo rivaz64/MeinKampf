@@ -505,6 +505,7 @@ void AMinecraftCharacter::UpdateStateMachine()
   {
     CurrentState = newState;
 
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, std::to_string((int)CurrentState).c_str());
     switch (CurrentState)
     {
     case eSTATE::HUD:

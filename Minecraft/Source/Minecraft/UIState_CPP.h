@@ -6,7 +6,7 @@
 
 enum class eSTATE
 {
-  NONE = -1,
+  NONE = 0,
   HUD,
   INVENTORY,
   CRAFTING,
@@ -18,7 +18,7 @@ enum class eSTATE
 UENUM()
 enum eINPUT_TYPE
 {
-  INPUT_NONE = -1,
+  INPUT_NONE = 0,
   INPUT_E,
   INPUT_ESC,
   INPUT_OPEN_CRAFTING,
