@@ -142,7 +142,18 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 		life = 0;
 		PointingBlock = pos;
 		auto actualChunk = getChunkAt(floor(pos.X / 16), floor(pos.Y / 16));
+
 		blockLife = actualChunk->lifeOf(pos.X, pos.Y, pos.Z);
+		if(manager->getBlockAt(pos)==(int)CHUNK_BLOCK::STONE){
+			TArray<AActor*> FoundActors;
+			UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+			if(FoundActors.Num()>0){
+				auto player = (AMinecraftCharacter*)FoundActors[0];
+				blockLife*=2;
+			}
+		}
+		
+	
 	}
 
 	FVector4 data = FVector4(nor.X, nor.Y, nor.Z, 0);
@@ -179,6 +190,8 @@ void AChunkRenderer::regenerate(int x,int y)
 
 void AChunkRenderer::destroyBlock(FVector pos)
 {
+
+	
 	int wx = floor(pos.X / 16);
 	int wy = floor(pos.Y / 16);
 	//auto destroyedBlock = 
@@ -268,6 +281,11 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 
 		if(FoundActors.Num()>0){
 			auto player = (AMinecraftCharacter*)FoundActors[0];
+
+			if(block == (int)CHUNK_BLOCK::CRAFTING_TABLE){
+				player->CurrentInput = eINPUT_TYPE::INPUT_OPEN_CRAFTING;
+				return;
+			}
 
 			if(player->HandedItem){
 			

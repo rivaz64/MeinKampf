@@ -15,6 +15,10 @@ class MINECRAFT_API ACraftingTableItemBlock_CPP : public ABaseItemBlock_CPP
 	GENERATED_BODY()
 	
 public:
+
+  int
+	getId();
+
 	ACraftingTableItemBlock_CPP();
 
 };

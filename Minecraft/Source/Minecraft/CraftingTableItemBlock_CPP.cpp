@@ -2,6 +2,7 @@
 
 
 #include "CraftingTableItemBlock_CPP.h"
+#include "Block.h"
 
 ACraftingTableItemBlock_CPP::ACraftingTableItemBlock_CPP()
 {
@@ -17,4 +18,9 @@ ACraftingTableItemBlock_CPP::ACraftingTableItemBlock_CPP()
   {
     Image = ImageAsset.Object;
   }
+}
+
+int
+ACraftingTableItemBlock_CPP::getId(){
+  return (int)CHUNK_BLOCK::CRAFTING_TABLE;
 }
