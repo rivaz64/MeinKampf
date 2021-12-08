@@ -207,32 +207,43 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		false, .1f, 0,
 		1
 	);*/
-	auto chunk = Cast< AChunckMesh>(Hit.Actor);
-	if (chunk != NULL)
+	if (CurrentState == eSTATE::HUD)
 	{
-		if (Hitting)
+    auto chunk = Cast< AChunckMesh>(Hit.Actor);
+    if (chunk != NULL)
+    {
+      if (Hitting)
+      {
+        //PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
+
+        m_world->destroingAt(Hit.Location, Hit.Normal, DeltaTime);
+      }
+      else
+			{
+        m_world->desPoint();
+      }
+      timeSinceLast += DeltaTime;
+      if (interacting && timeSinceLast > .2)
+			{
+        timeSinceLast = 0;
+        m_world->placeBlock(Hit.Location, Hit.Normal);
+        inventory_count[HUDSlotActive] -= 1;
+        if (inventory_count[HUDSlotActive] <= 0)
+        {
+          inventory_items[HUDSlotActive] = nullptr;
+        }
+      }
+    }
+    auto mob = Cast< Amob>(Hit.Actor);
+    if (mob != NULL)
 		{
-			//PointingBlock->Hitted(DeltaTime, (*HUD)[HUDSlotActive]);
-		  
-			m_world->destroingAt(Hit.Location,Hit.Normal,DeltaTime);
-		}
-		else{
-			m_world->desPoint();
-		}
-		timeSinceLast += DeltaTime;
-		if(interacting && timeSinceLast>.2){
-			timeSinceLast = 0;
-			m_world->placeBlock(Hit.Location,Hit.Normal);
-			inventory_count[HUDSlotActive] -= 1;
-		}
-	}
-	auto mob = Cast< Amob>(Hit.Actor);
-	if (mob != NULL){
-		if (Hitting && timeAttack>.2){
-			mob->hitted();
-			timeAttack=0;
-		}
-		
+      if (Hitting && timeAttack > .2)
+			{
+        mob->hitted();
+        timeAttack = 0;
+      }
+
+    }
 	}
 	/*
 	auto Block = Cast<ABaseBlock_CPP>(Hit.Actor);
