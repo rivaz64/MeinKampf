@@ -22,6 +22,7 @@
 #include "B_CraftingTable.h"
 #include "B_Carrots.h"
 #include "B_Melon.h"
+#include "B_Plank.h"
 #include "ItemDroped_CPP.h"
 #include "BaseGrassItemBlock_CPP.h"
 #include "Kismet/GameplayStatics.h"
@@ -36,6 +37,7 @@ new B_stone,
 new B_bedRock, 
 new B_cobblestone,
 new B_wood ,
+new B_Plank,
 new B_leaves,
 new B_sand,
 new B_RedFlower,

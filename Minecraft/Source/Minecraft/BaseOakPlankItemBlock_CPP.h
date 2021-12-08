@@ -16,4 +16,7 @@ class MINECRAFT_API ABaseOakPlankItemBlock_CPP : public ABaseItemBlock_CPP
 	
 public:
 	ABaseOakPlankItemBlock_CPP();
+
+	int
+	getId();
 };

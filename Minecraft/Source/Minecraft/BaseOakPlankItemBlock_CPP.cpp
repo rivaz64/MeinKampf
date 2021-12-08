@@ -2,6 +2,7 @@
 
 
 #include "BaseOakPlankItemBlock_CPP.h"
+#include "Block.h"
 
 ABaseOakPlankItemBlock_CPP::ABaseOakPlankItemBlock_CPP()
 {
@@ -17,4 +18,9 @@ ABaseOakPlankItemBlock_CPP::ABaseOakPlankItemBlock_CPP()
   {
     Image = ImageAsset.Object;
   }
+}
+
+int ABaseOakPlankItemBlock_CPP::getId()
+{
+	return (int)CHUNK_BLOCK::PLANK;
 }
