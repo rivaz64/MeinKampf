@@ -29,6 +29,9 @@ public:
 
 	virtual void PlaceBlock(FVector* pos, UWorld* world);
 
+	virtual int
+	getId() {return 0;}
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ItemInfo)

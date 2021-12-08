@@ -260,7 +260,7 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 	
 
-	if(actualBlock == -1){
+	if(true){
 		int wx = floor(inerpos.X / 16.f);
 		int wy = floor(inerpos.Y / 16.f);
 		//auto actualChunk = ((AChunckMesh*)world->getNodeAt(wx,wy));
@@ -268,17 +268,28 @@ void AChunkRenderer::placeBlock(FVector pos, FVector nor)
 
 		if(FoundActors.Num()>0){
 			auto player = (AMinecraftCharacter*)FoundActors[0];
-			if(
-			player->HandedItem &&
-			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL &&
-			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == HOE &&
-			block==(int)CHUNK_BLOCK::GRASS){
-			
-				manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::FARMLAND_DRY);
-				regenerate(inerpos.X,inerpos.Y);
-				farmlands.push_back(inerpos);
 
+			if(player->HandedItem){
+			
+				if(player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == BLOCK){
+					placeBlock(pos,nor,player->HandedItem->GetDefaultObject<ABaseItemBlock_CPP>()->getId());
+					regenerate(floor((pos.X+nor.X)/1600.f),floor((pos.Y+nor.Y)/1600.f));
+					return;
+				}
+
+				if(
+				player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL &&
+				player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == HOE &&
+				block==(int)CHUNK_BLOCK::GRASS){
+				
+					manager->setBlockAt(inerpos,(int)CHUNK_BLOCK::FARMLAND_DRY);
+					regenerate(inerpos.X,inerpos.Y);
+					farmlands.push_back(inerpos);
+
+				}
 			}
+
+			
 		}
 
 		if(cual == 2 && (block==(int)CHUNK_BLOCK::FARMLAND_DRY || block==(int)CHUNK_BLOCK::FARMLAND_WET)){

@@ -14,7 +14,12 @@ class MINECRAFT_API ABaseGrassItemBlock_CPP : public ABaseItemBlock_CPP
 {
 	GENERATED_BODY()
 
-public:
+ public:
+
+	int
+	getId();
+
+
 	ABaseGrassItemBlock_CPP();
 	
 };

@@ -14,6 +14,10 @@ class MINECRAFT_API ABaseDirtItemBlock_CPP : public ABaseItemBlock_CPP
 {
 	GENERATED_BODY()
 	
-public:
+ public:
+
+	int
+	getId();
+
 	ABaseDirtItemBlock_CPP();
 };

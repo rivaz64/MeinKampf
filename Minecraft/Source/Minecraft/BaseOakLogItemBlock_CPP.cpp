@@ -2,6 +2,7 @@
 
 
 #include "BaseOakLogItemBlock_CPP.h"
+#include "Block.h"
 
 ABaseOakLogItemBlock_CPP::ABaseOakLogItemBlock_CPP()
 {
@@ -17,4 +18,9 @@ ABaseOakLogItemBlock_CPP::ABaseOakLogItemBlock_CPP()
   {
     Image = ImageAsset.Object;
   }
+}
+
+int ABaseOakLogItemBlock_CPP::getId()
+{
+  return (int)CHUNK_BLOCK::WOOD;
 }

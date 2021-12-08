@@ -2,6 +2,12 @@
 
 
 #include "BaseGrassItemBlock_CPP.h"
+#include "Block.h"
+
+int ABaseGrassItemBlock_CPP::getId()
+{
+	return (int)CHUNK_BLOCK::GRASS;
+}
 
 ABaseGrassItemBlock_CPP::ABaseGrassItemBlock_CPP()
 {

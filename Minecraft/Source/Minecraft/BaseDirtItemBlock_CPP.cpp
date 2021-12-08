@@ -2,6 +2,12 @@
 
 
 #include "BaseDirtItemBlock_CPP.h"
+#include "Block.h"
+
+int ABaseDirtItemBlock_CPP::getId()
+{
+	return (int)CHUNK_BLOCK::DIRT;
+}
 
 ABaseDirtItemBlock_CPP::ABaseDirtItemBlock_CPP()
 {
