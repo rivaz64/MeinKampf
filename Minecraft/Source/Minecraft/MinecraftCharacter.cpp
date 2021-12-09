@@ -30,10 +30,13 @@
 #include "BaseBlock_CPP.h"
 #include "BaseItem_CPP.h"
 
+#include "DropManager_CPP.h"
 
 #include "UIHUDState_CPP.h"
 #include "UIInventoryState_CPP.h"
 #include "UICraftingState_CPP.h"
+#include "UIPauseState_CPP.h"
+#include "UIDeathState_CPP.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -143,6 +146,8 @@ void AMinecraftCharacter::BeginPlay()
 		Mesh1P->SetHiddenInGame(false, true);
 	}
 
+	InitPosition = GetActorLocation();
+
 	HUD = new TArray<TSubclassOf<class ABaseItem_CPP>>();
 	for (int i = 0; i < 9; i++)
 	{
@@ -161,17 +166,21 @@ void AMinecraftCharacter::BeginPlay()
     switch (static_cast<eSTATE>(i))
     {
     case eSTATE::HUD:
-      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::HUD, new UIHUDState_CPP()));
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(static_cast<eSTATE>(i), new UIHUDState_CPP()));
       break;
     case eSTATE::INVENTORY:
-      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::INVENTORY, new UIInventoryState_CPP()));
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(static_cast<eSTATE>(i), new UIInventoryState_CPP()));
       break;
     case eSTATE::CRAFTING:
-      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(eSTATE::CRAFTING, new UICraftingState_CPP()));
-      break;
-    case eSTATE::MENU:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(static_cast<eSTATE>(i), new UICraftingState_CPP()));
       break;
     case eSTATE::OVEN:
+      break;
+    case eSTATE::PAUSE:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(static_cast<eSTATE>(i), new UIPauseState_CPP()));
+      break;
+    case eSTATE::DEATH:
+      UIStates.Add(TTuple<eSTATE, UIState_CPP*>(static_cast<eSTATE>(i), new UIDeathState_CPP()));
       break;
     }
   }
@@ -299,6 +308,25 @@ void AMinecraftCharacter::Tick(float DeltaTime)
     }
   }
 
+  if (Life <= 0)
+  {
+    CurrentInput = INPUT_DIE;
+
+    TArray<AActor*> FoundActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADropManager_CPP::StaticClass(), FoundActors);
+    if (FoundActors.Num() > 0)
+    {
+      ADropManager_CPP* dropMan = Cast<ADropManager_CPP>(FoundActors[0]);
+
+		  int inventorySlots = inventory_items.Num() < inventory_count.Num() ? inventory_items.Num() : inventory_count.Num();
+		  for (int i = 0; i < inventorySlots; ++i)
+      {
+		  	dropMan->SpawnItemFromClass(GetActorLocation(), inventory_items[i], inventory_count[i], 0.0f);
+				inventory_items[i] = nullptr;
+				inventory_count[i] = 0;
+		  }
+    }
+  }
   UpdateStateMachine();
 
   HandedItem = inventory_items[HUDSlotActive];
@@ -498,6 +526,15 @@ int AMinecraftCharacter::GetItemsCountC()
   return inventory_items.Num();
 }
 
+void AMinecraftCharacter::Respawn()
+{
+  CurrentInput = INPUT_RESPAWN;
+
+	Life = 20;
+
+	SetActorLocation(InitPosition);
+}
+
 ////////////////////////////|//////////////////////////////////////////////
 // Input
 
@@ -522,22 +559,37 @@ void AMinecraftCharacter::UpdateStateMachine()
     case eSTATE::HUD:
       toggleInventoryWidget(false);
       toggleCraftingWidget(false);
+      togglePauseWidget(false);
+			toggleDeadWidget(false);
       toggleHUDWidget(true);
       break;
     case eSTATE::INVENTORY:
       toggleCraftingWidget(false);
+      togglePauseWidget(false);
+      toggleDeadWidget(false);
       toggleInventoryWidget(true);
       break;
     case eSTATE::CRAFTING:
       toggleInventoryWidget(false);
+      togglePauseWidget(false);
+      toggleDeadWidget(false);
       toggleCraftingWidget(true);
       break;
-    case eSTATE::MENU:
+    case eSTATE::OVEN:
+      break;
+    case eSTATE::PAUSE:
       toggleInventoryWidget(false);
       toggleCraftingWidget(false);
+      toggleDeadWidget(false);
       toggleHUDWidget(false);
+      togglePauseWidget(true);
       break;
-    case eSTATE::OVEN:
+    case eSTATE::DEATH:
+      toggleInventoryWidget(false);
+      toggleCraftingWidget(false);
+      togglePauseWidget(false);
+      toggleHUDWidget(false);
+      toggleDeadWidget(true);
       break;
     }
   }

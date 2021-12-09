@@ -17,13 +17,17 @@ void UIHUDState_CPP::Start()
 
 eSTATE UIHUDState_CPP::Update(eINPUT_TYPE input)
 {
+  if (input == INPUT_DIE)
+  {
+    return eSTATE::DEATH;
+  }
   if (input == INPUT_E)
   {
     return eSTATE::INVENTORY;
   }
   if (input == INPUT_ESC)
   {
-    return eSTATE::MENU;
+    return eSTATE::PAUSE;
   }
   if (input == INPUT_OPEN_CRAFTING)
   {

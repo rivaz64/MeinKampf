@@ -17,6 +17,10 @@ void UIInventoryState_CPP::Start()
 
 eSTATE UIInventoryState_CPP::Update(eINPUT_TYPE input)
 {
+  if (input == INPUT_DIE)
+  {
+    return eSTATE::DEATH;
+  }
   if (input == INPUT_E || input == INPUT_ESC)
   {
     return eSTATE::HUD;

@@ -57,7 +57,7 @@ void AItemDroped_CPP::Tick(float DeltaTime)
   {
     AMinecraftCharacter* OtherCharacter = Cast<AMinecraftCharacter>(ch);
 
-    if (OtherCharacter && TimeTillCollected <= 0.0f)
+    if (OtherCharacter && TimeTillCollected <= 0.0f && OtherCharacter->CurrentState != eSTATE::DEATH)
     {
       uint8 oCount = 0;
       if (OtherCharacter->AddItemC(Item, Count, oCount))
