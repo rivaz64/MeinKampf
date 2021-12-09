@@ -20,7 +20,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 		class ULifeBar_W_CPP* LifeBar;
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-		class UItemBar_W_CPP* ItemBar;
+    class UItemBar_W_CPP* ItemBar;
+  UPROPERTY(BlueprintReadOnly)
+    class AMinecraftCharacter* Player;
+
+  UFUNCTION(BlueprintCallable)
+    void SetOwnerPlayer(class AMinecraftCharacter* _player);
 
 	UFUNCTION(BlueprintCallable)
 		void UpdateHunger(int saturation);

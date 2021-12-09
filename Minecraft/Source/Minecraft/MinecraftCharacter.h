@@ -182,14 +182,18 @@ protected:
     void toggleInventoryWidget(bool active);
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void toggleCraftingWidget(bool active);
+  UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void togglePauseWidget(bool active);
+  UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void toggleDeadWidget(bool active);
 
 
 
   TMap<eSTATE, UIState_CPP*> UIStates;
 
-  eSTATE CurrentState = eSTATE::NONE;
 
  public:
+    eSTATE CurrentState = eSTATE::NONE;
   UPROPERTY(BlueprintReadWrite)
     TEnumAsByte<eINPUT_TYPE> CurrentInput = INPUT_NONE;
 
@@ -230,6 +234,20 @@ public:
     bool SetItemC(TSubclassOf<class ABaseItem_CPP> _item, uint8 _count, uint8 _index, uint8& _oCount);
   UFUNCTION(BlueprintCallable)
     int GetItemsCountC();
+
+
+	UFUNCTION(BlueprintCallable)
+	  void Respawn();
+
+
+
+  UPROPERTY(BlueprintReadWrite)
+    int Life = 20;
+  UPROPERTY(BlueprintReadWrite)
+    int MaxLife = 20;
+
+	FVector InitPosition;
+
 
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }

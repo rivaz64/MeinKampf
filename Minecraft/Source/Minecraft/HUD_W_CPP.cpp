@@ -6,6 +6,11 @@
 #include "LifeBar_W_CPP.h"
 #include "ItemBar_W_CPP.h"
 
+void UHUD_W_CPP::SetOwnerPlayer(AMinecraftCharacter* _player)
+{
+  Player = _player;
+}
+
 void UHUD_W_CPP::UpdateHunger(int saturation)
 {
 	HungerBar->UpdateHunger(saturation);
