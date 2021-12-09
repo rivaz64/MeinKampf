@@ -5,6 +5,17 @@
 #include "HungerBar_W_CPP.h"
 #include "LifeBar_W_CPP.h"
 #include "ItemBar_W_CPP.h"
+#include "MinecraftCharacter.h"
+
+int UHUD_W_CPP::getPlayerLife()
+{
+	return Player->Life;
+}
+
+int UHUD_W_CPP::getPlayerMaxLife()
+{
+	return Player->MaxLife;
+}
 
 void UHUD_W_CPP::SetOwnerPlayer(AMinecraftCharacter* _player)
 {
