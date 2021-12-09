@@ -80,7 +80,7 @@ void Amob::choka()
 
 void Amob::hitted(int damage)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("lepege"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("lepege"));
 	m_mesh->AddImpulse(FVector(0,0,impulse));
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);

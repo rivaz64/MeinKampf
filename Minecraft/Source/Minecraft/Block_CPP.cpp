@@ -105,13 +105,13 @@ void ABlock_CPP::Hitted(float DeltaTime)
 	Life -= DeltaTime;
 	if (Life <= 0)
 		Breaked();
-	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Blue, "Hitted");
+	//GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Blue, "Hitted");
 }
 
 void ABlock_CPP::Unhitted()
 {
 	Life = MaxLife;
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, "Unhitted");
+	//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, "Unhitted");
 }
 
 void ABlock_CPP::Interacted()
@@ -122,7 +122,7 @@ void ABlock_CPP::Interacted()
 void ABlock_CPP::Breaked()
 {
 	//CubeMesh->SetVisibility(false);
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, "Destroyed");
+	//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, "Destroyed");
 
 	isAlive = false;
 

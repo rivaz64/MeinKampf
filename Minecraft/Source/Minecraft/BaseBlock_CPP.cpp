@@ -241,7 +241,7 @@ void ABaseBlock_CPP::Hitted(float DeltaTime, TSubclassOf<class ABaseItem_CPP> ha
 	if (handedItem != NULL && handedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL)
 	{
 		Life -= DeltaTime * handedItem->GetDefaultObject<ABaseItemTool_CPP>()->MiningSpeed;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, ("With speed: " + std::to_string(handedItem->GetDefaultObject<ABaseItemTool_CPP>()->MiningSpeed)).c_str());
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, ("With speed: " + std::to_string(handedItem->GetDefaultObject<ABaseItemTool_CPP>()->MiningSpeed)).c_str());
 	}
 	else
 	{

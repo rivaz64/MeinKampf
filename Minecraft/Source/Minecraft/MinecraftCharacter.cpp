@@ -372,23 +372,25 @@ void AMinecraftCharacter::Tick(float DeltaTime)
   bool hited2 = GetWorld()->LineTraceSingleByChannel(Hit2, Start2, End2, ECC_Visibility, TraceParams2);
 	if (hited2)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Blue, "OnFloorrr");
-
 		if (!FirtNotOnFloor)
     {
-      FirtNotOnFloor = true;
-
-
-
-			float fallHeigh = ZAfterNotOnFloor - GetActorLocation().Z;
-      GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Magenta, std::to_string(fallHeigh).c_str());
-			fallHeigh -= 300.0f;
-			if (fallHeigh > 0.0f)
+			if (FirstFall)
 			{
-				int fallDmg = static_cast<int>(fallHeigh) / 100;
+        FirstFall = false;
+        FirtNotOnFloor = true;
+			}
+			else
+			{
+        FirtNotOnFloor = true;
 
-        Life -= fallDmg;
-        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Black, "Change life");
+        float fallHeigh = ZAfterNotOnFloor - GetActorLocation().Z;
+        fallHeigh -= 300.0f;
+        if (fallHeigh > 0.0f)
+        {
+          int fallDmg = static_cast<int>(fallHeigh) / 100;
+
+          Life -= fallDmg;
+        }
 			}
 		}
 	}
@@ -398,21 +400,15 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		{
 			FirtNotOnFloor = false;
       ZAfterNotOnFloor = GetActorLocation().Z;
-
-      GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, std::to_string(ZAfterNotOnFloor).c_str());
 		}
 		else
 		{
 			if (ZAfterNotOnFloor < GetActorLocation().Z)
       {
         ZAfterNotOnFloor = GetActorLocation().Z;
-        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, std::to_string(ZAfterNotOnFloor).c_str());
 			}
 		}
 	}
-
-
-  GEngine->AddOnScreenDebugMessage(-1, 100.f, FColor::Red, std::to_string(Life).c_str());
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)
@@ -625,7 +621,6 @@ void AMinecraftCharacter::UpdateStateMachine()
   {
     CurrentState = newState;
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, std::to_string((int)CurrentState).c_str());
     switch (CurrentState)
     {
     case eSTATE::HUD:

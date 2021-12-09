@@ -200,6 +200,7 @@ protected:
 
 	bool FirtNotOnFloor = true;
 	float ZAfterNotOnFloor = 0.0f;
+	bool FirstFall = true;
 
 protected:
 	// APawn interface
