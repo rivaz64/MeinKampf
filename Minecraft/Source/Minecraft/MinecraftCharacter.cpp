@@ -146,7 +146,8 @@ void AMinecraftCharacter::BeginPlay()
 		Mesh1P->SetHiddenInGame(false, true);
 	}
 
-	InitPosition = GetActorLocation();
+  InitPosition = GetActorLocation();
+  ZAfterNotOnFloor = GetActorLocation().Z;
 
 	HUD = new TArray<TSubclassOf<class ABaseItem_CPP>>();
 	for (int i = 0; i < 9; i++)
@@ -355,6 +356,63 @@ void AMinecraftCharacter::Tick(float DeltaTime)
   {
     HandItemMesh->SetStaticMesh(SteveArmMesh);
 	}
+
+
+
+  FVector Loc2 = FirstPersonCameraComponent->GetComponentLocation();
+  FHitResult Hit2;
+
+  float distance2 = 175;
+
+  FVector Start2 = Loc2;
+  FVector End2 = Loc2 +	FVector::DownVector * distance2;
+
+  FCollisionQueryParams TraceParams2;
+
+  bool hited2 = GetWorld()->LineTraceSingleByChannel(Hit2, Start2, End2, ECC_Visibility, TraceParams2);
+	if (hited2)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Blue, "OnFloorrr");
+
+		if (!FirtNotOnFloor)
+    {
+      FirtNotOnFloor = true;
+
+
+
+			float fallHeigh = ZAfterNotOnFloor - GetActorLocation().Z;
+      GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Magenta, std::to_string(fallHeigh).c_str());
+			fallHeigh -= 300.0f;
+			if (fallHeigh > 0.0f)
+			{
+				int fallDmg = static_cast<int>(fallHeigh) / 100;
+
+        Life -= fallDmg;
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Black, "Change life");
+			}
+		}
+	}
+	else
+	{
+		if (FirtNotOnFloor)
+		{
+			FirtNotOnFloor = false;
+      ZAfterNotOnFloor = GetActorLocation().Z;
+
+      GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, std::to_string(ZAfterNotOnFloor).c_str());
+		}
+		else
+		{
+			if (ZAfterNotOnFloor < GetActorLocation().Z)
+      {
+        ZAfterNotOnFloor = GetActorLocation().Z;
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, std::to_string(ZAfterNotOnFloor).c_str());
+			}
+		}
+	}
+
+
+  GEngine->AddOnScreenDebugMessage(-1, 100.f, FColor::Red, std::to_string(Life).c_str());
 }
 
 bool AMinecraftCharacter::AddItem(TSubclassOf<ABaseItem_CPP> _item, uint8 _count)

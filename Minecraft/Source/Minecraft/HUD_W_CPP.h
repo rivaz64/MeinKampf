@@ -25,6 +25,11 @@ public:
     class AMinecraftCharacter* Player;
 
   UFUNCTION(BlueprintCallable)
+    int getPlayerLife();
+  UFUNCTION(BlueprintCallable)
+    int getPlayerMaxLife();
+
+  UFUNCTION(BlueprintCallable)
     void SetOwnerPlayer(class AMinecraftCharacter* _player);
 
 	UFUNCTION(BlueprintCallable)

@@ -197,6 +197,10 @@ protected:
   UPROPERTY(BlueprintReadWrite)
     TEnumAsByte<eINPUT_TYPE> CurrentInput = INPUT_NONE;
 
+
+	bool FirtNotOnFloor = true;
+	float ZAfterNotOnFloor = 0.0f;
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
