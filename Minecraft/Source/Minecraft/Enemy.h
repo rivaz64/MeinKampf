@@ -25,5 +25,7 @@ class MINECRAFT_API AEnemy : public Amob
 	virtual void
 	attack();
 
+	float timeForAttack = .2;
+
 	bool detected = false;
 };

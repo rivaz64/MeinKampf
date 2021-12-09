@@ -26,6 +26,7 @@ void Amob::BeginPlay()
 // Called every frame
 void Amob::Tick(float DeltaTime)
 {
+	delta = DeltaTime;
 	timerPoint+=DeltaTime;
 	vision();
 	if(timerPoint>searchPerTime){

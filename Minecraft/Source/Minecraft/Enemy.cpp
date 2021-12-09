@@ -2,6 +2,7 @@
 
 
 #include "Enemy.h"
+#include "MinecraftCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 void AEnemy::newPoint()
@@ -23,6 +24,7 @@ void AEnemy::newPoint()
 
 void AEnemy::vision()
 {
+	timeForAttack += delta;
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
 	if (FoundActors.Num() == 0) {
@@ -37,7 +39,8 @@ void AEnemy::vision()
 		}
 	}
 	else{
-		if(vec.Size()<200){
+		
+		if(delta>.2 && vec.Size()<200){
 			attack();
 		}
 	}
@@ -47,4 +50,10 @@ void AEnemy::vision()
 
 void AEnemy::attack()
 {
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+	if (FoundActors.Num() == 0) {
+		return;
+	}
+	((AMinecraftCharacter*)FoundActors[0])->Life -= 1;
 }
