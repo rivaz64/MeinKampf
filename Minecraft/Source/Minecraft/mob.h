@@ -78,7 +78,7 @@ public:
 	virtual void choiserotation();
 	virtual void choiseaction();
 	virtual void choka();
-	void hitted();
+	void hitted(int damage);
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

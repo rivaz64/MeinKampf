@@ -239,7 +239,21 @@ void AMinecraftCharacter::Tick(float DeltaTime)
 		{
       if (Hitting && timeAttack > .2)
 			{
-        mob->hitted();
+				if(HandedItem &&
+				HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL &&
+				HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == SWORD)
+				{
+					if(HandedItem->GetDefaultObject<ABaseItem_CPP>()->eMaterialType == WOOD){
+						mob->hitted(2);
+					}
+					else{
+						mob->hitted(3);
+					}
+				}
+				else{
+					mob->hitted(1);
+				}
+        
         timeAttack = 0;
       }
 

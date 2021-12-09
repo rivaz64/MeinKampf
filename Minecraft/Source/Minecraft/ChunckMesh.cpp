@@ -738,7 +738,10 @@ char AChunckMesh::destroyBlock( int px, int py, int pz)
 
 float AChunckMesh::lifeOf(int px, int py, int pz)
 {
+	int block = renderer->manager->getBlockAt(FVector(px,py,pz));
+	if(block>0&&block>=bloks.size())
 	return bloks[renderer->manager->getBlockAt(FVector(px,py,pz))-1]->life;
+	return 1;
 }
 
 void AChunckMesh::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

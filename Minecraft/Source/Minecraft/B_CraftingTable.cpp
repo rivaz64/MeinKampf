@@ -12,7 +12,7 @@ B_CraftingTable::B_CraftingTable()
   textures[4] = FVector2D(12, 3);
   textures[5] = FVector2D(11, 2);
   life = 1;
-  breaked = 1;
+  breaked = (int)CHUNK_BLOCK::CRAFTING_TABLE;
   //item = ABaseGrassItemBlock_CPP::StaticClass();
   type = TYPE::BLOCK;
 }

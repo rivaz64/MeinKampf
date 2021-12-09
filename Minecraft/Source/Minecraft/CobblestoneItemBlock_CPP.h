@@ -16,5 +16,8 @@ class MINECRAFT_API ACobblestoneItemBlock_CPP : public ABaseItemBlock_CPP
 
 public:
 	ACobblestoneItemBlock_CPP();
+
+	int
+	getId();
 	
 };

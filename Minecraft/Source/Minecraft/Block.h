@@ -77,6 +77,7 @@ public:
 	bool update = false;
 	bool needSpace = false;
 	CHUNK_BLOCK blockForSpawn;
+
 	Block();
 	~Block();
 };

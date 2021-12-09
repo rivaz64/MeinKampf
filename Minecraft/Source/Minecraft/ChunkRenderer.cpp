@@ -106,8 +106,17 @@ AChunkRenderer::spawnChunkAt(int x, int y)
 	getChunkAt(x,y)->renderer = this;
 
 	
-
-	GetWorld()->SpawnActor<AActor>(sheep,FTransform(manager->getPlaceToSpawn(x,y)*100));
+	int mob = FMath::Rand()%8;
+	if(mob<4){
+		GetWorld()->SpawnActor<AActor>(sheep,FTransform(manager->getPlaceToSpawn(x,y)*100));
+	}
+	else if(mob<6){
+		GetWorld()->SpawnActor<AActor>(zombi,FTransform(manager->getPlaceToSpawn(x,y)*100));
+	}
+	else if(mob<7){
+		GetWorld()->SpawnActor<AActor>(creeper,FTransform(manager->getPlaceToSpawn(x,y)*100));
+	}
+	
 }
 
 AChunckMesh*
@@ -141,7 +150,7 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 		step = 0;
 		life = 0;
 		PointingBlock = pos;
-		auto actualChunk = getChunkAt(floor(pos.X / 16), floor(pos.Y / 16));
+		auto actualChunk = getChunkAt(floor(pos.X / 16.f), floor(pos.Y / 16.f));
 
 		blockLife = actualChunk->lifeOf(pos.X, pos.Y, pos.Z);
 		if(manager->getBlockAt(pos)==(int)CHUNK_BLOCK::STONE){
@@ -149,6 +158,10 @@ void AChunkRenderer::destroingAt(FVector pos, FVector nor, float delta)
 			UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
 			if(FoundActors.Num()>0){
 				auto player = (AMinecraftCharacter*)FoundActors[0];
+				if(
+				player->HandedItem &&
+				player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL &&
+				player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == PICKAXE )
 				blockLife*=2;
 			}
 		}
@@ -192,8 +205,8 @@ void AChunkRenderer::destroyBlock(FVector pos)
 {
 
 	
-	int wx = floor(pos.X / 16);
-	int wy = floor(pos.Y / 16);
+	int wx = floor(pos.X / 16.f);
+	int wy = floor(pos.Y / 16.f);
 	//auto destroyedBlock = 
 	if(manager->getBlockAt(pos)==(int)CHUNK_BLOCK::MELON){
 		if(manager->getBlockAt(pos+FVector(1,0,0))==(int)CHUNK_BLOCK::MELON_ATTACHED_STEM){
@@ -226,15 +239,52 @@ void AChunkRenderer::destroyBlock(FVector pos)
 
 
 	//volatile int location = manager->mod(pos.X,16) * 256 + manager->mod(pos.Y,16) * 16 + pos.Z;
+	
 	char ans = manager->getBlockAt(pos);
 	manager->setBlockAt(pos, (int)CHUNK_BLOCK::AIR);
+	if(ans==(int)CHUNK_BLOCK::STONE){
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassOfPlayer, FoundActors);
+		if(FoundActors.Num()>0){
+			auto player = (AMinecraftCharacter*)FoundActors[0];
+			if(
+			player->HandedItem &&
+			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eItemType == TOOL &&
+			player->HandedItem->GetDefaultObject<ABaseItem_CPP>()->eToolType == PICKAXE ){
+				actualBlock = AChunckMesh::bloks[ans-1]->breaked;
+
+				
+
+			}
+			else{
+				regenerate(wx,wy);
+
+
+				if((int(pos.X)%16+16)%16==0){
+					regenerate(wx-1,wy);
+				}
+				else if((int(pos.Y)%16+16)%16==0){
+					regenerate(wx,wy-1);
+				}
+				else if((int(pos.X)%16+16)%16==15){
+					regenerate(wx+1,wy);
+				}
+				else if((int(pos.Y)%16+16)%16==15){
+					regenerate(wx,wy+1);
+				}
+				return;
+			}
+			
+		}
+	}
 	actualBlock = AChunckMesh::bloks[ans-1]->breaked;
 
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(),itemManager, FoundActors);
-	if(FoundActors.Num()>0){
-		((ADropManager_CPP*)FoundActors[0])->SpawnItemFromType(pos*100+FVector(50,50,50),eSPAWN_ITEM_TYPE::SPAWN_BLOCK,actualBlock,1,0.0f);
-	}
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(),itemManager, FoundActors);
+		if(FoundActors.Num()>0){
+			((ADropManager_CPP*)FoundActors[0])->SpawnItemFromType(pos*100+FVector(50,50,50),eSPAWN_ITEM_TYPE::SPAWN_BLOCK,actualBlock,1,0.0f);
+		}
+	
 
 	regenerate(wx,wy);
 
@@ -260,6 +310,8 @@ void AChunkRenderer::destroyBlock(FVector pos)
 		sandFall = true;
 		sandFallingAt = pos;
 	}
+
+	
 }
 
 
@@ -448,7 +500,13 @@ AChunkRenderer::explodeAt(const FVector& place, float radius)
 			}
 		}
 	}
-	regenerate(FVector2D(floor(place.X/16.f),floor(place.Y/16.f)));
+	FVector2D xpos = FVector2D(floor(place.X/16.f),floor(place.Y/16.f));
+	for(int i = xpos.X-1;i<xpos.X+2;i++){
+		for(int o = xpos.Y-1;o<xpos.Y+2;o++){
+			regenerate(FVector2D(i,o));
+		}
+	}
+	
 }
 
 

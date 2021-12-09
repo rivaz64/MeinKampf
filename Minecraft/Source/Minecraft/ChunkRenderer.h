@@ -42,6 +42,12 @@ protected:
 		TSubclassOf<AActor> sheep;
 
 	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> zombi;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<AActor> creeper;
+
+	UPROPERTY(EditAnywhere)
 		int cual;
 
 	UPROPERTY(EditAnywhere)

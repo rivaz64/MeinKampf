@@ -77,7 +77,7 @@ void Amob::choka()
 {
 }
 
-void Amob::hitted()
+void Amob::hitted(int damage)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("lepege"));
 	m_mesh->AddImpulse(FVector(0,0,impulse));
@@ -92,7 +92,7 @@ void Amob::hitted()
 	pointToGo = (pos-other).GetSafeNormal()*3600.f;
 	maxVel = 216.f;
 	timerPoint = 0;
-	--life;
+	life-=damage;
 }
 
 void

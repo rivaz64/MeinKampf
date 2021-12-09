@@ -2,6 +2,7 @@
 
 
 #include "CobblestoneItemBlock_CPP.h"
+#include "Block.h"
 
 ACobblestoneItemBlock_CPP::ACobblestoneItemBlock_CPP()
 {
@@ -17,4 +18,9 @@ ACobblestoneItemBlock_CPP::ACobblestoneItemBlock_CPP()
   {
     Image = ImageAsset.Object;
   }
+}
+
+int
+ACobblestoneItemBlock_CPP::getId(){
+  return (int)CHUNK_BLOCK::COBBLESTONE;
 }
