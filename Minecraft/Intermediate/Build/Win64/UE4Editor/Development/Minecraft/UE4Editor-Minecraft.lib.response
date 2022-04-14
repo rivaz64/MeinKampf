@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-Minecraft.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\MinecraftEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Module.Minecraft.cpp.obj"
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Module.Minecraft.gen.1_of_3.cpp.obj"
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Module.Minecraft.gen.2_of_3.cpp.obj"
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Module.Minecraft.gen.3_of_3.cpp.obj"
+"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\Default.rc2.res"
+/OUT:"C:\Users\Mara May\Documents\GitHub\MeinKampf\Minecraft\Intermediate\Build\Win64\UE4Editor\Development\Minecraft\UE4Editor-Minecraft.lib"
+/INCLUDE:IMPLEMENT_MODULE_Minecraft

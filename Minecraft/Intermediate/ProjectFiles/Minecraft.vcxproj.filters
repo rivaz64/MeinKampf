@@ -1,0 +1,1029 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Minecraft.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{2C4D1EBB-1EAA-41AA-A7F1-6E1669F5DE51}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Minecraft.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\MinecraftEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{04A24BF4-8215-43D7-9166-0B4E96076CED}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\Minecraft">
+      <UniqueIdentifier>{DC3F7F9A-C60F-4D8B-95EA-66C10CF320B7}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\Minecraft\AppleItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\AppleItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\AxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\AxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseDirtItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseDirtItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseGrassItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseGrassItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseItem_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseItem_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseOakLogItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseOakLogItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseOakPlankItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseOakPlankItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseOkaLeavesItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseOkaLeavesItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BaseStoneItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BaseStoneItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Block.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Block.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BlockOfCoalItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BlockOfCoalItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BlockOfDiamondItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BlockOfDiamondItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BlockOfGoldItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BlockOfGoldItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BlockOfIronItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BlockOfIronItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\blockspawner.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\blockspawner.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Block_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Block_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BreadItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BreadItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BreakingQuad.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BreakingQuad.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\BucketItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\BucketItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_bedRock.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_bedRock.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Carrots.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Carrots.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_cobblestone.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_cobblestone.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_CraftingTable.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_CraftingTable.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_CraftingTable_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_CraftingTable_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Crop.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Crop.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_dirt.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_dirt.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Dirt_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Dirt_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Door.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Door.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Farmland_Dry.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Farmland_Dry.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\b_Farmland_Wet.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\b_Farmland_Wet.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_grass.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_grass.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Grass_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Grass_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\b_leaves.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\b_leaves.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Melon.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Melon.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_OakPlank_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_OakPlank_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Oak_Leaves_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Oak_Leaves_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Oak_Log_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Oak_Log_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Plank.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Plank.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_RedFlower.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_RedFlower.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_sand.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_sand.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_stone.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_stone.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Stone_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Stone_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_SugarCane.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_SugarCane.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_Tierra_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_Tierra_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_wood.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_wood.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\B_YellowFlower.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\B_YellowFlower.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CarrotItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CarrotItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CharcoalItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CharcoalItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Chicken_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Chicken_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ChunckManager.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ChunckManager.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ChunckMesh.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ChunckMesh.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Chunk.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Chunk.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\chunker.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\chunker.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ChunkManager.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ChunkManager.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ChunkMesh.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ChunkMesh.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ChunkRenderer.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ChunkRenderer.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CoalItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CoalItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CoalOreItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CoalOreItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CobblestoneItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CobblestoneItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CookedMuttonItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CookedMuttonItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CookedPorkchopItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CookedPorkchopItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CraftingTableItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CraftingTableItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\CraftingTable_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\CraftingTable_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Creeper.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Creeper.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Cube.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Cube.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DandelionItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DandelionItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\deleteme.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\deleteme.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondAxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondAxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondHoeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondHoeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondOreItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondOreItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondPickaxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondPickaxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondShovelItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondShovelItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DiamondSwordItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DiamondSwordItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DoorItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DoorItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\DropManager_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\DropManager_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Enemy.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Enemy.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\follower.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\follower.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\generator.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\generator.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GlobalTest_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GlobalTest_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenAppleItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenAppleItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenAxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenAxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenCarrotItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenCarrotItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenHoeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenHoeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenPickaxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenPickaxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenShovelItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenShovelItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldenSwordItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldenSwordItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldIngotItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldIngotItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldNuggetItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldNuggetItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GoldOreItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GoldOreItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\GunpowderItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\GunpowderItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\HashTable2d.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\HashTable2d.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\HayBaleItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\HayBaleItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Heart_W.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Heart_W.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\HoeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\HoeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\HUD_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\HUD_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\HungerBar_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\HungerBar_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\Inventory_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Inventory_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronAxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronAxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronHoeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronHoeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronIngotItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronIngotItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronOreItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronOreItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronPickaxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronPickaxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronShovelItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronShovelItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\IronSwordItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\IronSwordItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ItemBar_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ItemBar_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ItemDroped_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ItemDroped_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ItemFrame_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ItemFrame_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\LifeBar_W_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\LifeBar_W_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MelonItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MelonItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MelonSeedsItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MelonSeedsItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MelonSliceItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MelonSliceItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\Minecraft\Minecraft.Build.cs">
+      <Filter>Source\Minecraft</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Minecraft\Minecraft.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\Minecraft.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MinecraftCharacter.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MinecraftCharacter.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MinecraftGameMode.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MinecraftGameMode.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MinecraftHUD.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MinecraftHUD.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\MinecraftProjectile.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\MinecraftProjectile.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\mob.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\mob.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\moob.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\moob.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\mundi.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\mundi.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\mundo.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\mundo.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\OakSaplingItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\OakSaplingItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\OrangeDyeItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\OrangeDyeItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\OrangeWoolItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\OrangeWoolItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\PickaxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\PickaxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\PoppyItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\PoppyItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\RawMuttonItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\RawMuttonItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\RawPorkchopItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\RawPorkchopItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\RedDyeItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\RedDyeItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\RedWoolItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\RedWoolItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\RottenFleshItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\RottenFleshItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\SandItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\SandItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ShearsItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ShearsItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ShovelItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ShovelItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StickItem_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StickItem_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StoneAxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StoneAxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StoneHoeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StoneHoeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StonePickaxeItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StonePickaxeItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StoneShovelItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StoneShovelItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\StoneSwordItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\StoneSwordItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\SugarCaneItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\SugarCaneItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\SugerItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\SugerItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\SwordItemTool_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\SwordItemTool_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\terreno.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\terreno.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\ThreadCalculator.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\ThreadCalculator.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\TorchItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\TorchItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\treater.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\treater.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\tree.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\tree.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UICraftingState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UICraftingState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIDeathState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIDeathState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIHUDState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIHUDState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIInventoryState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIInventoryState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIPauseState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIPauseState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIStateMachine_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIStateMachine_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\UIState_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\UIState_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\WaterBucketItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\WaterBucketItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\WheatItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\WheatItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\WheatSeedsItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\WheatSeedsItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\WhiteWoolItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\WhiteWoolItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\YellowDyeItemMsc_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\YellowDyeItemMsc_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Minecraft\YellowWoolItemBlock_CPP.cpp">
+      <Filter>Source\Minecraft</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Minecraft\YellowWoolItemBlock_CPP.h">
+      <Filter>Source\Minecraft</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
